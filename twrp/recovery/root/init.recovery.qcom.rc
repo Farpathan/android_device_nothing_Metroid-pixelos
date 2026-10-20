@@ -25,34 +25,81 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-import /init.recovery.qcom_decrypt.rc
-
 on init
-    start boot-hal-1-2
+    # Recovery does not require HIDL boot-hal-1-2 service
 
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
     write /proc/sys/kernel/firmware_config/force_sysfs_fallback 1
+    insmod /vendor/lib/modules/focaltech_tp.ko
+    insmod /vendor/lib/modules/haptic.ko
+    insmod /vendor/lib/modules/leds-qpnp-vibrator-ldo.ko
 
 on post-fs
-    mount none /system/etc/dummy_vibrator.xml /vendor/etc/vintf/manifest/vendor.qti.hardware.vibrator.service.xml bind
-    mount none /system/etc/dummy_keymint.xml /vendor/etc/vintf/manifest/android.hardware.security.keymint-service-qti.xml bind
-    mount none /system/etc/dummy_health.xml /vendor/etc/vintf/manifest/android.hardware.health-service.qti.xml bind
-    # Disable keystore2 in recovery (not needed, causes crash loop due to missing qseecomd/TEE dependencies)
-    stop keystore2
-    setprop keystore.boot_level 0
+    # Mount dynamic partitions early
+    mkdir /vendor 0755 root root
+    mkdir /odm 0755 root root
+    mount erofs /dev/block/mapper/vendor${ro.boot.slot_suffix} /vendor ro
+    mount ext4 /dev/block/mapper/vendor${ro.boot.slot_suffix} /vendor ro
+    mount erofs /dev/block/mapper/odm${ro.boot.slot_suffix} /odm ro
+    mount ext4 /dev/block/mapper/odm${ro.boot.slot_suffix} /odm ro
+
+    # Mount metadata partition
+    mkdir /metadata 0700 root root
+    mount f2fs /dev/block/bootdevice/by-name/metadata /metadata rw
+    mount ext4 /dev/block/bootdevice/by-name/metadata /metadata rw
+
+    # Prepare isolated binder library for vendor KeyMint and Gatekeeper HALs
+    mkdir /tmp/keymint_libs 0755 root root
+    symlink /system/lib64/libbinder.so /tmp/keymint_libs/libbinder.so
+
+    exec u:r:recovery:s0 -- /sbin/resetprop ro.boot.product.vendor.sku sun
+    setprop vendor.gatekeeper.is_security_level_spu 0
+    setprop vendor.gatekeeper.disable_spu true
+    setprop vendor.sys.listeners.registered true
+    exec u:r:recovery:s0 -- /sbin/resetprop ro.build.version.release 17
+    exec u:r:recovery:s0 -- /sbin/resetprop ro.build.version.security_patch 2026-09-05
+    exec u:r:recovery:s0 -- /sbin/resetprop ro.vendor.build.security_patch 2026-04-05
+    exec u:r:recovery:s0 -- /sbin/resetprop ro.vendor.boot_security_patch 2026-06-05
+
+    # Restart servicemanager so it reloads /vendor/etc/vintf/manifest_sun.xml with vendor mounted
+    restart servicemanager
+
+    # Start crypto services
+    start qseecomd
+    start vendor.gatekeeper_default
+    start vendor.keymint-qti
+    start keystore2
 
 on boot
     setprop sys.usb.config adb
-
-on property:twrp.modules.loaded=true
-    # Mount firmware
+    # Mount firmware for ADSP
     mkdir /firmware
+    wait /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} 2
     mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
-    # Start ADSP processor via remoteproc interface
+    # Start ADSP processor via remoteproc interface (enables PMIC GLINK battery & power supply)
     write /sys/class/remoteproc/remoteproc1/state start
-    # Commented: wait /sys/class/power_supply/battery - causes 5s delay, not critical for recovery
+    wait /sys/class/power_supply/battery/capacity 5
     start health-hal-2-1
-    start vendor.qti.vibrator
-    #umount /firmware
+
+service qseecomd /vendor/bin/qseecomd
+    class core
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw:/system/lib64
+    seclabel u:r:recovery:s0
+
+service vendor.keymint-qti /vendor/bin/hw/android.hardware.security.keymint-service-qti
+    class early_hal
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /tmp/keymint_libs:/vendor/lib64:/vendor/lib64/hw:/system/lib64
+    seclabel u:r:recovery:s0
+
+service vendor.gatekeeper_default /vendor/bin/hw/android.hardware.gatekeeper-service-qti
+    class early_hal
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /tmp/keymint_libs:/vendor/lib64:/vendor/lib64/hw:/system/lib64
+    seclabel u:r:recovery:s0

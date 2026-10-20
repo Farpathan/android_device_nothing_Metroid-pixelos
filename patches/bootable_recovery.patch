@@ -1,0 +1,76 @@
+diff --git a/Android.mk b/Android.mk
+index d35090d9..7e53bc95 100755
+--- a/Android.mk
++++ b/Android.mk
+@@ -160,9 +160,11 @@ endif
+ 
+ ifeq ($(AB_OTA_UPDATER),true)
+     LOCAL_CFLAGS += -DAB_OTA_UPDATER=1
+-    TWRP_REQUIRED_MODULES += libhardware android.hardware.boot@1.0-service android.hardware.boot@1.0-service.rc \
+-    android.hardware.boot@1.1-service android.hardware.boot@1.1-service.rc android.hardware.boot@1.1.xml \
+-    android.hardware.boot@1.2-service android.hardware.boot@1.2-service.rc android.hardware.boot@1.2.xml
++    ifneq ($(TW_NO_LEGACY_BOOT_HAL),true)
++        TWRP_REQUIRED_MODULES += libhardware android.hardware.boot@1.0-service android.hardware.boot@1.0-service.rc \
++        android.hardware.boot@1.1-service android.hardware.boot@1.1-service.rc android.hardware.boot@1.1.xml \
++        android.hardware.boot@1.2-service android.hardware.boot@1.2-service.rc android.hardware.boot@1.2.xml
++    endif
+ endif
+ 
+ ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
+diff --git a/etc/init.rc b/etc/init.rc
+index 5c13ef74..6259b3fe 100644
+--- a/etc/init.rc
++++ b/etc/init.rc
+@@ -182,32 +182,8 @@ on property:sys.usb.config=fastboot && property:sys.usb.configfs=0
+     write /sys/class/android_usb/android0/enable 1
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-# Configfs triggers
+-on property:sys.usb.config=none && property:sys.usb.configfs=1
+-    write /config/usb_gadget/g1/UDC "none"
+-    stop adbd
+-    stop fastbootd
+-    setprop sys.usb.ffs.ready 0
+-    rm /config/usb_gadget/g1/configs/b.1/f1
+-    setprop sys.usb.state ${sys.usb.config}
+-
+-on property:sys.usb.config=sideload && property:sys.usb.ffs.ready=1 && property:sys.usb.configfs=1
+-    write /config/usb_gadget/g1/idProduct 0xD001
+-    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "adb"
+-    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f1
+-    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+-    setprop sys.usb.state ${sys.usb.config}
+-
+-on property:sys.usb.config=adb && property:sys.usb.ffs.ready=1 && property:sys.usb.configfs=1
+-    write /config/usb_gadget/g1/idProduct 0xD001
+-    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "adb"
+-    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f1
+-    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+-    setprop sys.usb.state ${sys.usb.config}
+-
+-on property:sys.usb.config=fastboot && property:sys.usb.ffs.ready=1 && property:sys.usb.configfs=1
+-    write /config/usb_gadget/g1/idProduct 0x4EE0
+-    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "fastboot"
+-    symlink /config/usb_gadget/g1/functions/ffs.fastboot /config/usb_gadget/g1/configs/b.1/f1
+-    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+-    setprop sys.usb.state ${sys.usb.config}
++# Generic configfs triggers handled by device init.recovery.usb.rc
++# on property:sys.usb.config=none && property:sys.usb.configfs=1
++# on property:sys.usb.config=sideload && property:sys.usb.ffs.ready=1 && property:sys.usb.configfs=1
++# on property:sys.usb.config=adb && property:sys.usb.ffs.ready=1 && property:sys.usb.configfs=1
++# on property:sys.usb.config=fastboot && property:sys.usb.ffs.ready=1 && property:sys.usb.configfs=1
+diff --git a/startupArgs.cpp b/startupArgs.cpp
+index 058bc404..86c395e0 100755
+--- a/startupArgs.cpp
++++ b/startupArgs.cpp
+@@ -47,10 +47,6 @@ bool startupArgs::processRecoveryArgs(std::vector<std::string> args, int index)
+ 		printf("'%s'", args[index].c_str());
+ 		if (args[index] == FASTBOOT) {
+ 			fastboot_mode = true;
+-			android::base::SetProperty("sys.usb.config", "none");
+-			android::base::SetProperty("sys.usb.configfs", "0");
+-			sleep(1);
+-			android::base::SetProperty("sys.usb.configfs", "1");
+ 			android::base::SetProperty("sys.usb.config", "fastboot");
+ 			DataManager::SetValue("tw_enable_adb", 0);
+ 			DataManager::SetValue("tw_enable_fastboot", 1);
