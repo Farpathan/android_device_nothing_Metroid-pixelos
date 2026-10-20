@@ -16,8 +16,8 @@ This repository maintains separate branches tailored to each recovery framework'
 | Branch | Description | Latest Release |
 | :--- | :--- | :--- |
 | [`main`](https://github.com/Farpathan/android_device_nothing_metroid/tree/main) | **Base Device Tree**: Common recovery configurations, fstab, and documentation | Index / Home |
-| [`fox_12.1`](https://github.com/Farpathan/android_device_nothing_metroid/tree/fox_12.1) | **OrangeFox Recovery Project**: Based on Android 12.1 minimal tree with OF UI, AIDL Gatekeeper & Keystore2 patches | [`ofox-R12.0_1-v0.5.0`](https://github.com/Farpathan/android_device_nothing_metroid/releases/tag/ofox-R12.0_1-v0.5.0) |
-| [`pbrp`](https://github.com/Farpathan/android_device_nothing_metroid/tree/pbrp) | **PitchBlack Recovery Project**: Based on PBRP 4.0 / TWRP 3.7.1 with custom strobing flashlight and sysfs haptics | [`pbrp-v4.0-20261018`](https://github.com/Farpathan/android_device_nothing_metroid/releases/tag/pbrp-v4.0-20261018) |
+| [`fox_12.1`](https://github.com/Farpathan/android_device_nothing_metroid/tree/fox_12.1) | **OrangeFox Recovery Project**: Based on Android 12.1 minimal tree with OF UI, AIDL Gatekeeper & Keystore2 patches | [`ofox-v1.1.0`](https://github.com/Farpathan/android_device_nothing_metroid/releases/tag/ofox-v1.1.0) |
+| [`pbrp`](https://github.com/Farpathan/android_device_nothing_metroid/tree/pbrp) | **PitchBlack Recovery Project**: Based on PBRP 4.0 / TWRP 3.7.1 with custom strobing flashlight and sysfs haptics | [`pbrp-v1.0.0`](https://github.com/Farpathan/android_device_nothing_metroid/releases/tag/pbrp-v1.0.0) |
 
 ---
 
@@ -59,10 +59,11 @@ This repository maintains separate branches tailored to each recovery framework'
 Check the [Releases](https://github.com/Farpathan/android_device_nothing_metroid/releases) tab for pre-built recovery images and flashable zips:
 
 * **PitchBlack Recovery Project**:
-  * [**PBRP 4.0 - Latest Release (`pbrp-v4.0-20261018`)**](https://github.com/Farpathan/android_device_nothing_metroid/releases/tag/pbrp-v4.0-20261018)
+  * [**PBRP 4.0 - Latest Release (`pbrp-v1.0.0`)**](https://github.com/Farpathan/android_device_nothing_metroid/releases/tag/pbrp-v1.0.0)
 * **OrangeFox Recovery Project**:
-  * [**OrangeFox R12.0_1 - Latest Release (`ofox-R12.0_1-v0.5.0`)**](https://github.com/Farpathan/android_device_nothing_metroid/releases/tag/ofox-R12.0_1-v0.5.0)
-  * [Older OrangeFox Builds (`ofox-v0.4.0`, `ofox-v0.3.0`, `ofox-v0.2.0`, `ofox-v0.1.0`)](https://github.com/Farpathan/android_device_nothing_metroid/releases)
+  * [**OrangeFox R12.0_1 - Latest Release (`ofox-v1.1.0`)**](https://github.com/Farpathan/android_device_nothing_metroid/releases/tag/ofox-v1.1.0)
+  * [Full Working Decryption Release (`ofox-v1.0.0`)](https://github.com/Farpathan/android_device_nothing_metroid/releases/tag/ofox-v1.0.0)
+  * [Older Development Builds (`ofox-v0.3.0`, `ofox-v0.2.0`, `ofox-v0.1.0`)](https://github.com/Farpathan/android_device_nothing_metroid/releases)
 
 ---
 
