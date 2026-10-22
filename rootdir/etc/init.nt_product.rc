@@ -1,0 +1,368 @@
+on init
+    # Property used for sku specific sysconfig and permissions
+    setprop ro.boot.product.hardware.sku ${ro.boot.hardware.sku}
+
+on fs
+#ifdef NT_EDIT
+# NT_EDIT added for ARBOK-149: add for arbok speaker calib
+    mkdir /mnt/vendor/persist/audio 0777 system system
+# BSP Audio Zhang.liu 20221108 add for smartpa-cali, begin
+    chmod 666 /sys/bus/i2c/drivers/tfa98xx/5-0034/reg
+    chmod 666 /sys/bus/i2c/drivers/tfa98xx/5-0034/rw
+    chmod 666 /sys/bus/i2c/drivers/tfa98xx/5-0034/name
+    chmod 666 /sys/bus/i2c/drivers/tfa98xx/5-0035/reg
+    chmod 666 /sys/bus/i2c/drivers/tfa98xx/5-0035/rw
+    chmod 666 /sys/bus/i2c/drivers/tfa98xx/5-0035/name
+# BSP Audio Zhang.liu 20221108 add for smartpa-cali, end
+#endif
+
+on boot
+# ifdef NT_EDIT
+#NT_EDIT added for ARBOK-331: add for minileds fac test authority
+    chown system /sys/class/leds/matrix-leds/firmware_version
+    chmod 0664 /sys/class/leds/matrix-leds/firmware_version
+    chown system /sys/class/leds/matrix-leds/frame_brightness
+    chmod 0664 /sys/class/leds/matrix-leds/frame_brightness
+    chown system /sys/class/leds/matrix-leds/breathing
+    chmod 0664 /sys/class/leds/matrix-leds/breathing
+    chown system /sys/class/leds/matrix-leds/trans_info
+    chmod 0664 /sys/class/leds/matrix-leds/trans_info
+    chown system /sys/class/leds/matrix-leds/all_brightness
+    chmod 0664 /sys/class/leds/matrix-leds/all_brightness
+    chown system /sys/class/leds/matrix-leds/led_chip_id
+    chmod 0440 /sys/class/leds/matrix-leds/led_chip_id
+    chown system /sys/class/leds/matrix-leds/led_power_on
+    chmod 0664 /sys/class/leds/matrix-leds/led_power_on
+    chown system /sys/class/leds/matrix-leds/led_fac_test_pic
+    chmod 0664 /sys/class/leds/matrix-leds/led_fac_test_pic
+    chown system /sys/class/leds/matrix-leds/led_video_play
+    chmod 0664 /sys/class/leds/matrix-leds/led_video_play
+    chown system /sys/class/leds/matrix-leds/led_register_operation
+    chmod 0664 /sys/class/leds/matrix-leds/led_register_operation
+    chown system /sys/class/leds/matrix-leds/led_brightness_configuration
+    chmod 0664 /sys/class/leds/matrix-leds/led_brightness_configuration
+    chown system /sys/class/leds/matrix-leds/debug_level
+    chmod 0664 /sys/class/leds/matrix-leds/debug_level
+    chown system /sys/class/leds/matrix-leds/single_brightness
+    chmod 0664 /sys/class/leds/matrix-leds/single_brightness
+    chown system system /sys/class/leds/matrix-leds/light_id_info
+    chmod 0220 /sys/class/leds/matrix-leds/light_id_info
+    chown system system /sys/class/leds/matrix-leds/hwen
+    chmod 0664 /sys/class/leds/matrix-leds/hwen
+# endif
+#ifdef NT_EDIT
+# MatrixLeds:ARBOK-702 releted configurations
+    chown system system /dev/matrix_leds
+    chmod 664 /dev/matrix_leds
+#endif NT_EDIT
+
+# BSP sensor weigong.xia 20250109 for aw9380x start
+    chmod 0620 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/aot
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/awrw
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/chip_info
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/diff
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/diff_cal
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/driver
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_diff_approach
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_diff_approach_data
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_diff_to_air
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_short_circuit_detect
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_offset_cali
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_data_save_flash
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_cali_coef
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_cali_coef_default
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_mass_deviation
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_cali_coef_save
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_noise
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_offset
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_signal
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/input
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/modalias
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/mode_operation
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/name
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/of_node
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/offset
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/reg
+    chmod 0620 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/soft_rst
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_cfg
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_state
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_th
+    chmod 0620 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/update
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_factory_coeff_signal
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_factory_touch_th
+    chmod 0640 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/calibration
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_scanperiod
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_diff_to_air_data
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/log_timer
+
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/aot
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/awrw
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/chip_info
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/diff
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/diff_cal
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/driver
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_diff_approach
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_diff_approach_data
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_diff_to_air
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_short_circuit_detect
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_offset_cali
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_data_save_flash
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_cali_coef
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_cali_coef_default
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_mass_deviation
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_noise
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_offset
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_signal
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/input
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/modalias
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/mode_operation
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/name
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/of_node
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/offset
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/reg
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/soft_rst
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_cfg
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_state
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_th
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/update
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_force_factory_coeff_signal
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_factory_touch_th
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/calibration
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_scanperiod
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/fct_cap_diff_to_air_data
+    chown system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/log_timer
+
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_th
+    chmod 0660 /sys/bus/i2c/drivers/aw9380x_cap/8-0012/leave_th
+
+    chown system system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/touch_th
+    chown system system /sys/bus/i2c/drivers/aw9380x_cap/8-0012/leave_th
+# BSP sensor weigong.xia 20250109 for aw9380x end
+
+    # ifdef NT_EDIT
+    # ARBOK-405 GLS6851C calibration implement
+    mkdir /data/vendor/goodix_sensor 0777 system system
+    mkdir /data/vendor/goodix_sensor/cali 0777 system system
+    # endif
+
+# ifdef NT_EDIT
+#Support  display node sys/panel_feature/fp_status #ARBOK-366
+    chmod 666 /sys/panel_feature/fp_status
+    chown system system /sys/panel_feature/fp_status
+# endif
+# ifdef NT_EDIT
+#NT_EDIT added for ARBOK-208: add for arbok fingerprint
+    chmod 660 /dev/goodix_fp
+    chown system system /dev/goodix_fp
+# endif
+# ifdef NT_EDIT
+#NT_EDIT added for ARBOK-206: add for arbok fingerprint
+#Nothing add for Fingerprint dump ARBOK-191
+    mkdir data/vendor/fpdump 0777 system system
+    restorecon /data/vendor/fpdump
+# endif
+
+    chmod 770 /proc/cpu_monitor/
+    chown system system /proc/cpu_monitor/
+    chmod 770 /proc/cpu_monitor/enable_monitor
+    chown system system /proc/cpu_monitor/enable_monitor
+    chmod 770 /proc/cpu_monitor/target_pid
+    chown system system /proc/cpu_monitor/target_pid
+    chmod 770 /proc/cpu_monitor/period_ms
+    chown system system /proc/cpu_monitor/period_ms
+    chmod 770 /proc/cpu_monitor/thresh_pct
+    chown system system /proc/cpu_monitor/thresh_pct
+    chmod 770 /proc/cpu_monitor/exceed_count
+    chown system system /proc/cpu_monitor/exceed_count
+
+
+# endif
+# ifdef NT_EDIT
+#NT_EDIT added for ARBOK-366: Fingerprint function debug
+    chmod 0660 /proc/touchpanel/fod_mode
+    chown system system /proc/touchpanel/fod_mode
+# endif
+#ifdef NT_EDIT
+#/*Nothing / diff function debug / ARBOK-141*/
+    chmod 0660 /proc/touchpanel/diff_mode
+    chmod 0660 /proc/touchpanel/diff_data
+    chown system system /proc/touchpanel/diff_mode
+    chown system system /proc/touchpanel/diff_data
+#endif NT_EDIT
+# ifdef NT_EDIT
+#NT_EDIT added for ARBOK-167: charger
+    chmod 0660 /proc/touchpanel/TP_charger_flags
+    chown system system /proc/touchpanel/TP_charger_flags
+# endif
+# ifdef NT_EDIT
+#NT_EDIT added for ARBOK-7041
+    chmod 0660 /proc/touchpanel/palm_to_sleep_support
+    chown system system /proc/touchpanel/palm_to_sleep_support
+# endif
+
+on charger
+##NT,start charge sevice
+    start vendor.charge-default-poweroff
+
+##NT,start charge service
+service vendor.charge-default-poweroff /vendor/bin/hw/vendor.noth.hardware.charge-service
+    class core
+    group system
+    disabled
+##Stop charge sevice
+
+# ifdef NT_EDIT
+# modify to diag instruction
+on property:sys.boot_completed=1
+    start ft_diag_test
+
+service ft_diag_test /vendor/bin/ft_diag_test
+   class main
+   user root
+   group system
+
+#nt add system group for charger node@{
+on property:sys.boot_completed=1
+    # add for runin to write charger
+    chown system system /sys/class/qcom-battery/usb_charger_en
+    chmod 0666 /sys/class/qcom-battery/usb_charger_en
+    chown system system /sys/class/qcom-battery/charge_control_en
+    chmod 0666  /sys/class/qcom-battery/charge_control_en
+    chown system system /sys/class/qcom-battery/charge_pump_enable
+    chmod 0666 /sys/class/qcom-battery/charge_pump_enable
+    chown system system /sys/class/qcom-battery/charge_power
+    chmod 0666 /sys/class/qcom-battery/charge_power
+    chown system system /sys/class/qcom-battery/ship_mode_en
+    chmod 0666 /sys/class/qcom-battery/ship_mode_en
+    chown system system /sys/class/qcom-battery/typec_cc_orientation
+    chmod 0666 /sys/class/qcom-battery/typec_cc_orientation
+    # add for cit to write wireless_boost_en
+    chown system system /sys/class/qcom-battery/wireless_boost_en
+    chmod 0666 /sys/class/qcom-battery/wireless_boost_en
+    # add for cit to write wls_cp_reg
+    chown system system /sys/class/qcom-battery/wls_cp_reg
+    chmod 0666 /sys/class/qcom-battery/wls_cp_reg
+    # add for cit to write wls_cp_data
+    chown system system /sys/class/qcom-battery/wls_cp_data
+    chmod 0666 /sys/class/qcom-battery/wls_cp_data
+    # add for wireless charge to write scenario_fcc
+    chown system system /sys/class/qcom-battery/scenario_fcc
+    chmod 0666 /sys/class/qcom-battery/scenario_fcc
+    chown system system /sys/class/qcom-battery/charge_exist_pump
+    chmod 0644 /sys/class/qcom-battery/charge_exist_pump
+    chown system system /sys/class/qcom-battery/charge_exist_buck
+    chmod 0644 /sys/class/qcom-battery/charge_exist_buck
+    chown system system /sys/class/qcom-battery/charge_exist_wls
+    chmod 0644 /sys/class/qcom-battery/charge_exist_wls
+
+    chown system system /proc/charger/battery_health
+    chown system system /proc/charger/charge_buck_enable
+    chown system system /proc/charger/charge_dump_reg
+    chown system system /proc/charger/charge_exist_buck
+    chown system system /proc/charger/charge_exist_pump
+    chown system system /proc/charger/charge_exist_wls
+    chown system system /proc/charger/charge_pump_enable
+    chown system system /proc/charger/chg_data_id
+    chown system system /proc/charger/is_aging_test
+    chown system system /proc/charger/nt_abnormal_status
+    chown system system /proc/charger/nt_adp_power
+    chown system system /proc/charger/nt_data
+    chown system system /proc/charger/nt_fake_ibat
+    chown system system /proc/charger/nt_fake_soc
+    chown system system /proc/charger/nt_fake_tbat
+    chown system system /proc/charger/nt_fake_tusb
+    chown system system /proc/charger/nt_fake_vbat
+    chown system system /proc/charger/nt_otg_enable
+    chown system system /proc/charger/nt_qmax
+    chown system system /proc/charger/nt_quse
+    chown system system /proc/charger/nt_resistance
+    chown system system /proc/charger/scenario_fcc
+    chown system system /proc/charger/ship_mode
+    chown system system /proc/charger/temp
+    chown system system /proc/charger/typec_cc_orientation
+    chown system system /proc/charger/usb_charger_en
+    chown system system /proc/charger/usb_real_type
+    chown system system /proc/charger/usb_temp
+    chown system system /proc/charger/voltage_adc
+
+    restorecon /sys/class/qcom-battery/usb_real_type
+    restorecon /sys/class/qcom-battery/wireless_boost_en
+    restorecon /sys/class/qcom-battery/wls_reverse_status
+    restorecon /sys/class/qcom-battery/wireless_fw_version
+
+on property:sys.boot_completed=1 && property:sys.runin.charging=false
+    write /sys/class/qcom-battery/usb_charger_en 0
+on property:sys.boot_completed=1 && property:sys.runin.charging=true
+    write /sys/class/qcom-battery/usb_charger_en 1
+# @}
+# change by NT@{
+on property:sys.boot_completed=1 && property:sys.service.ageTest_running.upload.enable=false
+    write /proc/charger/is_aging_test 0
+on property:sys.boot_completed=1 && property:sys.service.ageTest_running.upload.enable=true
+    write /proc/charger/is_aging_test 1
+on property:sys.boot_completed=1 && property:sys.service.ntmonkey.run=false
+    write /proc/charger/is_aging_test 0
+on property:sys.boot_completed=1 && property:sys.service.ntmonkey.run=true
+    write /proc/charger/is_aging_test 1
+# @}
+#endif /* NT_EDIT */
+
+# pohsiang add for touch.
+on property:sys.touch.game_mode.enable=*
+    write /proc/touchpanel/game_mode ${sys.touch.game_mode.enable}
+on property:sys.touch.edge_mode.enable=*
+    write /proc/touchpanel/edge_mode ${sys.touch.edge_mode.enable}
+on property:sys.touch.fod_en.enable=*
+    write /proc/touchpanel/fod_mode ${sys.touch.fod_en.enable}
+on property:sys.touch.single_en.enable=*
+    write /proc/touchpanel/gesture_mode ${sys.touch.single_en.enable}
+on property:sys.touch.fp_status=*
+    write /sys/panel_feature/fp_status ${sys.touch.fp_status}
+on property:sys.touch.pocket_mode=*
+    write /proc/touchpanel/pocket_mode ${sys.touch.pocket_mode}
+
+
+on property:sys.otg.enable=1
+    write /sys/dev/block/${sys.otg.devid}/queue/read_ahead_kb 2048
+    write /dev/sys/block/by-name/userdata/queue/read_ahead_kb 2048
+    write /sys/devices/system/cpu/cpufreq/policy7/walt/down_rate_limit_us 100000
+    write /sys/devices/system/cpu/cpufreq/policy5/walt/down_rate_limit_us 100000
+    write /sys/devices/system/cpu/cpufreq/policy2/walt/down_rate_limit_us 100000
+    write /sys/devices/system/cpu/cpufreq/policy0/walt/down_rate_limit_us 100000
+    write /dev/cpuctl/top-app/cpu.uclamp.min 100
+    write /dev/cpuctl/foreground/cpu.uclamp.min 50
+
+on property:sys.otg.enable=0
+    write /dev/sys/block/by-name/userdata/queue/read_ahead_kb 512
+    write /sys/devices/system/cpu/cpufreq/policy7/walt/down_rate_limit_us 0
+    write /sys/devices/system/cpu/cpufreq/policy5/walt/down_rate_limit_us 0
+    write /sys/devices/system/cpu/cpufreq/policy2/walt/down_rate_limit_us 0
+    write /sys/devices/system/cpu/cpufreq/policy0/walt/down_rate_limit_us 0
+    write /dev/cpuctl/top-app/cpu.uclamp.min 0
+    write /dev/cpuctl/foreground/cpu.uclamp.min 0
+
+on post-fs-data
+    restorecon_recursive /mnt/vendor/persist
+    mkdir /mnt/vendor/persist/camera 0777 cameraserver cameraserver
+    mkdir /data/vendor/camera 0775 camera camera
+    chmod 0444 /mnt/vendor/persist/camera/bokeh_caldata_uw_persist.bin
+    copy  /mnt/vendor/persist/camera/bokeh_caldata_uw_persist.bin /data/vendor/camera/bokeh_caldata_uw_persist.bin
+    chmod 0444 /data/vendor/camera/bokeh_caldata_uw_persist.bin
+    chown cameraserver audio /data/vendor/camera/bokeh_caldata_uw_persist.bin
+
+    chmod 0444 /mnt/vendor/persist/camera/bokeh_caldata_tele_persist.bin
+    copy /mnt/vendor/persist/camera/bokeh_caldata_tele_persist.bin /data/vendor/camera/bokeh_caldata_tele_persist.bin
+    chmod 0444 /data/vendor/camera/bokeh_caldata_tele_persist.bin
+    chown cameraserver audio /data/vendor/camera/bokeh_caldata_tele_persist.bin
+
+    chmod 0777 /vendor/etc/camera
+    copy /vendor/etc/camera/bokeh_caldata_uw_golden.bin /data/vendor/camera/bokeh_caldata_uw_golden.bin
+    chmod 0444 /data/vendor/camera/bokeh_caldata_uw_golden.bin
+    chown cameraserver audio /data/vendor/camera/bokeh_caldata_uw_golden.bin
+
+    copy /vendor/etc/camera/bokeh_caldata_tele_golden.bin /data/vendor/camera/bokeh_caldata_tele_golden.bin
+    chmod 0444 /data/vendor/camera/bokeh_caldata_tele_golden.bin
+    chown cameraserver audio /data/vendor/camera/bokeh_caldata_tele_golden.bin
+
+on property:sys.touch.keyguard.state=*
+    write /proc/touchpanel/palm_to_sleep_support ${sys.touch.keyguard.state}

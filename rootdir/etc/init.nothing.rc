@@ -1,0 +1,52 @@
+#
+# Copyright (C) 2026 The PixelOS Project
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+on boot
+    # RichTap AW86938 Haptics / Vibrator
+    chmod 0666 /sys/class/leds/vibrator_nt/activate
+    chmod 0666 /sys/class/leds/vibrator_nt/duration
+    chmod 0666 /sys/class/leds/vibrator_nt/state
+    chmod 0666 /sys/class/leds/vibrator_nt/brightness
+    chmod 0666 /sys/class/leds/vibrator_nt/gain
+    chmod 0666 /sys/class/leds/vibrator_nt/seq
+    chmod 0666 /sys/class/leds/vibrator_nt/loop
+    chmod 0666 /sys/class/leds/vibrator_nt/rtp
+    chmod 0666 /sys/class/leds/vibrator_nt/vmax
+    chmod 0666 /sys/class/leds/vibrator_nt/f0
+    chmod 0666 /sys/class/leds/vibrator_nt/cali
+    chmod 0666 /sys/class/leds/vibrator_nt/haptic_interface_disable
+    chown system system /sys/class/leds/vibrator_nt/activate
+    chown system system /sys/class/leds/vibrator_nt/duration
+    chown system system /sys/class/leds/vibrator_nt/state
+    chown system system /sys/class/leds/vibrator_nt/brightness
+    chown system system /sys/class/leds/vibrator_nt/gain
+    chown system system /sys/class/leds/vibrator_nt/seq
+    chown system system /sys/class/leds/vibrator_nt/loop
+    chown system system /sys/class/leds/vibrator_nt/rtp
+    chown system system /sys/class/leds/vibrator_nt/vmax
+    chown system system /sys/class/leds/vibrator_nt/f0
+    chown system system /sys/class/leds/vibrator_nt/cali
+    chown system system /sys/class/leds/vibrator_nt/haptic_interface_disable
+
+    # Rear Strobe Torch / Flash LEDs
+    chown system system /sys/class/leds/led:torch_0/brightness
+    chown system system /sys/class/leds/led:torch_1/brightness
+    chown system system /sys/class/leds/led:switch_0/brightness
+    chown system system /sys/class/leds/led:switch_1/brightness
+    chmod 0666 /sys/class/leds/led:torch_0/brightness
+    chmod 0666 /sys/class/leds/led:torch_1/brightness
+    chmod 0666 /sys/class/leds/led:switch_0/brightness
+    chmod 0666 /sys/class/leds/led:switch_1/brightness
+
+    # Glyph Matrix LEDs
+    chown system system /sys/class/leds/matrix-leds/all_brightness
+    chown system system /sys/class/leds/matrix-leds/frame_brightness
+    chown system system /sys/class/leds/matrix-leds/single_brightness
+    chown system system /sys/class/leds/matrix-leds/light_id_info
+    chmod 0666 /sys/class/leds/matrix-leds/all_brightness
+    chmod 0666 /sys/class/leds/matrix-leds/frame_brightness
+    chmod 0666 /sys/class/leds/matrix-leds/single_brightness
+    chmod 0666 /sys/class/leds/matrix-leds/light_id_info
