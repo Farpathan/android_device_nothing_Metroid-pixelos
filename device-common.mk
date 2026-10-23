@@ -6,6 +6,9 @@
 
 DEVICE_PATH := device/nothing/Metroid
 
+# Enable Dynamic Partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
 # Soong Namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH) \
