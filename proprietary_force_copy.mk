@@ -3,9 +3,6 @@ PRODUCT_COPY_FILES += \
     vendor/nothing/Metroid/proprietary/system_ext/etc/permissions/extphonelib.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/extphonelib.xml \
     vendor/nothing/Metroid/proprietary/system_ext/etc/permissions/qti_telephony_hidl_wrapper.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/qti_telephony_hidl_wrapper.xml \
     vendor/nothing/Metroid/proprietary/system_ext/etc/permissions/qti_telephony_utils.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/qti_telephony_utils.xml \
-    vendor/nothing/Metroid/proprietary/system_ext/lib64/android.hardware.radio@1.5.so:$(TARGET_COPY_OUT_SYSTEM_EXT)/lib64/android.hardware.radio@1.5.so \
-    vendor/nothing/Metroid/proprietary/system_ext/lib64/android.hardware.radio@1.6.so:$(TARGET_COPY_OUT_SYSTEM_EXT)/lib64/android.hardware.radio@1.6.so \
-    vendor/nothing/Metroid/proprietary/system_ext/lib64/android.hidl.base@1.0.so:$(TARGET_COPY_OUT_SYSTEM_EXT)/lib64/android.hidl.base@1.0.so \
     vendor/nothing/Metroid/proprietary/system_ext/lib64/libencoderjpeg_jni.so:$(TARGET_COPY_OUT_SYSTEM_EXT)/lib64/libencoderjpeg_jni.so \
     vendor/nothing/Metroid/proprietary/system_ext/lib64/libqcomfm_jni.so:$(TARGET_COPY_OUT_SYSTEM_EXT)/lib64/libqcomfm_jni.so \
     vendor/nothing/Metroid/proprietary/system_ext/lib64/libqti_vndfwk_detect_system.so:$(TARGET_COPY_OUT_SYSTEM_EXT)/lib64/libqti_vndfwk_detect_system.so \
@@ -171,12 +168,10 @@ PRODUCT_COPY_FILES += \
     vendor/nothing/Metroid/proprietary/vendor/lib64/vendor.qti.hardware.systemhelper@1.0.so:$(TARGET_COPY_OUT_VENDOR)/lib64/vendor.qti.hardware.systemhelper@1.0.so \
     vendor/nothing/Metroid/proprietary/vendor/lib64/vendor.qti.hardware.systemhelperaidl-V1-ndk.so:$(TARGET_COPY_OUT_VENDOR)/lib64/vendor.qti.hardware.systemhelperaidl-V1-ndk.so \
     vendor/nothing/Metroid/proprietary/vendor/lib64/vendor.qti.hardware.wifi.supplicant-V1-ndk.so:$(TARGET_COPY_OUT_VENDOR)/lib64/vendor.qti.hardware.wifi.supplicant-V1-ndk.so \
-    vendor/nothing/Metroid/proprietary/vendor/product/media/audio/notifications/01_oi.ogg:$(TARGET_COPY_OUT_VENDOR)/product/media/audio/notifications/01_oi.ogg \
 
 
 # === METROID audio-only tranche (2026-07-09) — sound path; no VINTF decl, low boot risk ===
 PRODUCT_COPY_FILES += \
-    vendor/nothing/Metroid/proprietary/vendor/bin/audioadsprpcd:$(TARGET_COPY_OUT_VENDOR)/bin/audioadsprpcd \
     vendor/nothing/Metroid/proprietary/vendor/lib64/libaudioroute.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libaudioroute.so
 
 # === METROID wifi + missing-libs tranche (2026-07-09, Fable) ===
@@ -186,10 +181,7 @@ PRODUCT_COPY_FILES += \
 #    cameraservice.common-V1-ndk -> noth camera ext, libtinycompress+closure -> audio HAL/PAL.
 # All verified live on device via /vendor/lib64 overlay before staging.
 PRODUCT_COPY_FILES += \
-    vendor/nothing/Metroid/proprietary/vendor/bin/hw/android.hardware.wifi-service:$(TARGET_COPY_OUT_VENDOR)/bin/hw/android.hardware.wifi-service \
     vendor/nothing/Metroid/proprietary/vendor/etc/init/android.hardware.wifi-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.wifi-service.rc \
-    vendor/nothing/Metroid/proprietary/vendor/etc/wifi/wcn7750/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wcn7750/WCNSS_qcom_cfg.ini \
-    vendor/nothing/Metroid/proprietary/vendor/firmware/wlan/qca_cld/wcn7750/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/firmware/wlan/qca_cld/wcn7750/WCNSS_qcom_cfg.ini \
     vendor/nothing/Metroid/proprietary/vendor/lib64/android.hardware.wifi.common-V1-ndk.so:$(TARGET_COPY_OUT_VENDOR)/lib64/android.hardware.wifi.common-V1-ndk.so \
     vendor/nothing/Metroid/proprietary/vendor/lib64/android.hardware.radio-V3-ndk.so:$(TARGET_COPY_OUT_VENDOR)/lib64/android.hardware.radio-V3-ndk.so \
     vendor/nothing/Metroid/proprietary/vendor/lib64/android.frameworks.cameraservice.common-V1-ndk.so:$(TARGET_COPY_OUT_VENDOR)/lib64/android.frameworks.cameraservice.common-V1-ndk.so \
@@ -237,9 +229,7 @@ PRODUCT_COPY_FILES += \
 # services whose .rc ships but binary didn't. ipacm=IPA tethering/offload, clearkey DRM,
 # hlosminkdaemon (TEE mink), display_boot script.
 PRODUCT_COPY_FILES += \
-    vendor/nothing/Metroid/proprietary/vendor/bin/ipacm:$(TARGET_COPY_OUT_VENDOR)/bin/ipacm \
     vendor/nothing/Metroid/proprietary/vendor/bin/hlosminkdaemon:$(TARGET_COPY_OUT_VENDOR)/bin/hlosminkdaemon \
-    vendor/nothing/Metroid/proprietary/vendor/bin/hw/android.hardware.drm-service.clearkey:$(TARGET_COPY_OUT_VENDOR)/bin/hw/android.hardware.drm-service.clearkey \
     vendor/nothing/Metroid/proprietary/vendor/bin/init.qcom.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qcom.sh \
     vendor/nothing/Metroid/proprietary/vendor/bin/init.qcom.post_boot.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qcom.post_boot.sh \
     vendor/nothing/Metroid/proprietary/vendor/bin/init.qcom.sdio.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qcom.sdio.sh \
@@ -247,15 +237,12 @@ PRODUCT_COPY_FILES += \
     vendor/nothing/Metroid/proprietary/vendor/bin/cnss_diag:$(TARGET_COPY_OUT_VENDOR)/bin/cnss_diag \
     vendor/nothing/Metroid/proprietary/vendor/bin/hw/android.hardware.security.keymint-service-spu-qti:$(TARGET_COPY_OUT_VENDOR)/bin/hw/android.hardware.security.keymint-service-spu-qti \
     vendor/nothing/Metroid/proprietary/vendor/bin/hw/android.hardware.security.keymint-service.strongbox-thales:$(TARGET_COPY_OUT_VENDOR)/bin/hw/android.hardware.security.keymint-service.strongbox-thales \
-    vendor/nothing/Metroid/proprietary/vendor/bin/hw/android.hardware.sensors-service.multihal:$(TARGET_COPY_OUT_VENDOR)/bin/hw/android.hardware.sensors-service.multihal \
     vendor/nothing/Metroid/proprietary/vendor/bin/hw/vendor.noth.hardware.charge-service:$(TARGET_COPY_OUT_VENDOR)/bin/hw/vendor.noth.hardware.charge-service \
-    vendor/nothing/Metroid/proprietary/vendor/bin/hw/vendor.qti.hardware.memtrack-service:$(TARGET_COPY_OUT_VENDOR)/bin/hw/vendor.qti.hardware.memtrack-service \
     vendor/nothing/Metroid/proprietary/vendor/bin/nt_ddr_test:$(TARGET_COPY_OUT_VENDOR)/bin/nt_ddr_test \
     vendor/nothing/Metroid/proprietary/vendor/bin/qttestclient:$(TARGET_COPY_OUT_VENDOR)/bin/qttestclient \
     vendor/nothing/Metroid/proprietary/vendor/bin/qttestservice:$(TARGET_COPY_OUT_VENDOR)/bin/qttestservice \
     vendor/nothing/Metroid/proprietary/vendor/bin/spu_install_keybox:$(TARGET_COPY_OUT_VENDOR)/bin/spu_install_keybox \
     vendor/nothing/Metroid/proprietary/vendor/bin/wifidisplayhalservice:$(TARGET_COPY_OUT_VENDOR)/bin/wifidisplayhalservice \
-    vendor/nothing/Metroid/proprietary/vendor/etc/camera/metroid_smoothzoom_config.json:$(TARGET_COPY_OUT_VENDOR)/etc/camera/metroid_smoothzoom_config.json \
     vendor/nothing/Metroid/proprietary/vendor/lib64/android.hardware.graphics.common-V5-ndk.so:$(TARGET_COPY_OUT_VENDOR)/lib64/android.hardware.graphics.common-V5-ndk.so \
     vendor/nothing/Metroid/proprietary/vendor/lib64/android.hardware.memtrack-V1-ndk.so:$(TARGET_COPY_OUT_VENDOR)/lib64/android.hardware.memtrack-V1-ndk.so \
     vendor/nothing/Metroid/proprietary/vendor/lib64/android.hardware.tetheroffload-V1-ndk.so:$(TARGET_COPY_OUT_VENDOR)/lib64/android.hardware.tetheroffload-V1-ndk.so \
