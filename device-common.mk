@@ -71,7 +71,6 @@ PRODUCT_PACKAGES += \
     qms.metroid.xml \
     mwqem.metroid.xml \
     audio_bluetooth.metroid.xml \
-    bluetooth_audio_provider.metroid.xml \
     media_c2.metroid.xml \
     perf2.metroid.xml \
     android.hardware.radio.config.metroid4.xml \
