@@ -23,7 +23,6 @@ AB_OTA_PARTITIONS += \
     odm \
     recovery \
     product \
-    pvmfw \
     dtbo \
     vbmeta \
     vbmeta_system \
