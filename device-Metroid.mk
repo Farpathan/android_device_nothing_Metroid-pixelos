@@ -32,9 +32,6 @@ PRODUCT_SYSTEM_PROPERTIES += \
     ro.keystore.boot_level_key.strategy=TRUSTED_ENVIRONMENT:MAX_USES_PER_BOOT \
     persist.vendor.morpho.eis.force_gmenode=1
 
-# Glyph Sysconfig
-PRODUCT_COPY_FILES += \
-    vendor/nothing/Metroid/glyph/etc/sysconfig/com.nothing.glyphnotification.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/sysconfig/com.nothing.glyphnotification.xml
 
 # Audio SKU Volumes & Fallback Copy
 PRODUCT_COPY_FILES += \
