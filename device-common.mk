@@ -9,6 +9,11 @@ DEVICE_PATH := device/nothing/Metroid
 # Enable Dynamic Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
+# Virtual A/B (VABC)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
+PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
+PRODUCT_VIRTUAL_AB_COW_VERSION := 3
+
 # Soong Namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH) \
