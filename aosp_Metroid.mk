@@ -33,5 +33,5 @@ PRODUCT_GMS_CLIENTID_BASE := android-nothing
 PRODUCT_SHIPPING_API_LEVEL := 35
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRODUCT_NAME=MetroidIND \
-    TARGET_DEVICE=Metroid
+    DeviceProduct=MetroidIND \
+    DeviceName=Metroid
