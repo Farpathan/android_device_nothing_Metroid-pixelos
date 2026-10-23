@@ -36,3 +36,6 @@ TARGET_ODM_PROP += $(DEVICE_PATH)/odm.prop
 
 # Vendor BoardConfig
 -include vendor/nothing/Metroid/BoardConfigVendor.mk
+
+# Lineage BoardConfig
+-include vendor/lineage/config/BoardConfigLineage.mk
