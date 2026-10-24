@@ -1,8 +1,8 @@
 diff --git a/Android.mk b/Android.mk
-index d35090d9..7e53bc95 100755
+index 383adca..14df1a7 100644
 --- a/Android.mk
 +++ b/Android.mk
-@@ -160,9 +160,11 @@ endif
+@@ -152,9 +152,11 @@ endif
  
  ifeq ($(AB_OTA_UPDATER),true)
      LOCAL_CFLAGS += -DAB_OTA_UPDATER=1
@@ -18,7 +18,7 @@ index d35090d9..7e53bc95 100755
  
  ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
 diff --git a/etc/init.rc b/etc/init.rc
-index 5c13ef74..6259b3fe 100644
+index 5c13ef7..6259b3f 100644
 --- a/etc/init.rc
 +++ b/etc/init.rc
 @@ -182,32 +182,8 @@ on property:sys.usb.config=fastboot && property:sys.usb.configfs=0
@@ -59,11 +59,164 @@ index 5c13ef74..6259b3fe 100644
 +# on property:sys.usb.config=sideload && property:sys.usb.ffs.ready=1 && property:sys.usb.configfs=1
 +# on property:sys.usb.config=adb && property:sys.usb.ffs.ready=1 && property:sys.usb.configfs=1
 +# on property:sys.usb.config=fastboot && property:sys.usb.ffs.ready=1 && property:sys.usb.configfs=1
+diff --git a/gui/blanktimer.cpp b/gui/blanktimer.cpp
+index 61356d3..7476703 100755
+--- a/gui/blanktimer.cpp
++++ b/gui/blanktimer.cpp
+@@ -35,6 +35,7 @@ blanktimer::blanktimer(void) {
+ 	pthread_mutex_init(&mutex, NULL);
+ 	setTime(0); // no timeout
+ 	state = kOn;
++	setTimer();
+ 	orig_brightness = getBrightness();
+ }
+ 
+@@ -45,6 +46,7 @@ bool blanktimer::isScreenOff() {
+ void blanktimer::setTime(int newtime) {
+ 	pthread_mutex_lock(&mutex);
+ 	sleepTimer = newtime;
++	setTimer();
+ 	pthread_mutex_unlock(&mutex);
+ }
+ 
+@@ -61,7 +63,11 @@ void blanktimer::checkForTimeout() {
+ 	if (sleepTimer > 2 && diff.tv_sec > (sleepTimer - 2) && state == kOn) {
+ 		orig_brightness = getBrightness();
+ 		state = kDim;
+-		TWFunc::Set_Brightness("5");
++		int max = DataManager::GetIntValue("tw_brightness_max");
++		if (max <= 0) max = 255;
++		int dim_val = max / 20;
++		if (dim_val < 5) dim_val = 5;
++		TWFunc::Set_Brightness(std::to_string(dim_val));
+ 	}
+ 	if (sleepTimer && diff.tv_sec > sleepTimer && state < kOff) {
+ 		state = kOff;
+@@ -84,8 +90,11 @@ string blanktimer::getBrightness(void) {
+ 
+ 	if (DataManager::GetIntValue("tw_has_brightnesss_file")) {
+ 		DataManager::GetValue("tw_brightness", result);
+-		if (result.empty())
+-			result = "255";
++		if (result.empty() || result == "0") {
++			result = DataManager::GetStrValue("tw_brightness_max");
++			if (result.empty() || result == "0")
++				result = "2048";
++		}
+ 	}
+ 	return result;
+ }
+diff --git a/minuitwrp/events.cpp b/minuitwrp/events.cpp
+index e497df6..50b8def 100644
+--- a/minuitwrp/events.cpp
++++ b/minuitwrp/events.cpp
+@@ -63,6 +63,8 @@ static std::atomic_int vib_on_count = 0;
+ 
+ #define LEDS_HAPTICS_DURATION_FILE	"/sys/class/leds/vibrator/duration"
+ #define LEDS_HAPTICS_ACTIVATE_FILE	"/sys/class/leds/vibrator/activate"
++#define LEDS_HAPTICS_NT_DURATION_FILE	"/sys/class/leds/vibrator_nt/duration"
++#define LEDS_HAPTICS_NT_ACTIVATE_FILE	"/sys/class/leds/vibrator_nt/activate"
+ 
+ #ifndef SYN_REPORT
+ #define SYN_REPORT          0x00
+@@ -153,6 +155,12 @@ int vibrate(int timeout_ms)
+     char tout[6];
+     sprintf(tout, "%i", timeout_ms);
+ 
++    if (access(LEDS_HAPTICS_NT_ACTIVATE_FILE, F_OK) == 0) {
++        write_to_file(LEDS_HAPTICS_NT_DURATION_FILE, tout);
++        write_to_file(LEDS_HAPTICS_NT_ACTIVATE_FILE, "1");
++        return 0;
++    }
++
+ #ifdef USE_QTI_HAPTICS
+     android::sp<android::hardware::vibrator::V1_2::IVibrator> vib = android::hardware::vibrator::V1_2::IVibrator::getService();
+     if (vib != nullptr) {
+diff --git a/partition.cpp b/partition.cpp
+index 184cb16..fd14479 100755
+--- a/partition.cpp
++++ b/partition.cpp
+@@ -1748,6 +1748,18 @@ bool TWPartition::UnMount(bool Display_Error, int flags) {
+ 		if (!Symlink_Mount_Point.empty())
+ 			umount2(Symlink_Mount_Point.c_str(), flags);
+ 
++		// The crypto daemons started by init.recovery.qcom.rc run from /vendor and keep it busy
++		if (Mount_Point == "/vendor") {
++			for (const char* svc : {"vendor.keymint-qti", "vendor.gatekeeper_default", "qseecomd"}) {
++				std::string state = android::base::GetProperty(std::string("init.svc.") + svc, "");
++				if (state.empty() || state == "stopped")
++					continue;
++				LOGINFO("Stopping %s to release /vendor\n", svc);
++				property_set("ctl.stop", svc);
++				android::base::WaitForProperty(std::string("init.svc.") + svc, "stopped", std::chrono::seconds(3));
++			}
++		}
++
+ 		umount2(Mount_Point.c_str(), flags);
+ 		if (Is_Mounted()) {
+ 			if (Display_Error)
+diff --git a/partitionmanager.cpp b/partitionmanager.cpp
+index 2766b4c..ead9dfd 100755
+--- a/partitionmanager.cpp
++++ b/partitionmanager.cpp
+@@ -592,6 +592,22 @@ void TWPartitionManager::Decrypt_Data() {
+ 		if (Key_Directory_Partition != nullptr)
+ 			if (!Key_Directory_Partition->Is_Mounted())
+ 				Mount_By_Path(Decrypt_Data->Key_Directory, false);
++
++		// Ensure vendor and odm partitions are mounted for KeyMint and Gatekeeper HALs
++		TWPartition* Ven_Partition = Find_Partition_By_Path("/vendor");
++		if (Ven_Partition != nullptr && !Ven_Partition->Is_Mounted())
++			Ven_Partition->Mount(false);
++		TWPartition* Odm_Partition = Find_Partition_By_Path("/odm");
++		if (Odm_Partition != nullptr && !Odm_Partition->Is_Mounted())
++			Odm_Partition->Mount(false);
++
++		property_set("ctl.restart", "servicemanager");
++		property_set("ctl.start", "qseecomd");
++		property_set("ctl.start", "vendor.gatekeeper_default");
++		property_set("ctl.start", "vendor.keymint-qti");
++		property_set("ctl.start", "keystore2");
++		usleep(200000);
++
+ 		if (!Decrypt_Data->Key_Directory.empty()) {
+ 			Set_Crypto_Type("file");
+ #ifdef TW_INCLUDE_FBE_METADATA_DECRYPT
+@@ -3776,6 +3792,29 @@ bool TWPartitionManager::Check_Pending_Merges() {
+ 		return false;
+ 	}
+ 
++	// libsnapshot maps every partition in the slot metadata, so inactive slot mappings must go too
++	if (DataManager::GetStrValue("tw_has_boot_slots") == "1") {
++		std::string inactive_suffix = Get_Active_Slot_Suffix() == "_a" ? "_b" : "_a";
++		std::vector<std::string> stale;
++		DIR* d = opendir("/dev/block/mapper");
++		if (d != NULL) {
++			struct dirent* de;
++			while ((de = readdir(d)) != NULL) {
++				std::string name = de->d_name;
++				if (de->d_type == DT_DIR || name == "control")
++					continue;
++				if (android::base::EndsWith(name, inactive_suffix) || android::base::EndsWith(name, inactive_suffix + "-cow"))
++					stale.push_back(name);
++			}
++			closedir(d);
++		}
++		for (const auto& name : stale) {
++			LOGINFO("removing inactive slot partition: %s\n", name.c_str());
++			if (!DestroyLogicalPartition(name))
++				LOGINFO("Unable to remove %s\n", name.c_str());
++		}
++	}
++
+ 	auto callback = [&]() -> void {
+ 		double progress;
+ 		sm->GetUpdateState(&progress);
 diff --git a/startupArgs.cpp b/startupArgs.cpp
-index 058bc404..86c395e0 100755
+index 954f3f5..9d95f98 100755
 --- a/startupArgs.cpp
 +++ b/startupArgs.cpp
-@@ -47,10 +47,6 @@ bool startupArgs::processRecoveryArgs(std::vector<std::string> args, int index)
+@@ -44,10 +44,6 @@ bool startupArgs::processRecoveryArgs(std::vector<std::string> args, int index)
  		printf("'%s'", args[index].c_str());
  		if (args[index] == FASTBOOT) {
  			fastboot_mode = true;
