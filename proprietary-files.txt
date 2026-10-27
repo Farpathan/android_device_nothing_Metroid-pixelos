@@ -1784,7 +1784,6 @@ vendor/etc/libnfc-hal-st.conf|65d155119ab4cedbc46df2dc250e29978f89a537
 vendor/etc/libnfc-nci-felica.conf|d2e9022f3cc90c6718d99e8c9ddf7089702fdea7
 vendor/etc/libnfc-nci.conf|7948d83f95d5a1314fae87c935f379000bf85712
 vendor/etc/license.lic|03da2d1da7b90ec64c8156369893ed69aa0fc345
-vendor/etc/linker.config.pb|17aabffa68d93cdab715ef2501a2a0c51fedb5ed
 vendor/etc/lm/AppClassifierFeature.xml|d4677644f1466905a02d1b1d81277a4f72b3afe0
 vendor/etc/lm/LightningLaunchesFeature.xml|b640094d43a6f3ca8b2ba9683eb0e8aa07ad07e2
 vendor/etc/lm/PreKillFeature.xml|457001873c33eba8a3997b6334aa358f715be5fe
