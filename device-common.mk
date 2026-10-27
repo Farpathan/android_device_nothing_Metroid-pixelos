@@ -20,13 +20,12 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.m
 PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
 PRODUCT_VIRTUAL_AB_COW_VERSION := 3
 
-# Soong namespaces. The sm8750 caf repos (display core/hal/intf, audio) declare
-# no soong_namespace of their own, so their modules are globally visible and
-# need no entry here (same as the OnePlus sm8750-common tree).
+# Soong namespaces: the caf sm8750 repos declare no namespace of their own.
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH) \
     hardware/google/interfaces \
-    hardware/google/pixel
+    hardware/google/pixel \
+    hardware/qcom-caf/common/libqti-perfd-client
 
 # QCOM caf common config (linker fragments, RFS symlinks)
 $(call inherit-product, hardware/qcom-caf/common/common.mk)
@@ -77,19 +76,22 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     vendor.qti.hardware.display.composer-service \
     vendor.qti.hardware.display.allocator-service \
+    vendor.qti.hardware.display.demura-service \
+    vendor.qti.hardware.display.snapalloc-impl \
     android.hardware.graphics.mapper@4.0-impl-qti-display
 
-# Audio HAL support from the sm8750 caf repos (hardware/qcom-caf/sm8750/audio);
-# module names confirmed in the synced tree.
+# Audio HAL support from the sm8750 caf repos (hardware/qcom-caf/sm8750/audio)
+# and the commonsys hal_adapter; module names confirmed in the synced tree.
 PRODUCT_PACKAGES += \
     audioadsprpcd \
+    audiohalservice.qti \
     libqcomvoiceprocessing \
-    libvolumelistener
+    libvolumelistener \
+    qtiaudiohalvendorextn
 
-# TODO(hal): these exist in other sm8750 trees but are not yet confirmed for
-# our manifest: vendor.qti.hardware.display.demura-service,
-# vendor.qti.hardware.display.snapalloc-impl, audiohalservice.qti,
-# qtiaudiohalvendorextn, libqti-perfd-client. Add them after verification.
+# Power HAL extension client
+PRODUCT_PACKAGES += \
+    libqti-perfd-client
 
 # Rootdir (prebuilt_etc modules in rootdir/Android.bp, see rootdir/README.md)
 PRODUCT_PACKAGES += \
