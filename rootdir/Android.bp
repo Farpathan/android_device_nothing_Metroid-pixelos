@@ -1,0 +1,88 @@
+//
+// Copyright (C) 2026 The PixelOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// ROM fstab.
+// Installed three ways:
+//  - /vendor/etc/fstab.qcom                       (fs_mgr, after first stage)
+//  - init_boot generic ramdisk at /vendor/etc/fstab.qcom (first stage)
+//  - vendor ramdisk root at /fstab.qcom           (first stage,
+//    /first_stage_ramdisk/fstab.qcom)
+prebuilt_etc {
+    name: "fstab.qcom",
+    src: "etc/fstab.qcom",
+    filename_from_src: true,
+    vendor: true,
+    ramdisk_available: true,
+    vendor_ramdisk_available: true,
+}
+
+prebuilt_root {
+    name: "fstab.qcom.vendor_ramdisk",
+    src: "etc/fstab.qcom",
+    filename: "fstab.qcom",
+    vendor_ramdisk: true,
+}
+
+// QSSI init scripts, installed to /vendor/etc/init/hw/.
+prebuilt_etc {
+    name: "init.qcom.rc",
+    src: "etc/init.qcom.rc",
+    filename_from_src: true,
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "init.target.rc",
+    src: "etc/init.target.rc",
+    filename_from_src: true,
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+// Nothing-specific init files from stock. They are imported by init.target.rc
+// and are not shipped by the vendor blob list.
+prebuilt_etc {
+    name: "init.nothing.rc",
+    src: "etc/init.nothing.rc",
+    filename_from_src: true,
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "init.nt_product.rc",
+    src: "etc/init.nt_product.rc",
+    filename_from_src: true,
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+// Factory mode (MMI) support, imported by init.qcom.rc.
+prebuilt_etc {
+    name: "init.qcom.factory.rc",
+    src: "etc/init.qcom.factory.rc",
+    filename_from_src: true,
+    sub_dir: "init/hw",
+    vendor: true,
+}
+
+// Device ueventd configuration. The system ueventd.rc imports
+// /vendor/etc/ueventd.rc (the legacy /vendor/ueventd.rc location must not be
+// used on Android 13+ devices).
+prebuilt_etc {
+    name: "ueventd.qcom.rc",
+    src: "etc/ueventd.qcom.rc",
+    filename: "ueventd.rc",
+    vendor: true,
+}
+
+// Charger-only fstab, mounted by init.target.rc in charger mode.
+prebuilt_etc {
+    name: "charger_fw_fstab.qti",
+    src: "etc/charger_fw_fstab.qti",
+    filename_from_src: true,
+    vendor: true,
+}
