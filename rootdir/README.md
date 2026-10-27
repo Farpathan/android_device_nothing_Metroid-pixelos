@@ -9,7 +9,7 @@ Everything is installed from `rootdir/Android.bp` as Soong modules; add the modu
 | Module | Source | Installed as |
 | :--- | :--- | :--- |
 | `fstab.qcom` | `etc/fstab.qcom` | `/vendor/etc/fstab.qcom`, plus a copy in the generic ramdisk (`/vendor/etc/fstab.qcom` during first stage) |
-| `fstab.qcom.vendor_ramdisk` | `etc/fstab.qcom` | `/fstab.qcom` in the vendor ramdisk (`/first_stage_ramdisk/fstab.qcom` during first stage) |
+| `fstab.qcom.vendor_ramdisk` | `etc/fstab.qcom` | vendor ramdisk variant of `fstab.qcom`, at `/vendor/etc/fstab.qcom` there |
 | `init.qcom.rc` | `etc/init.qcom.rc` | `/vendor/etc/init/hw/init.qcom.rc` |
 | `init.target.rc` | `etc/init.target.rc` | `/vendor/etc/init/hw/init.target.rc` |
 | `init.nothing.rc` | `etc/init.nothing.rc` | `/vendor/etc/init/hw/init.nothing.rc` |
@@ -18,7 +18,7 @@ Everything is installed from `rootdir/Android.bp` as Soong modules; add the modu
 | `ueventd.qcom.rc` | `etc/ueventd.qcom.rc` | `/vendor/etc/ueventd.rc` |
 | `charger_fw_fstab.qti` | `etc/charger_fw_fstab.qti` | `/vendor/etc/charger_fw_fstab.qti` |
 
-`fstab.qcom` and `fstab.qcom.vendor_ramdisk` install the same file; both must be in `PRODUCT_PACKAGES`.
+`fstab.qcom.vendor_ramdisk` is the vendor ramdisk variant Soong makes from `fstab.qcom`; both names must be in `PRODUCT_PACKAGES`.
 
 ## Provenance
 

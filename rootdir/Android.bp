@@ -3,12 +3,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-// ROM fstab.
-// Installed three ways:
-//  - /vendor/etc/fstab.qcom                       (fs_mgr, after first stage)
-//  - init_boot generic ramdisk at /vendor/etc/fstab.qcom (first stage)
-//  - vendor ramdisk root at /fstab.qcom           (first stage,
-//    /first_stage_ramdisk/fstab.qcom)
+// ROM fstab, at /vendor/etc/fstab.qcom on vendor and in both ramdisks.
+// The vendor ramdisk copy is the fstab.qcom.vendor_ramdisk variant.
 prebuilt_etc {
     name: "fstab.qcom",
     src: "etc/fstab.qcom",
@@ -16,13 +12,6 @@ prebuilt_etc {
     vendor: true,
     ramdisk_available: true,
     vendor_ramdisk_available: true,
-}
-
-prebuilt_root {
-    name: "fstab.qcom.vendor_ramdisk",
-    src: "etc/fstab.qcom",
-    filename: "fstab.qcom",
-    vendor_ramdisk: true,
 }
 
 // QSSI init scripts, installed to /vendor/etc/init/hw/.
