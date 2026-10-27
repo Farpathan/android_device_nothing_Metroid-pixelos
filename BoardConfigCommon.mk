@@ -113,10 +113,10 @@ TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 # gzip tarball, see patches/README notes from the previous attempt)
 TARGET_PREBUILT_KERNEL_HEADERS := $(DEVICE_PATH)/prebuilt/kernel-headers.tar.gz
 
-# DTB/DTBO: prebuilts from the stock firmware, added on the build server
-# (see prebuilt/README.md). The build fails until these files exist.
+# DTB/DTBO: prebuilts from the stock firmware (see prebuilt/README.md).
+# dtb.img is the *.dtb files in BOARD_PREBUILT_DTBIMAGE_DIR joined in order.
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
-TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
+BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt/dtb
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
 
 BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
