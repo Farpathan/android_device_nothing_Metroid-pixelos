@@ -60,9 +60,10 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# Stock's init.qti.kernel.rc and stnfc_nt.rc (NFC) are not shipped by the
-# vendor blobs; re-add their imports if the blob list gains those files.
+import /vendor/etc/init/hw/init.qti.kernel.rc
 import /vendor/etc/init/hw/init.nt_product.rc
+# Stock also imports stnfc_nt.rc (NFC) here, but this firmware does not ship
+# that file.
 import /vendor/etc/init/hw/init.nothing.rc
 
 on early-init

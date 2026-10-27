@@ -59,10 +59,10 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# The stock init.qti.ufs.rc, init.qcom.usb.rc and init.qcom.test.rc are not
-# shipped: the UFS clock tuning is inline below, and USB is handled by the
-# android.hardware.usb service. If vendor blobs later provide those stock
-# files, their imports can be re-added here.
+import /vendor/etc/init/hw/init.qti.ufs.rc
+import /vendor/etc/init/hw/init.qcom.usb.rc
+# Stock also imports init.qcom.test.rc here, but this firmware does not ship
+# that file.
 import /vendor/etc/init/hw/init.target.rc
 import /vendor/etc/init/hw/init.qcom.factory.rc
 
@@ -107,8 +107,7 @@ on early-boot
     # set RLIMIT_MEMLOCK to 64KB
     setrlimit 8 65536 65536
     exec u:r:vendor_qti_init_shell:s0 -- /vendor/bin/init.qcom.early_boot.sh
-    # exec u:r:vendor_qti_init_shell:s0 -- /vendor/bin/init.qti.can.sh
-    # ^ init.qti.can.sh is not in the current stock dump; restore when blobs provide it
+    exec u:r:vendor_qti_init_shell:s0 -- /vendor/bin/init.qti.can.sh
     setprop ro.sf.lcd_density ${vendor.display.lcd_density}
     setprop vendor.display.mixer_resolution ${persist.sys.miui_resolution}
     mkdir /data/vendor/modem 0777 root root
@@ -641,8 +640,7 @@ service qcom-c_main-sh /vendor/bin/init.class_main.sh
 
 on property:vold.decrypt=trigger_restart_framework
     start qcom-c_main-sh
-    # wcnss-service is defined in the stock init.qti.kernel.rc, which is not
-    # shipped; restore the start below if that file is ever provided again
+    start wcnss-service
 
 service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class core

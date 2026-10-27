@@ -30,7 +30,9 @@ Everything is installed from `rootdir/Android.bp` as Soong modules; add the modu
 
 ## Notes
 
-- Stock's `init.qti.ufs.rc`, `init.qcom.usb.rc`, `init.qcom.test.rc`, `init.qti.kernel.rc`, `init.qti.kernel.target.rc` and `stnfc_nt.rc` (NFC) are **not** shipped: the current stock dump at `vendor/nothing/Metroid/proprietary` does not contain them. `init.qcom.rc`/`init.target.rc` have comments where their imports can be restored. UFS clock tuning is done inline; USB is handled by the AIDL USB service.
+- `init.qcom.rc` imports `init.qti.ufs.rc` and `init.qcom.usb.rc`; `init.target.rc` imports `init.qti.kernel.rc`. The blob list installs those under `/vendor/etc/init/hw/`, and `init.qti.kernel.rc` in turn imports `init.qti.kernel.target.rc`, also shipped.
+- Stock's `init.qcom.test.rc` and `stnfc_nt.rc` (NFC) are not part of this firmware image, so they are not imported (stock's own files import them and the import fails at boot). `init.qti.kernel.rc` inherits the same dangling `init.qti.kernel.test.rc` import from stock.
+- UFS clock tuning stays inline in `init.qcom.rc`: the stock `init.qti.ufs.rc` only runs a debug script.
 - `ueventd.qcom.rc` installs to `/vendor/etc/ueventd.rc`, which the system `/system/etc/ueventd.rc` imports on Android 13+. The legacy `/vendor/ueventd.rc` location must not be used (fatal log on first-api-level >= 33).
 - The blob list must not install its own `fstab.qcom`, `init.qcom.rc`, `init.target.rc`, `init.nt_product.rc`, `ueventd.rc` or `charger_fw_fstab.qti` to avoid duplicate installs of the files above.
-- Binaries referenced by these rc files but absent from the current dump (blob task to add if the dump is completed): `init.qti.can.sh`, `system_ext/bin/mmi`, `vendor/bin/mmid`, `system/bin/qmiproxy`.
+- Binaries these rc files reference that the stock image does not ship: `init.qti.can.sh`, `init.qti.ufs.debug.sh`, `system_ext/bin/mmi`, `vendor/bin/mmid`, `system/bin/qmiproxy`. The execs fail at boot exactly as they do on stock.
