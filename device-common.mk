@@ -1,132 +1,125 @@
-# Copyright (C) 2016 The CyanogenMod Project
-# Copyright (C) 2019 The OmniRom Project
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# Copyright (C) 2026 The PixelOS Project
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-#
-# This file is the build configuration for a full Android
-# build for grouper hardware. This cleanly combines a set of
-# device-specific aspects (drivers) with a device-agnostic
-# product configuration (apps).
+# SPDX-License-Identifier: Apache-2.0
 #
 
-# Inherit from common AOSP config
-$(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
+DEVICE_PATH := device/nothing/Metroid
 
 # Enable project quotas and casefolding for emulated storage without sdcardfs
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
-# Installs gsi keys into ramdisk, to boot a GSI with verified boot.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
+# Dynamic partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
-# Platform
-QCOM_BOARD_PLATFORMS += $(PRODUCT_PLATFORM)
-TARGET_BOARD_PLATFORM := $(PRODUCT_PLATFORM)
-TARGET_BOOTLOADER_BOARD_NAME := $(TARGET_BOARD_PLATFORM)
+# Virtual A/B with compression
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
+PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
+PRODUCT_VIRTUAL_AB_COW_VERSION := 3
 
-BUILD_BROKEN_DUP_RULES := true
+# Soong namespaces.
+# TODO: once the caf HAL wiring is verified on the build server, add
+# hardware/qcom-caf/common/libqti-perfd-client and the sm8750 display
+# namespace (the split core/hal/intf layout is new since the previous
+# attempt and its namespace name is unverified).
+PRODUCT_SOONG_NAMESPACES += \
+    $(DEVICE_PATH) \
+    hardware/google/interfaces \
+    hardware/google/pixel
 
+# Relaxed checks for qcom blobs
 RELAX_USES_LIBRARY_CHECK := true
 
-# A/B support
-AB_OTA_UPDATER := true
-
-# VNDK
-PRODUCT_TARGET_VNDK_VERSION := 31
-
-# Virtual A/B
-$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
-
-# A/B updater updatable partitions list. Keep in sync with the partition list
-# with "_a" and "_b" variants in the device. Note that the vendor can add more
-# more partitions to this list for the bootloader and radio.
-AB_OTA_PARTITIONS ?= boot vendor_boot recovery vendor_dlkm dtbo vbmeta super
-
-# A/B related packages
-PRODUCT_PACKAGES += update_engine \
+# A/B updater packages
+PRODUCT_PACKAGES += \
+    update_engine \
     update_engine_client \
-    update_verifier \
+    update_engine_sideload \
+    update_verifier
+
+# Boot control HAL (hardware/qcom-caf/bootctrl)
+PRODUCT_PACKAGES += \
     android.hardware.boot@1.2-impl-qti \
     android.hardware.boot@1.2-impl-qti.recovery \
-    android.hardware.boot@1.2-service
+    android.hardware.boot@1.2-service \
+    android.hardware.boot-service.qti
 
-PRODUCT_PACKAGES += \
-  update_engine_sideload
-
-# f2fs utilities
+# f2fs utilities and userdata checkpoint
 PRODUCT_PACKAGES += \
     sg_write_buffer \
     f2fs_io \
-    check_f2fs
-
-# Userdata checkpoint
-PRODUCT_PACKAGES += \
+    check_f2fs \
     checkpoint_gc
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_vendor=true \
     POSTINSTALL_PATH_vendor=bin/checkpoint_gc \
-    FILESYSTEM_TYPE_vendor=ext4 \
+    FILESYSTEM_TYPE_vendor=erofs \
     POSTINSTALL_OPTIONAL_vendor=true
 
-# Set GRF/Vendor freeze properties
-BOARD_SHIPPING_API_LEVEL := 31
-BOARD_API_LEVEL := 31
-SHIPPING_API_LEVEL := 31
-PRODUCT_SHIPPING_API_LEVEL := 31
-
-#Support to compile recovery without msm headers
-TARGET_HAS_GENERIC_KERNEL_HEADERS := true
-
-# Dynamic partitions
-PRODUCT_USE_DYNAMIC_PARTITIONS := true
-
 # fastbootd
-PRODUCT_PACKAGES += fastbootd
+PRODUCT_PACKAGES += \
+    fastbootd \
+    android.hardware.fastboot@1.1-impl-mock
 
-# Add default implementation of fastboot HAL.
-PRODUCT_PACKAGES += android.hardware.fastboot@1.1-impl-mock
+# TEE / KeyMint dependencies
+PRODUCT_PACKAGES += \
+    android.hardware.health-V1-ndk \
+    libxml2.vendor
 
-# qcom decryption - DISABLED (not functional without keystore2/qseecomd)
+# TODO(hal): display/audio HALs from the sm8750 caf repos. Module names from
+# the previous attempt, unverified against the current seventeen manifest:
+# display: vendor.qti.hardware.display.composer-service,
+#   vendor.qti.hardware.display.allocator-service,
+#   vendor.qti.hardware.display.demura-service,
+#   vendor.qti.hardware.display.snapalloc-impl,
+#   android.hardware.graphics.mapper@4.0-impl-qti-display,
+#   android.hardware.graphics.composer3-V3-ndk.vendor,
+#   vendor.qti.hardware.display.composer3-V1-ndk.vendor,
+#   vendor.qti.hardware.display.config-V12-ndk.vendor,
+#   vendor.qti.hardware.display.aiqe-V2-ndk.vendor
+# audio: audiohalservice.qti, qtiaudiohalvendorextn
+# perf: libqti-perfd-client
+# If the stock display HAL is instead shipped as a vendor blob, the blob
+# owner's proprietary-files.txt must include it and these packages must stay out.
+
+# Rootdir (prebuilt_etc modules in rootdir/Android.bp, see rootdir/README.md)
+PRODUCT_PACKAGES += \
+    fstab.qcom \
+    fstab.qcom.vendor_ramdisk \
+    init.qcom.rc \
+    init.target.rc \
+    init.nothing.rc \
+    init.nt_product.rc \
+    init.qcom.factory.rc \
+    ueventd.qcom.rc \
+    ueventd.rc \
+    charger_fw_fstab.qti
+
+# TODO(overlays): add the runtime resource overlay module names here once the
+# overlay owner reports them (see overlay/README.md), e.g.:
 # PRODUCT_PACKAGES += \
-#     qcom_decrypt \
-#     qcom_decrypt_fbe
+#     CarrierConfigOverlayMetroid \
+#     MetroidWifiOverlay
 
-# Soong namespaces
-PRODUCT_SOONG_NAMESPACES += \
-    $(DEVICE_PATH)
-
-#namespace definition for librecovery_updater
-#differentiate legacy 'sg' or 'bsg' framework
-SOONG_CONFIG_NAMESPACES += ufsbsg
-
-SOONG_CONFIG_ufsbsg += ufsframework
-SOONG_CONFIG_ufsbsg_ufsframework := bsg
+# TODO(dlkm): include the makefile that populates vendor_dlkm/system_dlkm with
+# the stock prebuilt kernel-module set from the vendor repo (see BoardConfigCommon).
 
 # OEM otacerts
 PRODUCT_EXTRA_RECOVERY_KEYS += \
     $(DEVICE_PATH)/security/otacert
 
-
-# System AVB
-BOARD_AVB_VBMETA_SYSTEM := system
-BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
-BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
-BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
-BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
-
 # Enable Fuse Passthrough
 PRODUCT_PROPERTY_OVERRIDES += persist.sys.fuse.passthrough.enable=true
 
-TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)/twrp
+# Soong config for the recovery's UFS updater (bsg framework)
+SOONG_CONFIG_NAMESPACES += ufsbsg
+SOONG_CONFIG_ufsbsg += ufsframework
+SOONG_CONFIG_ufsbsg_ufsframework := bsg
+
+# Vendor blobs (generated by setup-makefiles.py from the blobs)
+$(call inherit-product-if-exists, vendor/nothing/Metroid/Metroid-vendor.mk)
+
+# Device configs (config.fs copies, vintf fragments, permissions;
+# provided by the vintf/configs owner)
+$(call inherit-product, $(DEVICE_PATH)/configs/configs.mk)
