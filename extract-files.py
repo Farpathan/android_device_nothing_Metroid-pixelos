@@ -96,6 +96,9 @@ blob_fixups: blob_fixups_user_type = {
             '    group system readproc\n\n',
             '',
         ),
+    # The systemfeatures generator only parses XML 1.0.
+    'system_ext/etc/permissions/vendor.qti.hardware.c2pa-V1-java.xml': blob_fixup()
+        .regex_replace('<\\?xml version="2.0"', '<?xml version="1.0"'),
     # RNDIS function name used by the guest kernel on this platform.
     'vendor/etc/init/hw/init.qcom.usb.rc': blob_fixup()
         .regex_replace('ncm\\.0', 'ncm.gs6'),
