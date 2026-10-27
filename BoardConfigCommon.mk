@@ -246,6 +246,7 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/vintf/framework_com
 include device/qcom/sepolicy/SEPolicy.mk
 include device/qcom/sepolicy_vndr/sm8750/SEPolicy.mk
 include device/lineage/sepolicy/common/sepolicy.mk
+-include device/custom/sepolicy/sepolicy.mk # PixelOS's own policy (OTA updater app)
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
