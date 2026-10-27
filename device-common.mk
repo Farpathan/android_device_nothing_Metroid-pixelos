@@ -96,11 +96,18 @@ PRODUCT_PACKAGES += \
     ueventd.rc \
     charger_fw_fstab.qti
 
-# TODO(overlays): add the runtime resource overlay module names here once the
-# overlay owner reports them (see overlay/README.md), e.g.:
-# PRODUCT_PACKAGES += \
-#     CarrierConfigOverlayMetroid \
-#     MetroidWifiOverlay
+# Runtime resource overlays (see overlay/README.md)
+PRODUCT_PACKAGES += \
+    CarrierConfigOverlayMetroid \
+    MetroidConnectivityOverlay \
+    MetroidTetheringOverlay \
+    MetroidWifiOverlay \
+    NTSystemUIResTarget \
+    MetroidFrameworksResOverlay \
+    MetroidSettingsOverlay \
+    MetroidTelephonyOverlay \
+    MetroidApertureOverlay \
+    MetroidLineageSdkOverlay
 
 # TODO(dlkm): include the makefile that populates vendor_dlkm/system_dlkm with
 # the stock prebuilt kernel-module set from the vendor repo (see BoardConfigCommon).

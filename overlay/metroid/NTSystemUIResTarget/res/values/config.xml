@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2026 The PixelOS Project
+    SPDX-License-Identifier: Apache-2.0
+
+    Lets the UDFPS overlay request the max refresh rate (paired with the
+    frameworks-overlay config_defaultPeakRefreshRate=120; see the UDFPS notes
+    in MetroidFrameworksResOverlay).
+-->
+<resources>
+    <bool name="config_udfpsOverlayMaxRefreshRate">true</bool>
+</resources>

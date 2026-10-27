@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2026 The PixelOS Project
+    SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- Decorative enrollment padding; keep separate from the physical
+         107 px sensor radius set in the frameworks overlay. -->
+    <integer name="config_udfpsEnrollProgressBar" translatable="false">99</integer>
+</resources>
