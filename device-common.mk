@@ -78,7 +78,8 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.display.allocator-service \
     vendor.qti.hardware.display.demura-service \
     vendor.qti.hardware.display.snapalloc-impl \
-    android.hardware.graphics.mapper@4.0-impl-qti-display
+    android.hardware.graphics.mapper@4.0-impl-qti-display \
+    mapper.qti
 
 # Audio HAL support from the sm8750 caf repos (hardware/qcom-caf/sm8750/audio)
 # and the commonsys hal_adapter; module names confirmed in the synced tree.
