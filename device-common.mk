@@ -20,15 +20,16 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.m
 PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
 PRODUCT_VIRTUAL_AB_COW_VERSION := 3
 
-# Soong namespaces.
-# TODO: once the caf HAL wiring is verified on the build server, add
-# hardware/qcom-caf/common/libqti-perfd-client and the sm8750 display
-# namespace (the split core/hal/intf layout is new since the previous
-# attempt and its namespace name is unverified).
+# Soong namespaces. The sm8750 caf repos (display core/hal/intf, audio) declare
+# no soong_namespace of their own, so their modules are globally visible and
+# need no entry here (same as the OnePlus sm8750-common tree).
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH) \
     hardware/google/interfaces \
     hardware/google/pixel
+
+# QCOM caf common config (linker fragments, RFS symlinks)
+$(call inherit-product, hardware/qcom-caf/common/common.mk)
 
 # Relaxed checks for qcom blobs
 RELAX_USES_LIBRARY_CHECK := true
@@ -70,21 +71,25 @@ PRODUCT_PACKAGES += \
     android.hardware.health-V1-ndk \
     libxml2.vendor
 
-# TODO(hal): display/audio HALs from the sm8750 caf repos. Module names from
-# the previous attempt, unverified against the current seventeen manifest:
-# display: vendor.qti.hardware.display.composer-service,
-#   vendor.qti.hardware.display.allocator-service,
-#   vendor.qti.hardware.display.demura-service,
-#   vendor.qti.hardware.display.snapalloc-impl,
-#   android.hardware.graphics.mapper@4.0-impl-qti-display,
-#   android.hardware.graphics.composer3-V3-ndk.vendor,
-#   vendor.qti.hardware.display.composer3-V1-ndk.vendor,
-#   vendor.qti.hardware.display.config-V12-ndk.vendor,
-#   vendor.qti.hardware.display.aiqe-V2-ndk.vendor
-# audio: audiohalservice.qti, qtiaudiohalvendorextn
-# perf: libqti-perfd-client
-# If the stock display HAL is instead shipped as a vendor blob, the blob
-# owner's proprietary-files.txt must include it and these packages must stay out.
+# Display HALs from the sm8750 caf repos (hardware/qcom-caf/sm8750/display);
+# module names confirmed in the synced tree. The composer-service module ships
+# its own init rc and vintf fragment.
+PRODUCT_PACKAGES += \
+    vendor.qti.hardware.display.composer-service \
+    vendor.qti.hardware.display.allocator-service \
+    android.hardware.graphics.mapper@4.0-impl-qti-display
+
+# Audio HAL support from the sm8750 caf repos (hardware/qcom-caf/sm8750/audio);
+# module names confirmed in the synced tree.
+PRODUCT_PACKAGES += \
+    audioadsprpcd \
+    libqcomvoiceprocessing \
+    libvolumelistener
+
+# TODO(hal): these exist in other sm8750 trees but are not yet confirmed for
+# our manifest: vendor.qti.hardware.display.demura-service,
+# vendor.qti.hardware.display.snapalloc-impl, audiohalservice.qti,
+# qtiaudiohalvendorextn, libqti-perfd-client. Add them after verification.
 
 # Rootdir (prebuilt_etc modules in rootdir/Android.bp, see rootdir/README.md)
 PRODUCT_PACKAGES += \
