@@ -4,92 +4,77 @@ Three files, wired in `BoardConfigCommon.mk`:
 
 | file | build variable | what it is |
 | --- | --- | --- |
-| `manifest.xml` | `DEVICE_MANIFEST_FILE` | what the vendor image serves (`type="device"`, `target-level="202404"`) |
+| `manifest.xml` | `DEVICE_MANIFEST_FILE` | the HALs nothing else declares (`type="device"`, `target-level="202404"`) |
 | `compatibility_matrix.xml` | `DEVICE_MATRIX_FILE` | what the vendor image requires from the framework (empty) |
 | `framework_compatibility_matrix.xml` | `DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE` | vendor-only HALs the framework may use (`type="framework"`, all `optional="true"`) |
 
-## Why one manifest and not fragments
+## The stock fragments do most of the work
 
-The manifest is a single `manifest.xml`, not a set of `vintf_fragment` modules.
-A fragment that is not regenerated on an incremental build gets pruned from
-`vendor/etc/vintf/manifest/`, which is a failure mode the earlier bring-up hit
-(services then abort on `addService` with "-3 not declared"). One file in
-`DEVICE_MANIFEST_FILE` always lands at `/vendor/etc/vintf/manifest.xml` and is
-merged on device like any fragment.
+The blob list now ships the stock VINTF fragments: 111 entries under
+`vendor/etc/vintf/manifest/` and `system_ext/etc/vintf/manifest/`, declaring 142
+instances. On top of those, the caf modules built from source install their own
+fragments (`hardware/qcom/display` for composer, allocator, demura and
+`mapper.qti`; the audio-hal tree for `audioeffectservice_qti.xml` and
+`manifest_audio_qti_services.xml`).
 
-`libui` loads the gralloc mapper through
-`AServiceManager_openDeclaredPassthroughHal("mapper", "qti", ...)`, i.e. it asks
-servicemanager `isDeclared("mapper/qti")` and then loads `mapper.qti.so`. That is
-an ordinary manifest lookup against the merged manifest, so the mapper is
-declared here as a `format="native"` HAL with instance `qti`: no standalone
-fragment is needed for it. (The earlier tree carried a comment claiming libui
-only sees standalone fragments; the libbinder code path is
-`IServiceManager::isDeclared` → `HalManifest::hasNativeInstance`, which reads the
-merged manifest.)
-
-## Do not duplicate blob-provided fragments
-
-The blob dump already installs:
-
-* `vendor/etc/vintf/manifest/vendor.qti.qccvndhal_aidl-service.xml`
-* `system_ext/etc/vintf/manifest/vendor.qti.qccsyshal_aidl-service.xml` (type `framework`)
-
-Neither is declared here. Adding them again makes `assemble_vintf` fail on the
-duplicate.
+A second declaration of the same package/interface/instance is not merged away:
+`HalManifest::addingConflictingFqInstance` treats it as a conflict, and the
+manifest fetch then fails, which takes down HAL registration for the whole
+device. So `manifest.xml` declares only what nothing else declares.
 
 ## What is declared, and why
 
-Rule: declare every HAL whose stock service calls `addService()`: an undeclared
-AIDL HAL makes the service abort in a crash loop: and declare nothing that has
-no serving binary.
+Five HALs:
 
-The list is derived from the stock dump (service `.rc` files and
-`android.hardware.*-V<n>-ndk.so` / `vendor.*-V<n>-ndk.so` libraries in
-`proprietary-files.txt`) cross-checked with the fragments of the earlier bring-up.
-Interface versions are the versions of the shipped NDK libraries.
+* `android.hardware.gatekeeper` and `android.hardware.nfc`: stock declares them
+  in its product manifest (`vendor/etc/vintf/manifest_sun.xml` and
+  `manifest_tuna.xml`). That is a device manifest, not a fragment, it is not in
+  the blob list, and our `DEVICE_MANIFEST_FILE` takes its place.
+* `vendor.qti.hardware.spu`: same, product manifest only.
+* `android.hardware.authsecret` and `vendor.qti.hardware.sensorscalibrate`: no
+  fragment exists anywhere in the stock image, but the service binary and its
+  init script ship, so the service would abort on `addService`.
 
-Declared on purpose although the earlier tree omitted them: `sensors`,
-`thermal`, `health`, `boot`, `usb`, `usb.gadget`, `graphics.allocator`,
-`memtrack`, `weaver`, `authsecret`, `wifi.supplicant`, `vendor.qti.diaghal`, the
-`vendor.noth.hardware.*` extras (`sensor_extension`, `stability`,
-`wifi.supplicant`), `vendor.qti.hardware.{alarm,c2pa,capabilityconfigstore,fm,
-hexlp,qconfig,qspa,vpp}`, `vendor.qti.hardware.display.{color,demura}`,
-`vendor.qti.hardware.wifidisplaysession_aidl`, `vendor.qti.syshealthmon`, every
-`android.hardware.radio.*` HAL and the native `mapper`. Each of these has a
-service binary and an init `.rc` in the stock dump; interface names come from the
-stock-derived aggregate manifest of the earlier bring-up. Declaring a HAL that is
-never served costs nothing, while omitting a served one breaks it.
+`<sepolicy><version>202404</version>` matches what stock's product manifest
+declares and what FCM 202404 expects from a 202404 vendor image.
 
-Deliberately **not** declared (no serving binary in the stock dump):
+Everything else that is served (sensors, health, vibrator, composer, demura,
+the audio HALs, the radio stack, the vendor extensions) is declared by a
+fragment, so it is deliberately absent here.
 
-* `android.hardware.soundtrigger3`: lib only, no service
-* `android.hardware.vibrator`: lib + `hw/vibrator.default.so`, no service
-* `android.hardware.tetheroffload`: lib only, no service
-* `android.hardware.security.keymint` / `strongbox` instance, thales strongbox
-  only exists in the `odm/overlayfs_origin` sku overlay
-* `android.hardware.radio.ims`: no `android.hardware.radio.ims-V*-ndk.so`
-  (the shipped IMS HAL is `vendor.qti.hardware.radio.ims`)
-* `vendor.qti.hardware.ListenSoundModel`: not served (same conclusion as the
-  earlier bring-up)
+## The gralloc mapper
 
-If one of these turns out to be served after all, add it to `manifest.xml` and
-update the matrix as described below; the build will not fail either way, only the service
-registration will.
+`libui` loads the mapper through
+`AServiceManager_openDeclaredPassthroughHal("mapper", "qti", ...)`, which is
+`isDeclared("mapper/qti")` plus a load of `mapper.qti.so`. The declaration is
+`<hal format="native"><name>mapper</name><fqname>@5.0/qti</fqname></hal>`, and it
+comes from `hardware/qcom/display/gralloc/mapper.qti.xml`, installed by the caf
+module `mapper.qti` (see `device-common.mk`). It is not repeated here.
 
-## Keeping the two matrices honest
+## Verifying after a change
 
-`framework_compatibility_matrix.xml` is derived from `manifest.xml`: every
+Two checks, in order:
+
+1. `reconcile_fragments.py` reads the vintf paths from `proprietary-files.txt`,
+   parses those fragments plus the caf-built ones out of the stock dump, and
+   fails when an instance is declared twice or when a served HAL is declared
+   nowhere. It printed zero duplicates for the current file.
+2. `check_vintf_compat.py` checks every declared instance against FCM 202404
+   merged with `framework_compatibility_matrix.xml`, which is the direction
+   `assemble_vintf` enforces at build time.
+
+`framework_compatibility_matrix.xml` is derived from `manifest.xml`: each
 declared HAL whose name does not start with `android.` gets an `optional="true"`
-entry (FCM 202404 already covers `android.hardware.*`). When editing
-`manifest.xml`, update the matrix to match. Every declared instance must be
-covered by FCM 202404 or by the device framework matrix (the direction
-`assemble_vintf` enforces at build time), and no two declarations may share a
-package/interface/instance.
+entry (FCM 202404 covers `android.hardware.*`). Edit `manifest.xml` first, then
+regenerate the matrix to match.
 
-Known follow-ups for the first boot test:
+Both scripts are kept with the team artifacts, outside this repository.
 
-* `vendor/etc/vintf/manifest/` may still gain a vendor-provided
-  `android.hardware.graphics.mapper` declaration from a future blob refresh; the
-  duplicate would then have to be dropped here.
-* Stock may additionally declare HIDL HALs (display composer, wfd) from
-  fragments that the pruned dump no longer contains. None are declared yet.
+## Known follow-ups
+
+* `android.hardware.soundtrigger3`, `android.hardware.tetheroffload` and the
+  keymint strongbox instance (`odm/overlayfs_origin` sku overlay) have
+  fragments in the stock image but no service on this product; if one starts
+  registering, the fragment already declares it.
+* If a future blob refresh starts shipping a fragment for one of the five HALs
+  above, drop that HAL here.
