@@ -498,4 +498,95 @@
         <name>vendor.qti.ims.uceaidlservice</name>
         <fqname>IUceService/default</fqname>
     </hal>
+
+    <!--
+        Additional vendor HALs that ship a service binary and an init .rc in the
+        stock dump (so they call addService() and abort if undeclared), but were
+        not in the earlier bring-up's per-service fragment list. Interface names
+        come from the stock-derived aggregate manifest the earlier bring-up kept
+        (configs/hidl/manifest_qti_hals.xml).
+    -->
+    <hal format="aidl">
+        <name>vendor.noth.hardware.sensor.sensor_extension</name>
+        <version>1</version>
+        <fqname>ISensorExtension/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.noth.hardware.stability</name>
+        <version>1</version>
+        <fqname>IStability/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.noth.hardware.wifi.supplicant</name>
+        <version>1</version>
+        <fqname>INtSupplicant/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.diaghal</name>
+        <version>1</version>
+        <fqname>IDiag/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.alarm</name>
+        <version>1</version>
+        <fqname>IAlarm/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.c2pa</name>
+        <version>1</version>
+        <fqname>IC2PA/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.capabilityconfigstore</name>
+        <version>1</version>
+        <fqname>ICapabilityConfigStore/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.display.color</name>
+        <version>1</version>
+        <fqname>IDisplayColor/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.display.demura</name>
+        <version>1</version>
+        <fqname>IDemuraFileFinder/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.fm</name>
+        <version>1</version>
+        <fqname>IFmHci/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.hexlp</name>
+        <version>1</version>
+        <fqname>IHexlpService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.qconfig</name>
+        <version>1</version>
+        <fqname>IQConfig/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.qspa</name>
+        <version>1</version>
+        <fqname>IQspa/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.vpp</name>
+        <version>1</version>
+        <fqname>IVppService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.wifidisplaysession_aidl</name>
+        <version>1</version>
+        <fqname>IWifiDisplaySession/default</fqname>
+        <fqname>IWifiDisplaySessionAudioTrack/default</fqname>
+        <fqname>IWifiDisplaySessionImageTrack/default</fqname>
+        <fqname>IWifiDisplaySessionVideoTrack/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.syshealthmon</name>
+        <version>1</version>
+        <fqname>ISysHealthMon/default</fqname>
+    </hal>
 </manifest>

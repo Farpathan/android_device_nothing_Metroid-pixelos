@@ -50,10 +50,15 @@ Interface versions are the versions of the shipped NDK libraries.
 
 Declared on purpose although the earlier tree omitted them: `sensors`,
 `thermal`, `health`, `boot`, `usb`, `usb.gadget`, `graphics.allocator`,
-`memtrack`, `weaver`, `authsecret`, `wifi.supplicant`, every
-`android.hardware.radio.*` HAL and the native `mapper`. Stock ships a service for
-each; declaring a HAL that is never served costs nothing, while omitting a served
-one breaks it.
+`memtrack`, `weaver`, `authsecret`, `wifi.supplicant`, `vendor.qti.diaghal`, the
+`vendor.noth.hardware.*` extras (`sensor_extension`, `stability`,
+`wifi.supplicant`), `vendor.qti.hardware.{alarm,c2pa,capabilityconfigstore,fm,
+hexlp,qconfig,qspa,vpp}`, `vendor.qti.hardware.display.{color,demura}`,
+`vendor.qti.hardware.wifidisplaysession_aidl`, `vendor.qti.syshealthmon`, every
+`android.hardware.radio.*` HAL and the native `mapper`. Each of these has a
+service binary and an init `.rc` in the stock dump; interface names come from the
+stock-derived aggregate manifest of the earlier bring-up. Declaring a HAL that is
+never served costs nothing, while omitting a served one breaks it.
 
 Deliberately **not** declared (no serving binary in the stock dump):
 

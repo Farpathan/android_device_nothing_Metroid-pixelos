@@ -12,8 +12,7 @@
     android.hardware.* entries are intentionally absent: FCM 202404 already covers
     them, and duplicating them here would only drift.
 
-    GENERATED from vintf/manifest.xml: keep the two files in sync by hand or by
-    re-running the generator described in vintf/README.md.
+    GENERATED from vintf/manifest.xml. Edit that file, not this one.
 -->
 <compatibility-matrix version="1.0" type="framework">
     <hal format="aidl" optional="true">
@@ -423,6 +422,162 @@
         <name>vendor.qti.ims.uceaidlservice</name>
         <interface>
             <name>IUceService</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.noth.hardware.sensor.sensor_extension</name>
+        <version>1</version>
+        <interface>
+            <name>ISensorExtension</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.noth.hardware.stability</name>
+        <version>1</version>
+        <interface>
+            <name>IStability</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.noth.hardware.wifi.supplicant</name>
+        <version>1</version>
+        <interface>
+            <name>INtSupplicant</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.diaghal</name>
+        <version>1</version>
+        <interface>
+            <name>IDiag</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.alarm</name>
+        <version>1</version>
+        <interface>
+            <name>IAlarm</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.c2pa</name>
+        <version>1</version>
+        <interface>
+            <name>IC2PA</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.capabilityconfigstore</name>
+        <version>1</version>
+        <interface>
+            <name>ICapabilityConfigStore</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.display.color</name>
+        <version>1</version>
+        <interface>
+            <name>IDisplayColor</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.display.demura</name>
+        <version>1</version>
+        <interface>
+            <name>IDemuraFileFinder</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.fm</name>
+        <version>1</version>
+        <interface>
+            <name>IFmHci</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.hexlp</name>
+        <version>1</version>
+        <interface>
+            <name>IHexlpService</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.qconfig</name>
+        <version>1</version>
+        <interface>
+            <name>IQConfig</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.qspa</name>
+        <version>1</version>
+        <interface>
+            <name>IQspa</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.vpp</name>
+        <version>1</version>
+        <interface>
+            <name>IVppService</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.hardware.wifidisplaysession_aidl</name>
+        <version>1</version>
+        <interface>
+            <name>IWifiDisplaySession</name>
+            <instance>default</instance>
+        </interface>
+        <interface>
+            <name>IWifiDisplaySessionAudioTrack</name>
+            <instance>default</instance>
+        </interface>
+        <interface>
+            <name>IWifiDisplaySessionImageTrack</name>
+            <instance>default</instance>
+        </interface>
+        <interface>
+            <name>IWifiDisplaySessionVideoTrack</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <hal format="aidl" optional="true">
+        <name>vendor.qti.syshealthmon</name>
+        <version>1</version>
+        <interface>
+            <name>ISysHealthMon</name>
             <instance>default</instance>
         </interface>
     </hal>
