@@ -78,21 +78,27 @@ BOARD_RAMDISK_OFFSET := 0x01000000
 BOARD_TAGS_OFFSET := 0x00000100
 BOARD_DTB_OFFSET := 0x01f00000
 
-# Kernel cmdline: kept as shipped by stock (TODO: re-verify against the stock
-# boot.img/vendor_boot.img once they are dumped on the build server)
-BOARD_KERNEL_CMDLINE := video=vfb:640x400,bpp=32,memsize=3072000 qcom_geni_serial.con_enabled=0 console=ttynull bootopt=64S3,32N2,64N2 erofs.reserved_pages=64 nosoftlockup log_buf_len=1M ignore_loglevel printk.devkmsg=on androidboot.load_modules_parallel=false
+# Kernel cmdline (boot.img header). bootopt/erofs.reserved_pages come from the
+# previous attempt's live-device extraction; TODO: re-verify against the stock
+# boot.img header once it is dumped.
+BOARD_KERNEL_CMDLINE := video=vfb:640x400,bpp=32,memsize=3072000 qcom_geni_serial.con_enabled=0 console=ttynull bootopt=64S3,32N2,64N2 erofs.reserved_pages=64 nosoftlockup log_buf_len=1M ignore_loglevel printk.devkmsg=on
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+
+# Vendor cmdline for vendor_boot, verbatim from the stock
+# vendor_boot.mkbootimg-args (minus the trailing "bootconfig" token, which
+# mkbootimg re-appends because BOARD_BOOTCONFIG is set).
+BOARD_VENDOR_CMDLINE := video=vfb:640x400,bpp=32,memsize=3072000 qcom_geni_serial.con_enabled=0 nosoftlockup console=ttynull qcom_geni_serial.con_enabled=0 log_buf_len=1M ignore_loglevel printk.devkmsg=on
 
 BOARD_KERNEL_IMAGE_NAME := kernel
 
-# Bootconfig (takes precedence over the cmdline; from the previous attempt,
-# TODO: re-verify against stock vendor_boot). selinux=permissive until the
-# device sepolicy is validated, then switch to enforcing.
+# Bootconfig (takes precedence over the cmdline), from the stock bootconfig.
+# selinux=permissive until the device sepolicy is validated, then drop the line
+# (stock ships no androidboot.selinux entry and boots enforcing).
 BOARD_BOOTCONFIG := \
     androidboot.hardware=qcom \
     androidboot.memcg=1 \
     androidboot.usbcontroller=a600000.dwc3 \
-    androidboot.load_modules_parallel=false \
+    androidboot.load_modules_parallel=true \
     androidboot.hypervisor.protected_vm.supported=true \
     androidboot.vendor.qspa=true \
     androidboot.serialconsole=0 \
@@ -116,22 +122,16 @@ BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_INIT_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
 
-# Kernel modules in the vendor_boot ramdisk (first stage + recovery).
-# Canonical source: the stock vendor_boot.img, extracted by the blob owner into
-# vendor/nothing/Metroid/proprietary/vendor_boot/lib/modules/ (TODO(blobs): the
-# full 131-module set + modules.load). Until then, fall back to the recovery
-# subset kept in prebuilt/vendor_boot-modules/ so the recovery image works.
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES := \
-    $(wildcard vendor/nothing/Metroid/proprietary/vendor_boot/lib/modules/*.ko)
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := \
-    $(shell cat vendor/nothing/Metroid/proprietary/vendor_boot/lib/modules/modules.load 2>/dev/null)
-BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := \
-    $(shell cat vendor/nothing/Metroid/proprietary/vendor_boot/lib/modules/modules.load.recovery 2>/dev/null)
-ifeq ($(strip $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES)),)
+# Kernel modules in the vendor_boot ramdisk (first stage + recovery): the full
+# stock vendor_boot module set (341 modules + modules.load, modules.load.recovery
+# and modules.blocklist), extracted from the stock vendor_boot.img. The build
+# only packs the .ko files, modules.load and modules.blocklist into the
+# ramdisk; modules.dep/modules.softdep/modules.alias stay in prebuilt/ for
+# reference (matching what other GKI device trees ship).
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(wildcard $(DEVICE_PATH)/prebuilt/vendor_boot-modules/*.ko)
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(shell cat $(DEVICE_PATH)/prebuilt/vendor_boot-modules/modules.load 2>/dev/null)
 BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(shell cat $(DEVICE_PATH)/prebuilt/vendor_boot-modules/modules.load.recovery 2>/dev/null)
-endif
+BOARD_VENDOR_RAMDISK_KERNEL_MODULES_BLOCKLIST_FILE := $(DEVICE_PATH)/prebuilt/vendor_boot-modules/modules.blocklist
 
 # Dynamic partitions (sizes from fastboot, 2026-10-27)
 BOARD_SUPER_PARTITION_SIZE := 9126805504

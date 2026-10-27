@@ -1,21 +1,27 @@
 # Prebuilts
 
 All binaries in this directory come from the stock Nothing firmware for the
-Nothing Phone (3) (`A024`), matching bootloader `00265-PAKALA-1`, baseband
-`PAKALA_GEN_PACK-1.170946.5.187470.2`. They are used as-is by the ROM build;
-there is no kernel source build.
+Nothing Phone (3) (`A024`), package `C5.0-260924-2115`, matching bootloader
+`00265-PAKALA-1` and baseband `PAKALA_GEN_PACK-1.170946.5.187470.2`. They are
+used as-is by the ROM build; there is no kernel source build.
 
 | File | Origin | Notes |
 | :--- | :--- | :--- |
 | `kernel` | stock `boot.img` | GKI 6.6 Image (arm64, 4K pages). Referenced by `TARGET_PREBUILT_KERNEL`. |
 | `kernel-headers.tar.gz` | QTI UAPI headers | For the caf HALs; wired via `TARGET_PREBUILT_KERNEL_HEADERS`. `vendor/lineage/build` must support the gzip tarball (see `patches/README.md` notes from the previous attempt). |
-| `vendor_boot-modules/` | stock `vendor_boot.img` | **Recovery subset** (29 modules + `modules.load`, `modules.load.recovery`): touch, haptics, charger, glink. Stopgap until the vendor repo carries the full 131-module stock set under `vendor/nothing/Metroid/proprietary/vendor_boot/lib/modules/`. |
-| `dtb.img` | stock `boot.img`/`vendor_boot.img` | **TODO: add on the build server** (referenced by `TARGET_PREBUILT_DTB`; the build fails without it). |
-| `dtbo.img` | stock `dtbo` partition | **TODO: add on the build server** (referenced by `BOARD_PREBUILT_DTBOIMAGE`; the build fails without it). |
+| `dtb.img` | stock `boot/vendor_boot` dtb | The stock device tree blob, appended to the boot image (`TARGET_PREBUILT_DTB` + `BOARD_INCLUDE_DTB_IN_BOOTIMG`). |
+| `dtbo.img` | stock `dtbo` partition | Overlay DTBO image (`BOARD_PREBUILT_DTBOIMAGE`), 48 MiB, matches `BOARD_DTBOIMG_PARTITION_SIZE`. |
+| `vendor_boot-modules/` | stock `vendor_boot.img` | The **full** stock vendor_boot module set: 341 `.ko` plus `modules.load`, `modules.load.recovery`, `modules.blocklist`, `modules.dep`, `modules.softdep`, `modules.alias`. |
 
 ## Kernel modules
 
-`BOARD_VENDOR_RAMDISK_KERNEL_MODULES(_LOAD)` first looks in
-`vendor/nothing/Metroid/proprietary/vendor_boot/lib/modules/` and falls back to
-`vendor_boot-modules/` here. Once the full stock set is extracted into the
-vendor repo, the fallback subset can be dropped.
+`BOARD_VENDOR_RAMDISK_KERNEL_MODULES(_LOAD)` and
+`BOARD_VENDOR_RAMDISK_KERNEL_MODULES_BLOCKLIST_FILE` point at
+`vendor_boot-modules/` (see BoardConfigCommon.mk). The build packs the `.ko`
+files, `modules.load` and `modules.blocklist` into the vendor_boot ramdisk;
+`modules.dep`, `modules.softdep` and `modules.alias` are kept here for
+reference only, matching what other GKI device trees ship.
+
+`modules.load` (122 entries) is the first-stage load order and includes the
+UFS phy, pinctrl and clock modules first stage needs to mount `/system`.
+`modules.load.recovery` (344 entries) is the recovery load order.
