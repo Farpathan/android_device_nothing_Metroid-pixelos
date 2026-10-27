@@ -9,6 +9,9 @@ DEVICE_PATH := device/nothing/Metroid
 # Enable project quotas and casefolding for emulated storage without sdcardfs
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
+# GSI AVB keys, moved into vendor_boot by BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT
+$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
+
 # Dynamic partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
@@ -93,7 +96,6 @@ PRODUCT_PACKAGES += \
     init.nt_product.rc \
     init.qcom.factory.rc \
     ueventd.qcom.rc \
-    ueventd.rc \
     charger_fw_fstab.qti
 
 # Runtime resource overlays (see overlay/README.md)
