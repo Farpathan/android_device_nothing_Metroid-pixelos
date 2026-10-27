@@ -8,7 +8,7 @@ used as-is by the ROM build; there is no kernel source build.
 | File | Origin | Notes |
 | :--- | :--- | :--- |
 | `kernel` | stock `boot.img` | GKI 6.6 Image (arm64, 4K pages). Referenced by `TARGET_PREBUILT_KERNEL`. |
-| `kernel-headers.tar.gz` | QTI UAPI headers | For the caf HALs; wired via `TARGET_PREBUILT_KERNEL_HEADERS`. `vendor/lineage/build` must support the gzip tarball (see `patches/README.md` notes from the previous attempt). |
+| `kernel-headers.tar.gz` | QTI UAPI headers | For the caf HALs; `kernel-headers/Makefile` unpacks it as the `headers_install` step of `TARGET_KERNEL_SOURCE`. |
 | `dtb/stock.dtb` | stock `vendor_boot` dtb | The stock device tree blob, the only file in `BOARD_PREBUILT_DTBIMAGE_DIR`, so the built `dtb.img` matches stock byte for byte. |
 | `dtbo.img` | stock `dtbo` partition | Overlay DTBO image (`BOARD_PREBUILT_DTBOIMAGE`), 48 MiB, matches `BOARD_DTBOIMG_PARTITION_SIZE`. |
 | `vendor_boot-modules/` | stock `vendor_boot.img` | The **full** stock vendor_boot module set: 341 `.ko` plus `modules.load`, `modules.load.recovery`, `modules.blocklist`, `modules.dep`, `modules.softdep`, `modules.alias`. |

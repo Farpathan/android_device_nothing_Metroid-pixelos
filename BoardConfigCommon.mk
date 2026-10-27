@@ -109,9 +109,11 @@ BOARD_BOOTCONFIG := \
 TARGET_KERNEL_VERSION := 6.6
 TARGET_FORCE_PREBUILT_KERNEL := true
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
-# QTI UAPI headers for the caf HALs (vendor/lineage/build must handle the
-# gzip tarball, see patches/README notes from the previous attempt)
-TARGET_PREBUILT_KERNEL_HEADERS := $(DEVICE_PATH)/prebuilt/kernel-headers.tar.gz
+# QTI UAPI headers for the caf HALs: kernel-headers/ is a stand-in source whose
+# headers_install unpacks prebuilt/kernel-headers.tar.gz. The config is only
+# checked for being set; the prebuilt kernel is still forced.
+TARGET_KERNEL_SOURCE := $(DEVICE_PATH)/kernel-headers
+TARGET_KERNEL_CONFIG := metroid_defconfig
 
 # DTB/DTBO: prebuilts from the stock firmware (see prebuilt/README.md).
 # dtb.img is the *.dtb files in BOARD_PREBUILT_DTBIMAGE_DIR joined in order.
