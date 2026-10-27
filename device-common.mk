@@ -10,7 +10,7 @@ DEVICE_PATH := device/nothing/Metroid
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 # GSI AVB keys, moved into vendor_boot by BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT
-$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
 
 # Dynamic partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
