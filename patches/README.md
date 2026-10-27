@@ -1,8 +1,24 @@
 # Patches
 
-These patches come from the OrangeFox recovery tree and are for **recovery
-builds only** (TWRP/OrangeFox). They are **not** applied by the PixelOS ROM
-build; `vendorsetup.sh` used to apply them automatically, but it is gone.
+## ROM build
+
+`rom/<project path>/*.patch` are applied to the PixelOS tree before a build:
+
+```bash
+device/nothing/Metroid/patches/apply.sh
+```
+
+Run it from the top of the tree. Patches already applied are skipped.
+
+| Patch | Target | Purpose |
+| :--- | :--- | :--- |
+| `rom/hardware/qcom-caf/sm8750/audio/pal/0001-Fix-format-specifiers-in-log-calls.patch` | `hardware/qcom-caf/sm8750/audio/pal` | log format strings that fail `-Werror,-Wformat` with the Android 17 clang |
+
+## Recovery
+
+The `recovery/` patches come from the OrangeFox recovery tree and are for
+**recovery builds only** (TWRP/OrangeFox). `apply.sh` does not touch them;
+`vendorsetup.sh` used to apply them automatically, but it is gone.
 
 | Patch | Target | Purpose |
 | :--- | :--- | :--- |

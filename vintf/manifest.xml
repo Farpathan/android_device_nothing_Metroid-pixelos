@@ -21,8 +21,8 @@
     not be repeated here. The check used to confirm that is described in
     README.md.
 
-    The sepolicy version is what stock's product manifest declares and what the
-    FCM 202404 matrix expects from a 202404 vendor image.
+    The sepolicy version is left to assemble_vintf (BOARD_SEPOLICY_VERS), since
+    the vendor policy is built from source.
 -->
 <manifest version="1.0" type="device" target-level="202404">
 
@@ -52,7 +52,4 @@
         <fqname>ISPUManager/default</fqname>
     </hal>
 
-    <sepolicy>
-        <version>202404</version>
-    </sepolicy>
 </manifest>
