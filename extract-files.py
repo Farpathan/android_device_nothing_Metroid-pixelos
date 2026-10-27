@@ -20,6 +20,7 @@ from extract_utils.fixups_blob import (
     blob_fixups_user_type,
 )
 from extract_utils.fixups_lib import (
+    lib_fixup_remove,
     lib_fixups,
     lib_fixups_user_type,
 )
@@ -29,24 +30,25 @@ from extract_utils.main import (
 )
 
 
-def lib_fixup_vendor_suffix(lib: str, partition: str, *args, **kwargs):
-    return f'{lib}_{partition}' if partition == 'vendor' else None
-
-
 lib_fixups: lib_fixups_user_type = {
     **lib_fixups,
-    # QCC has system_ext and vendor copies under the same SONAME; suffix the
-    # vendor modules so both can live in one Android.bp.
+    # Blobs that pin older AIDL versions than the source libraries next to them;
+    # Soong rejects mixed versions, so these are installed through PRODUCT_PACKAGES.
     (
-        'vendor.qti.qccsyshal_aidl-V1-ndk',
-        'vendor.qti.qccvndhal_aidl-V1-ndk',
-    ): lib_fixup_vendor_suffix,
+        'android.hardware.audio.core-V2-ndk',
+        'android.hardware.bluetooth.audio-V4-ndk',
+        'android.hardware.graphics.allocator-V1-ndk',
+        'android.hardware.graphics.common-V5-ndk',
+        'android.media.audio.common.types-V3-ndk',
+    ): lib_fixup_remove,
 }
 
 namespace_imports = [
     'device/nothing/Metroid',
+    'hardware/qcom-caf/common/libqti-perfd-client',
     'hardware/qcom-caf/sm8750',
     'hardware/qcom-caf/wlan',
+    'hardware/qcom-caf/wlan/qcwcn',
     'vendor/qcom/opensource/commonsys/display',
     'vendor/qcom/opensource/commonsys-intf/display',
     'vendor/qcom/opensource/dataservices',
