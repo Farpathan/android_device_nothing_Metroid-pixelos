@@ -1,22 +1,13 @@
 # Proprietary blobs for the Nothing Phone (3) (Metroid).
 #
 # Format: extract-utils proprietary-files.txt.
-#   path[;flags][:dst]|sha1[|sha1...]   pin hashes when known
-#   -path                                remove a file
+#   path[;flags][:dst]|sha1   pinned to the stock file
+#   -path                     remove this stock file after extraction
 #
-# Built from the stock package for the device firmware
-# (bootloader PAKALA-1.00265, baseband PAKALA_GEN_PACK-1.170946.5.187470.2),
-# starting from the blob list of the earlier attempt (Nothing OS
-# C5.0-260924-2115 hashes) and re-checked against the reference dump.
+# Stock package: Nothing OS C5.0-260924-2115.
+# Every entry exists in that dump and carries its SHA-1.
 #
-# The reference dump (vendor/nothing/Metroid/proprietary in the old tree)
-# is PARTIAL: it has system_ext, product, odm, system/framework and the
-# vendor bin/etc/apex subset, but no vendor/lib64 and no firmware. Entries
-# whose file is not in that dump are collected in the section
-# "Missing from current dump" at the end of this file and must be verified
-# against full stock firmware before an extraction run.
-#
-# Not extracted: files installed by the device tree rootdir/ instead
+# Not extracted, installed by the device tree rootdir/ instead:
 #   vendor/etc/charger_fw_fstab.qti
 #   vendor/etc/fstab.qcom
 #   vendor/etc/init/hw/init.nt_product.rc
@@ -24,50 +15,62 @@
 #   vendor/etc/init/hw/init.qcom.rc
 #   vendor/etc/init/hw/init.target.rc
 #   vendor/etc/ueventd.rc
-#
-# Not extracted: built from source by AOSP/PixelOS or the CAF trees
+# Not extracted, created as symlinks by the device tree Android.bp:
+#   vendor/bt_firmware/.mountpoint
+#   vendor/dsp/.mountpoint
+#   vendor/firmware/wlan/qca_cld/wcn7750/WCNSS_qcom_cfg.ini
+#   vendor/firmware/wlan/qca_cld/wcn7750/wlan_mac.bin
+#   vendor/firmware/wlanmdsp.otaupdate
+#   vendor/firmware_mnt/.mountpoint
+# Not extracted, provided by the build or the device tree:
 #   system_ext/apex/com.android.compos.apex
 #   system_ext/apex/com.android.vndk.v34.apex
 #   vendor/apex/com.android.hardware.cas.apex
-#
-# Not extracted: 36 entries the earlier attempt verified absent on
-# stock C5.0-260924-2115 (kept here for reference, commented out):
-#   system_ext/etc/default-permissions/default-permissions-com.quicinc.voice.activation.xml
-#   system_ext/etc/permissions/appfunctions.extension.xml
-#   system_ext/etc/permissions/privapp-permissions-com.quicinc.voice.activation.xml
-#   system_ext/app/QtiTelephonyService/QtiTelephonyService.apk;PRESIGNED
-#   product/app/datastatusnotification/datastatusnotification.apk;PRESIGNED
-#   system_ext/etc/sysconfig/odm-initial-package-stopped-states.xml
-#   system_ext/etc/wmshell.protolog.json.gz
-#   system_ext/framework/com.android.extensions.appfunctions.jar
-#   system_ext/framework/com.android.extensions.appfunctions.jar.fsv_meta
-#   system_ext/lib64/android.hardware.radio@1.5.so
-#   system_ext/lib64/android.hardware.radio@1.6.so
-#   system_ext/lib64/android.hidl.base@1.0.so
-#   system_ext/lib64/libimscamera_jni.so
-#   system_ext/lib64/libjpegdecoder_ext.so
-#   system_ext/lib64/libjpegencoder_ext.so
-#   system_ext/lib64/libminksocket_system.so
-#   vendor/bin/diagcommd
-#   vendor/bin/hw/vendor.qti.hardware.secureprocessor
-#   vendor/bin/hw/vendor.qti.hardware.sensorscalibrate-service
-#   vendor/etc/init/diagcommd.rc
-#   vendor/etc/init/vendor.qti.hardware.secureprocessor.rc
-#   vendor/etc/init/vendor.qti.hardware.sensorscalibrate-service.rc
-#   vendor/etc/sar/sarconfig.json
-#   vendor/etc/sensors/config/qrd_icm536xx_0.json
-#   vendor/etc/sensors/config/qrd_och191x_0.json
-#   vendor/etc/sensors/config/qrd_ois_manager.json
-#   vendor/etc/sensors/config/qrd_stk6b1x_0.json
-#   vendor/lib64/libffavc.so
-#   vendor/lib64/librender_lib.so
-#   vendor/lib64/libstmobile_effect.so
-#   vendor/lib64/vendor.qti.hardware.secureprocessor.common-V1-ndk.so
-#   vendor/lib64/vendor.qti.hardware.secureprocessor.common-helper.so
-#   vendor/lib64/vendor.qti.hardware.secureprocessor.config-V1-ndk.so
-#   vendor/lib64/vendor.qti.hardware.secureprocessor.device-V1-ndk.so
-#   vendor/lib64/vendor.qti.hardware.sensorscalibrate-V1-ndk.so
-#   vendor/product/media/audio/notifications/01_oi.ogg
+#   vendor/etc/vintf/compatibility_matrix.xml
+#   vendor/etc/vintf/manifest_kera.xml
+#   vendor/etc/vintf/manifest_sun.xml
+#   vendor/etc/vintf/manifest_tuna.xml
+# Not extracted, built from hardware/qcom-caf/sm8750 (display and audio):
+#   system_ext/lib64/libaudiohalvendorextn.so
+#   vendor/bin/audioadsprpcd
+#   vendor/bin/hw/audiohalservice.qti
+#   vendor/bin/hw/vendor.qti.hardware.display.allocator-service
+#   vendor/bin/hw/vendor.qti.hardware.display.composer-service
+#   vendor/bin/hw/vendor.qti.hardware.display.demura-service
+#   vendor/etc/init/audiohalservice_qti.rc
+#   vendor/etc/init/vendor.qti.hardware.display.allocator-service.rc
+#   vendor/etc/init/vendor.qti.hardware.display.composer-service.rc
+#   vendor/etc/init/vendor.qti.hardware.display.demura-service.rc
+#   vendor/etc/vintf/manifest/audioeffectservice_qti.xml
+#   vendor/etc/vintf/manifest/manifest_audio_qti_services.xml
+#   vendor/etc/vintf/manifest/manifest_audiocorehal_default.xml
+#   vendor/etc/vintf/manifest/mapper.qti.xml
+#   vendor/etc/vintf/manifest/vendor.qti.hardware.display.allocator-service.xml
+#   vendor/etc/vintf/manifest/vendor.qti.hardware.display.composer-service3_v3.xml
+#   vendor/etc/vintf/manifest/vendor.qti.hardware.display.demura-service.xml
+#   vendor/lib64/hw/android.hardware.graphics.mapper@4.0-impl-qti-display.so
+#   vendor/lib64/libaudiohalvendorextn.so
+#   vendor/lib64/libqti-perfd-client.so
+#   vendor/lib64/soundfx/libqcomvoiceprocessing.so
+#   vendor/lib64/soundfx/libvolumelistener.so
+#   vendor/lib64/vendor.qti.hardware.display.snapalloc-impl.so
+# Not extracted, built by the ROM as an AOSP tool:
+#   vendor/bin/checkpoint_gc
+#   vendor/bin/dumpsys
+#   vendor/bin/hw/android.hardware.boot-service.qti
+#   vendor/bin/logwrapper
+#   vendor/bin/sg_write_buffer
+#   vendor/bin/sh
+#   vendor/bin/toolbox
+#   vendor/bin/toybox_vendor
+#   vendor/bin/vndservicemanager
+# Not extracted, ROM-owned or symlink-only trees:
+#   vendor/etc/selinux/, vendor/rfs/*, vendor/firmware/wlan/*, vendor app oat/
+# Not extracted, generated by the build:
+#   <partition>/build.prop, <partition>/etc/{fs_config_dirs,fs_config_files,
+#   group,passwd,NOTICE.xml.gz}, system_ext/etc/build_flags.json
+# Not extracted, stock keeps them as symlinks (the ones the device needs are
+# recreated by the device tree; 188 toybox links point at vendor/bin/toybox_vendor).
 
 
 # --- ODM ---
@@ -87,9 +90,14 @@ odm/etc/sysconfig/sku_TUR/qsb_widget.xml|4829b01cabac02c4849ef5bf65013cc56fe4f32
 odm/etc/sysconfig/sku_TUR/tmada.xml|ad3c13c3f14a90a6bdb3714cfa54871b196e5ec5
 odm/overlayfs_origin/vendor/etc/init/android.hardware.security.keymint-service.strongbox-thales.rc|f13d6f819f62a3dcf7b9adcf1cee05ddb51d2652
 odm/overlayfs_origin/vendor/etc/init/android.hardware.weaver-service.thales.rc|e8a85e24047344967ed6d2e92dc6fc3db7e894d7
-
-# --- System ---
-system/framework/nt-telephony-interface.jar|347b944f711eaaf8bb00f428789b4d37414d5f33
+odm/etc/permissions/android.hardware.telephony.euicc.xml|9555984819fa144b52475d6d5f5c3b5ac0739bfb
+odm/etc/permissions/sku_JPN/android.hardware.strongbox_keystore.xml|3a4f9ca90894f584322fdea470d54341b6dd7614
+odm/etc/ueventd.rc|ac8aed293cc40025b3ab11930f3e92d542da0eea
+odm/etc/vintf/manifest_JPN.xml|e7ca5037ad583f8034708aa46d0326cd15bdd191
+odm/overlayfs_origin/vendor/etc/init/android.hardware.thales.ST54L.rc|02417901ff8f5bb7520e920fcb72be5d926f5507
+odm/overlayfs_origin/vendor/etc/vintf/manifest/android.hardware.security.keymint-service.strongbox-thales.xml|3cff9ba06e3fa4b4320b95a4cbe18a81f1e0c3ee
+odm/overlayfs_origin/vendor/etc/vintf/manifest/android.hardware.security.sharedsecret-service.strongbox-thales.xml|f5a06a4795e350da01953b735e8a010e6b462801
+odm/overlayfs_origin/vendor/etc/vintf/manifest/android.hardware.weaver-service.thales.xml|cfb32da5ffafcd4e1717a1983c4ed5dffd3e8ae7
 
 # --- Product ---
 product/priv-app/EuiccGoogle/EuiccGoogle.apk;PRESIGNED|bcd1179af6dffd9693a4eaaa2e12c13e09de6794
@@ -99,11 +107,37 @@ product/lib64/libjni_aidl_service.so|27e181abcf11da77168b93f4fdb3dee8505c18aa
 # --- system_ext: binaries ---
 system_ext/bin/sltntc|b48ecfcc88e5f5c46e701384582df8341c71b898
 system_ext/bin/qccsyshal_aidl-service|3dfb500092aeb765caa4e7a8b30b153abbe0aba6
+system_ext/bin/dpmd|0661c3a83736ded6452b8d09d1a26850b183fe68
+system_ext/bin/frameworks_utils_service.sh|cfb4928c6386a4152a065601b184a70d3746bc94
+system_ext/bin/hw/android.hidl.allocator@1.0-service|f05df61487c30e370a9d82f55176952901bf783a
+system_ext/bin/hwservicemanager|7cc366dc6227aebaffee1410a6a2f7971f589bde
+system_ext/bin/imsvtdaemon|b247a1f1103d610be3416e86f1caff1511ce5990
+system_ext/bin/loc_sys_service|13e2749af3f550a974b973c96adabe99ed69c6b5
+system_ext/bin/nt_bpf|feb4eccec7fc579f9847f0e4289805a18e1e9455
+system_ext/bin/nt_core_log|01c6593d9eca9f1619253c0d1476a627b94ea2ed
+system_ext/bin/nt_get_node_prop.sh|7b1eb0a742de0eddc1911f9227f343b4a8a9de6d
+system_ext/bin/nt_id_recorder|7565f05f7ad7fcab9d9b2a6a3b66529dc9f5fccc
+system_ext/bin/nt_key_monitor|83f957b229873ef357fadfb4e832915ccc6e197b
+system_ext/bin/nt_logkit|cbd70ca929ee982b3d516992f1376c4ad5ff1bd7
+system_ext/bin/nt_ota_notifier|ec6065d26057aa4913ac26e4173e6710032426a1
+system_ext/bin/nt_smartGC3|b710290b9cb5255ebe23311d89c66cbd84c7dc8a
+system_ext/bin/nt_tzdbg_recorder|2f7ce1afbe49f0432e68d2854b998ee5772761ca
+system_ext/bin/nt_xsl_parser|5913fc8862afffd7a40ccb60e7e07e750a09d667
+system_ext/bin/perfservice|0717e29e245a0e76eb0413b10b74ef268a867331
+system_ext/bin/qccsyshal@1.2-service|3ca5cbe86d8b997781cf8fe2a17af1a0ba68f8cf
+system_ext/bin/qsguard|8fffcd299a12bbcddb306ebbcf706304128dcaec
+system_ext/bin/qspmsvc|06ece9ffb11fd9b7fb8db1df1f3b587b3664de90
+system_ext/bin/sigma_miracasthalservice64|ca27efe5ba53b8f5e30a62670ebdd6eca3025171
+system_ext/bin/sigma_miracasthalservice_aidl|281a9b5c1121df3cd82aef41421be5877b4079a3
+system_ext/bin/system_perfetto|171e526aa25f5fe8a8c737fb3cd6a8ec66a2c975
+system_ext/bin/tcmd|29c6c1ac9e2f8497586d5f6a64c7b05540448bf7
+system_ext/bin/wfdservice64|6b738758fe3d21d6d53d3fb522e1321b54592fa9
 
 # --- system_ext: apps ---
 system_ext/priv-app/QtiTelephony/QtiTelephony.apk;PRESIGNED;REQUIRED=QtiTelephonyCompat|86a43c9f88590a31942bcd3bf4323227db1ae324
 system_ext/priv-app/ims/ims.apk;PRESIGNED;REQUIRED=QtiTelephonyCompat|e06fc7f6fa8b7cca30a6d0ce1bfa7d045055ead5
 system_ext/priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk;PRESIGNED|1106944021cbe9c9777aed13ffd3187b6998b272
+system_ext/app/QCC/QCC.apk;PRESIGNED|3cf8fe7294e3fe74ff5bc073e7c59a3368291869
 
 # --- system_ext: init scripts ---
 system_ext/etc/init/vendor.qti.qccsyshal_aidl-service.rc|b4bd17274eb90f3754bde0a3fa2abe35d276cce7
@@ -117,7 +151,7 @@ system_ext/etc/init/nt_logkit.rc|8d6a8bebb50cac83b1cb340285ed59785c645c0b
 system_ext/etc/init/nt_performance_config.rc|ea928e7834150f0e999cf5f463c3ad3e7ec50673
 system_ext/etc/init/nt_performance_init.rc|7ad06664e0cf64bb3f46a8a9d0bb16c981f5ffcd
 system_ext/etc/init/nt_sys_rdump_tool.rc|aff2d50dd3975c05f521b7cfae53eb9069401086
-system_ext/etc/init/perfservice.rc|2f9292180ddafd8d7c093b24485ed80458331a29|a25427f99961b4ceb37cb5f9c4113eeaf79eab56
+system_ext/etc/init/perfservice.rc|2f9292180ddafd8d7c093b24485ed80458331a29
 system_ext/etc/init/qspa_system.rc|29f1d40483dce1a44efd9e895681a07233138fc2
 system_ext/etc/init/qspmsvc.rc|40675ff5020244a5615d7440c0eca5c2d18a8153
 system_ext/etc/init/rkp.rc|f8b13d620ac156013ff8bbc5e8bb27484f606900
@@ -125,9 +159,22 @@ system_ext/etc/init/sltntc.rc|16175524c908b1db3350758af9397558d236dcea
 system_ext/etc/init/sxrauxd_ext.rc|6bc5afa370429eb32a59753299cf5434339ba25a
 system_ext/etc/init/tcmd.rc|3ce262333f63be15507f6be131056c56be2672c9
 system_ext/etc/init/wfdservice.rc|907def8565d8f91f531ca7dfad880af05d540b0c
+system_ext/etc/init/android.hidl.allocator@1.0-service.rc|2db83e60e4d30b8a40c8114f3535b9e3b2edfdef
+system_ext/etc/init/frameworks_utils_service.rc|819eac41304cbd4d3d9a4979fee52780ee3af16c
+system_ext/etc/init/hwservicemanager.rc|f819912f18c9bc2082fcafc6f7cdb120b5c497dd
+system_ext/etc/init/imsvtdaemon.rc|7fa5b8aca4953bcf3075c4fb6d8cbb817e90a421
+system_ext/etc/init/loc_sys_service.rc|e72aa45210685594b5b0f2c9db5e5aca6289a154
+system_ext/etc/init/nt_core.rc|f4ba61c85e1c34ee169a0bdb04fbb68305312315
+system_ext/etc/init/qsguard.rc|63c6a5416bbce3385537909589745f4b552ec365
+system_ext/etc/init/vendor.qti.hardware.qccsyshal@1.2-service.rc|186352d6e49b82a3f383c335c6360635b6f8d45a
 
 # --- system_ext: VINTF fragments ---
 system_ext/etc/vintf/manifest/vendor.qti.qccsyshal_aidl-service.xml|fd32dfed74549148e553e174e34dfa6ffe53e319
+system_ext/etc/vintf/manifest/android.hidl.allocator@1.0-service.xml|47c54be49f73c0dff574f6cad1b1ec12247dbbcc
+system_ext/etc/vintf/manifest/atcmdfwd-saidl.xml|27e10c8b3b260e6eea44c82b12df3876fa86250c
+system_ext/etc/vintf/manifest/vendor.qti.hardware.sigma_miracast.xml|1ed386cec02038987f9bca983398d046824bf496
+system_ext/etc/vintf/manifest/vendor.qti.hardware.sigma_miracast_aidl.xml|d53e46fd125935762b7f6c5d308a65b00748e7e0
+system_ext/etc/vintf/manifest/vendor.qti.qesdsys.service.xml|1b3bf2fb72ce90013573f88a61eb07003bda38f1
 
 # --- system_ext: configuration and permissions ---
 system_ext/etc/aconfig/flag.info|390f06f8fa60bacb71ba6c05283be13b1e3b1fdc
@@ -197,7 +244,7 @@ system_ext/etc/permissions/qti_permissions.xml|e6ff4572352b1a4f91b6b9d7cbb1cad99
 system_ext/etc/permissions/qti_telephony_hidl_wrapper.xml|3b687e0ed64784e02508f85c0be9e74b3f52559a
 system_ext/etc/permissions/qti_telephony_utils.xml|94c95bd091e47c772f7d505d8f7e54b9f99da149
 system_ext/etc/permissions/telephony_system-ext_privapp-permissions-qti.xml|8fe86cc2d213e1d34b580bdd913b19c2a778af46
-system_ext/etc/permissions/vendor.qti.hardware.c2pa-V1-java.xml|6c54148badaf3d443b71d244fbd60519f05c874f|a0daaa2889350cfa9143d882aa5a075f5f5db357
+system_ext/etc/permissions/vendor.qti.hardware.c2pa-V1-java.xml|6c54148badaf3d443b71d244fbd60519f05c874f
 system_ext/etc/permissions/vendor.qti.ims.rcsservice.xml|c5c9dd633c3f5450f315017cd4645a11de3d7ed3
 system_ext/etc/permissions/vendor.qti.imsdatachannel.xml|f7056c5e57e88392e5199f74c484f4dd918d7568
 system_ext/etc/permissions/vendor.qti.imsdcservice.xml|b2097ec8d37a61698282df088097d33f5b120f87
@@ -227,6 +274,98 @@ system_ext/etc/sysconfig/whitelist_com.qualcomm.qti.uceShimService.xml|9ed045031
 system_ext/etc/system_perfetto.cfg|66fb33a70e88ea94b2aef6fac32c2493f72b87a7
 system_ext/etc/wfdconfigsink.xml|7bbf8092ff574be7ed951b1a4026471f51e4b6f5
 system_ext/etc/wmshell.protolog.pb|255a6deb42f99b04fdae3bf76757ac7feb80873b
+system_ext/etc/hdr_config/ans_on/ans_config.txt|4b633d2ce8b63a7c5703af5c76716a687d46da08
+system_ext/etc/hdr_config/main_inv_pt/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/main_inv_pt/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/main_inv_pt/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/main_inv_pt/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/main_inv_pt/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/main_inv_pt/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/main_inv_pt/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/main_inv_pt/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/main_ls/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/main_ls/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/main_ls/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/main_ls/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/main_ls/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/main_ls/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/main_ls/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/main_ls/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/main_pt/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/main_pt/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/main_pt/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/main_pt/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/main_pt/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/main_pt/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/main_pt/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/main_pt/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/none_inv_ls/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/none_inv_ls/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/none_inv_ls/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/none_inv_ls/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/none_inv_ls/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/none_inv_ls/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/none_inv_ls/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/none_inv_ls/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/none_inv_pt/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/none_inv_pt/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/none_inv_pt/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/none_inv_pt/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/none_inv_pt/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/none_inv_pt/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/none_inv_pt/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/none_inv_pt/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/none_ls/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/none_ls/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/none_ls/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/none_ls/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/none_ls/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/none_ls/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/none_ls/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/none_ls/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/none_pt/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/none_pt/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/none_pt/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/none_pt/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/none_pt/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/none_pt/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/none_pt/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/none_pt/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/selfie_inv_ls/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/selfie_inv_ls/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/selfie_inv_ls/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/selfie_inv_ls/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/selfie_inv_ls/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/selfie_inv_ls/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/selfie_inv_ls/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/selfie_inv_ls/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/selfie_inv_pt/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/selfie_inv_pt/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/selfie_inv_pt/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/selfie_inv_pt/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/selfie_inv_pt/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/selfie_inv_pt/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/selfie_inv_pt/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/selfie_inv_pt/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/selfie_ls/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/selfie_ls/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/selfie_ls/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/selfie_ls/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/selfie_ls/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/selfie_ls/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/selfie_ls/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/selfie_ls/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/selfie_pt/RPP_BiquadHPF_config.txt|4965ace741253d361fbe0abcc2a11e66e5f32b3c
+system_ext/etc/hdr_config/selfie_pt/RPP_EQLeftTop_config.txt|238fd407c68a24b5170b6a9681d94d79281123fa
+system_ext/etc/hdr_config/selfie_pt/RPP_EQRightBottom_config.txt|664c5b9d924810bd32034641ba4444a87a8951c0
+system_ext/etc/hdr_config/selfie_pt/RPP_HDR.txt|de6988eb54a17ac34387862f1d2881e2b132ca71
+system_ext/etc/hdr_config/selfie_pt/RPP_InputAGC_config.txt|731e27e7ec5ba64004466e50f723ddd6721d5a99
+system_ext/etc/hdr_config/selfie_pt/RPP_InputCompressor_config.txt|1b33bd1df4387ab172b478bdd75919e34d9ac0ea
+system_ext/etc/hdr_config/selfie_pt/RPP_Limiter_config.txt|809fe9417f838649fa407cdb753f7d1f3752ba49
+system_ext/etc/hdr_config/selfie_pt/RPP_OutputCompressor_config.txt|ffefc07d8b9c917fe40d00e56554e418e3b2d7b8
+system_ext/etc/hdr_config/wnr_on/wnr_config.txt|fa61d1229fda506391e2247f9e54c8c2415e3b09
+system_ext/etc/hdr_config/wnr_on/wnr_params.txt|7f9934f1ff439892e12d51f5b494ac2000dc938a
+system_ext/etc/perf/scaler_params.pb|06a8139169a17a3bc9eb7390be79810f15205610
 
 # --- system_ext: framework ---
 system_ext/framework/ActivityExt.jar|fc00afc357397bd0fa8f3b39972bf07d9888cbea
@@ -611,6 +750,13 @@ system_ext/framework/vendor.qti.latency-V2.2-java.jar|f8f5baed29e8c5ecaeeb3c6b15
 system_ext/framework/vendor.qti.latency-V2.2-java.jar.fsv_meta|7563d38bb698077e4d2ad8a195f17ad852c259fa
 system_ext/framework/vendor.qti.latencyaidlservice-V1-java.jar|350308e4de38bae9c136ebedbcb1ff479d445bef
 system_ext/framework/vendor.qti.latencyaidlservice-V1-java.jar.fsv_meta|b6b1837f8298570c13995cdc602582a2f29c58b0
+system_ext/framework/androidx.camera.extensions.impl.advanced.jar|f19bad315262d726616aa2aee9ecffd1f272720b
+system_ext/framework/vendor.qti.ImsVtService-java.jar|5d81214de5ff94e30b32ce51a0c7155ad60fce37
+system_ext/framework/vendor.qti.ImsVtService-java.jar.fsv_meta|16d6a48ba156bd0454e2f2bf98bc58b9ca74a7be
+system_ext/framework/vendor.qti.data.factoryservice-V3-java.jar|4e77f7ea17ab0b8d5370a7afd941ae3a8acc3293
+system_ext/framework/vendor.qti.data.factoryservice-V3-java.jar.fsv_meta|8eebd22e2f8c3e5d64e66430f3be0ed069a5cb4f
+system_ext/framework/vendor.qti.hardware.data.cneaidlservice.internal.api-V2-java.jar|fa36e1b5ee246a5f967a04d5edee4d7524a5884b
+system_ext/framework/vendor.qti.hardware.data.cneaidlservice.internal.api-V2-java.jar.fsv_meta|217fcefde998f22f8ee5eba0900266d800cf20e7
 
 # --- system_ext: libraries ---
 system_ext/lib64/vendor.qti.qccsyshal_aidl-V1-ndk.so|bb1354984700168a5352bfbd205cf32df66843bc
@@ -650,7 +796,6 @@ system_ext/lib64/libQTEEConnector_system.so|81dc1c98c81be697a7a701ff457dbe0d810f
 system_ext/lib64/libQmsNtnProto.so|8c2863f79de8ce1478aa1004cdec5f47bde43fae
 system_ext/lib64/libWNR.so|ca1ee217370f14f7310c873cb6e4210e75dbf1a1
 system_ext/lib64/libWNR_intf.so|4293273e50bb1d4fb23c3eb27f0a5b5fe613af3a
-system_ext/lib64/libaudiohalvendorextn.so|648cb43065dc74ee656120753f047fd783d7c00d
 system_ext/lib64/libavenhancements.so|ef27cf6efa82a5e68803f53b522e9c00b2ff4c0c
 system_ext/lib64/libbeluga.so|8d6217943db67662505f9eb34ccaedbc3cedabd6
 system_ext/lib64/libbinauralrenderer_wrapper.qti.so|36e7f26b060fdfdd61ca78c7a2cecfe0532278a1
@@ -828,6 +973,116 @@ system_ext/lib64/vendor.qti.latency@2.3.so|5a8d78cdc4940882643956a95c9f480d30ad2
 system_ext/lib64/vendor.qti.mstatservice@1.0.so|9a26bd6e3367e272a980a05cfacbf61a483d694c
 system_ext/lib64/vendor.qti.qccsyshal_aidl-halimpl.so|3eb598462fe677237a281441097658772efaa922
 system_ext/lib64/vendor.qti.qspmhal@1.0.so|94a5d8667a142d7b945aa2f372818867a3594c7c
+system_ext/lib64/vendor.qti.hardware.display.config-V16-ndk.so|cc2362a220839d13b5c453dbf38806562e737ac3
+system_ext/lib64/vendor.qti.hardware.wifidisplaysession_aidl-V2-ndk.so|b2f864d6ae621758bef6f4081af353e2e11e04d8
+system_ext/lib64/com.qualcomm.qti.dpm.api@1.0.so|5d39b0aa082b977d70ac307b43c01749896bce88
+system_ext/lib64/com.qualcomm.qti.imscmservice@2.0.so|76439623b83565776ae32b10d0f392d34d2fc402
+system_ext/lib64/com.qualcomm.qti.imscmservice@2.1.so|39cb22dff826b03f8b0398d5db93ea7d97a60150
+system_ext/lib64/com.qualcomm.qti.uceservice@2.0.so|5a4ec8adb651e8e668b45f71fa8c4bf4a9738798
+system_ext/lib64/com.qualcomm.qti.uceservice@2.1.so|1a12bfe07b978efd84b9865f387e644b7418258c
+system_ext/lib64/com.qualcomm.qti.uceservice@2.2.so|78b2b0ce400e203b9d770794d975238ac4fd2ec8
+system_ext/lib64/libSurfaceUtil_jni.so|18cc24f431023944f183dc698a19a0b934b802bc
+system_ext/lib64/libntf.so|f2357d1033f1da8eaa2ba1fb2a3f2fe3d79e5fca
+system_ext/lib64/libqti_vndfwk_detect.so|663d6b5c0347586876e616054e2509c0f694779d
+system_ext/lib64/qti-audio-types-aidl-V1-ndk.so|c65954497c47fa0f5363cd58a742d4a0ab7ab477
+system_ext/lib64/vendor.display.color@1.0.so|a722f50381f91a90c4577a57d77e19c38340c9c5
+system_ext/lib64/vendor.display.color@1.1.so|011bb950bcc9b746f115f9f839a9750524fa89dc
+system_ext/lib64/vendor.display.color@1.2.so|8f2e93ffc01c409890e577094016c58648a6a93e
+system_ext/lib64/vendor.display.color@1.3.so|4345dbd23795af15207341fd0b2708c3c15c9478
+system_ext/lib64/vendor.display.config@1.0.so|c9dcddfe75642f858bb0ff04bac4940da7996c2a
+system_ext/lib64/vendor.display.config@1.1.so|2098ad31076c51924b2a70b872ad71e2c8496901
+system_ext/lib64/vendor.display.config@1.2.so|6128ece2331679069749c1b7f5b9806c53f847b1
+system_ext/lib64/vendor.display.config@1.3.so|9e88cc01dd61f1ec5d05532307dda5afab9be62e
+system_ext/lib64/vendor.display.config@1.4.so|7888075307caba6c13c69be0f433955ade74405d
+system_ext/lib64/vendor.display.config@1.5.so|88a865992d2bb54df8944a800e4dcdf766ef056c
+system_ext/lib64/vendor.display.config@2.0.so|f99807116b8614170aec919dfc6403a39a03e988
+system_ext/lib64/vendor.qti.ImsRtpService-V1-ndk.so|5d7b4ad0c55453768dc01d99729474dbdaa89415
+system_ext/lib64/vendor.qti.ImsVtService-ndk.so|9eb9f528f26ff59eaa7f1d389a69cd379210835d
+system_ext/lib64/vendor.qti.data.factoryservice-V1-ndk.so|57ad00365dc7d37ee150ef2995b109ea1576f8b2
+system_ext/lib64/vendor.qti.data.mwqem@1.0.so|c85a43d9cdc8e999e9bdfb8b7a0adcb3bb9641ec
+system_ext/lib64/vendor.qti.data.mwqemaidlservice-V1-ndk.so|3b276695606474461563f51b68357e0b3764b65a
+system_ext/lib64/vendor.qti.data.slm@1.0.so|2e04eb15f5a470ab95f9000ced276d12b688f2b5
+system_ext/lib64/vendor.qti.diaghal@1.0.so|38e17e3e392b3b2ee7e8bedae012049bc0bb0ac8
+system_ext/lib64/vendor.qti.hardware.cacertaidlservice-V1-ndk.so|fb33a626ff9fe87fe84f03f23b27acc57035cfd3
+system_ext/lib64/vendor.qti.hardware.data.cneaidlservice.internal.api-V1-ndk.so|0738d9dc6aaaef4da46a76ac7e1763d6c4b906cd
+system_ext/lib64/vendor.qti.hardware.data.cneaidlservice.internal.constants-V1-ndk.so|f47f18f1f4e52c32aa9c5e88c9db2bc74bd56c1b
+system_ext/lib64/vendor.qti.hardware.data.cneaidlservice.internal.server-V1-ndk.so|1d98ba27e5f8d9cc4ae41a65b367ba7685fff9e6
+system_ext/lib64/vendor.qti.hardware.data.connection@1.0.so|b87b8adb088e30101a5308ec94e10ef4dd70dbe6
+system_ext/lib64/vendor.qti.hardware.data.connectionfactory-V1-ndk.so|52920cea2e3823d80a1937aa2398075c3cc90013
+system_ext/lib64/vendor.qti.hardware.data.dataactivity-V1-ndk.so|2217e6802d243781dbd5f6b6055fda6c12dae147
+system_ext/lib64/vendor.qti.hardware.data.dynamicdds@1.0.so|f7c3fbb65086fc928850fb612db9cec94ee65298
+system_ext/lib64/vendor.qti.hardware.data.dynamicddsaidlservice-V1-ndk.so|4af0e58a55b713d8d8b19d660a63d7750a604c50
+system_ext/lib64/vendor.qti.hardware.data.flow@1.0.so|6c8a20e1e75a59228cfbc4ae14b10880ee811e77
+system_ext/lib64/vendor.qti.hardware.data.flow@1.1.so|d8d35b33b4a2c7e4fe2b027628b6baf8c0f312a1
+system_ext/lib64/vendor.qti.hardware.data.flowaidlservice-V1-ndk.so|e4ff2c34b530a47456e67c60283bcc7ef363e258
+system_ext/lib64/vendor.qti.hardware.data.ka-V1-ndk.so|37203756c2c59156700a92e643e3c5808b5cb345
+system_ext/lib64/vendor.qti.hardware.data.lce@1.0.so|77cc92604799505d5bf4949705093e5d206fc3e4
+system_ext/lib64/vendor.qti.hardware.data.lceaidlservice-V1-ndk.so|45ae3fd26a70b9e859f8f1e8f811d33688b42ca4
+system_ext/lib64/vendor.qti.hardware.data.qmiaidlservice-V1-ndk.so|d613a961b986ee7b2075e30cd9cc40ec58dc8063
+system_ext/lib64/vendor.qti.hardware.display.config-V12-ndk.so|49c51a1d74549be2a9f36159f8aae2dac4e78b8a
+system_ext/lib64/vendor.qti.hardware.display.config-V2-ndk.so|599cc23009cc268f766b5513b69ca88007cb7603
+system_ext/lib64/vendor.qti.hardware.display.config-V5-ndk.so|ca3f52cef9493489bec3583d825fa430c42bcaab
+system_ext/lib64/vendor.qti.hardware.display.config-V7-ndk.so|d5ccc6fffc6bb132751f0bb2c172063cec68aee4
+system_ext/lib64/vendor.qti.hardware.dpmaidlservice-V1-ndk.so|ad3f37ca685442869428137912af06cd2b33c043
+system_ext/lib64/vendor.qti.hardware.embmsslaidl-V2-ndk.so|af5fea071b9d79021856aabf8b3bdfd68c6a1e0a
+system_ext/lib64/vendor.qti.hardware.fm@1.0.so|b2eb3aa1e92377a0aee9b05ee0d383367d1835a6
+system_ext/lib64/vendor.qti.hardware.iop@2.0.so|1a2938265c9f9068957fc5b35f5ffc040759f114
+system_ext/lib64/vendor.qti.hardware.minkipcbinder-V1-ndk.so|7c5ef7c2baaf0d5394865e0de97a806f4320c625
+system_ext/lib64/vendor.qti.hardware.mwqemadapteraidlservice-V1-ndk.so|306bcf7babd6c1b72dd98b201450d02db8295c32
+system_ext/lib64/vendor.qti.hardware.perf@2.0.so|d5692340f1f7dd487e8d678b7779c75999fe982b
+system_ext/lib64/vendor.qti.hardware.perf@2.1.so|fbed82627ede728fa9311fb183a49a963fcd1dcc
+system_ext/lib64/vendor.qti.hardware.perf@2.2.so|1e983d9b5c70ec5a19280a2d0d5dc41227359da4
+system_ext/lib64/vendor.qti.hardware.qseecom-V1-ndk.so|376702fa7ca1f70dac5103874751c3af1f23dacb
+system_ext/lib64/vendor.qti.hardware.qseecom@1.0.so|6ecefa53876671be4e10390d1b79fee17aa3c037
+system_ext/lib64/vendor.qti.hardware.qteeconnector@1.0.so|8925e4d5530427a2f52a692f6be116dba8981b16
+system_ext/lib64/vendor.qti.hardware.radio.ims@1.0.so|089592e37d1ee64284e9c4c1001bc7944683a0fe
+system_ext/lib64/vendor.qti.hardware.radio.ims@1.1.so|bfb7613ce6337ce1142e094d901c386fa6dd9457
+system_ext/lib64/vendor.qti.hardware.radio.ims@1.2.so|87c17606e52e4cd19d75201638b26176518df6ea
+system_ext/lib64/vendor.qti.hardware.radio.ims@1.3.so|02025c2b3d6e77e30b61468b8ddb84d720ce16b1
+system_ext/lib64/vendor.qti.hardware.radio.ims@1.4.so|0605cd6b7c368c52f35b12466e008e9ca49f10ec
+system_ext/lib64/vendor.qti.hardware.radio.ims@1.5.so|a197166e91b5acfaae57947642084d42ee864418
+system_ext/lib64/vendor.qti.hardware.radio.ims@1.6.so|1216add75dbed2329e662ffbf23be43ab1e3335a
+system_ext/lib64/vendor.qti.hardware.radio.ims@1.7.so|b6155867f1c65320a28c7fbe67e52998c309d409
+system_ext/lib64/vendor.qti.hardware.radio.ims@1.8.so|d3453e3751feb1c3c899234ad931fb0bc3eaeecd
+system_ext/lib64/vendor.qti.hardware.radio.lpa@1.0.so|1dfe5a5100bf427fa843a09abade78d7959bc79c
+system_ext/lib64/vendor.qti.hardware.radio.lpa@1.1.so|780890936aaee09aa1531fa3e5b3bce84942d39b
+system_ext/lib64/vendor.qti.hardware.radio.lpa@1.2.so|de9f1003b146d948870b4ab4e5971e5878ca6748
+system_ext/lib64/vendor.qti.hardware.radio.qtiradio@1.0.so|274aa6c987027da8cd1e1ccc6c23c64fc3d50d56
+system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.0.so|7bf1ca4f141af1c38bfc175115078e92148ae08b
+system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.1.so|dff1c523afaab6c6eeabddf146387256071a469b
+system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.2.so|f45e1e2e37cf5c190b73eadd4c51f6d1a3e2cbe7
+system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.3.so|6f42447a82c0d0675d74cf28fe8b20bc686a00c0
+system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.4.so|4e3c84129b6159833daebe110619eed5266b9d84
+system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.5.so|8aa6de5ee7f85010c30599d5feec22771a494e4d
+system_ext/lib64/vendor.qti.hardware.radio.qtiradio@2.6.so|042cb76a7ca486cc598044e1cfe12cc2854abb8f
+system_ext/lib64/vendor.qti.hardware.radio.uim@1.0.so|e0912e27d71dd1e7f046a977b24d6dc801ff60e1
+system_ext/lib64/vendor.qti.hardware.radio.uim@1.1.so|c2229ac42451996258428f0dc48b9eee2267ee54
+system_ext/lib64/vendor.qti.hardware.radio.uim_remote_client@1.0.so|a30873d303f8c3bfa3d9171d049d071f2be4d1b6
+system_ext/lib64/vendor.qti.hardware.radio.uim_remote_client@1.1.so|7b6ba442d7e3cb608767b223fe8f20aad8c944f5
+system_ext/lib64/vendor.qti.hardware.sigma_miracast_aidl-V1-ndk.so|987d6470ff0f2005b0d5a912250e25378f1beb4c
+system_ext/lib64/vendor.qti.hardware.vpp-V1-ndk.so|13f8a7a4659038664b43b768f087363f1106f07b
+system_ext/lib64/vendor.qti.hardware.vpp@1.1.so|4fb1c6b9ca0a09cc0f1e703e8b8256251a911207
+system_ext/lib64/vendor.qti.ims.callcapability@1.0.so|5b0aa15c20d7e6c920ab2e647c7f47987ecc0f7e
+system_ext/lib64/vendor.qti.ims.callcapabilityaidlservice-V1-ndk.so|c2be2f648f6a8289ae009ca4ff40eb0a574657f3
+system_ext/lib64/vendor.qti.ims.configaidlservice-V1-ndk.so|019d429ca10dc69a26fa1e8ec4dc9d2048da34c1
+system_ext/lib64/vendor.qti.ims.connectionaidlservice-V1-ndk.so|f8da645f290f4e9cccfa573d5674966a335789c1
+system_ext/lib64/vendor.qti.ims.factoryaidlservice-V1-ndk.so|e48a9b4032dfc8ee96030b04dde6c3eb78cea202
+system_ext/lib64/vendor.qti.ims.imscmaidlservice-V1-ndk.so|7ca551d6efa2912e9ca14560db00394e3f7dba19
+system_ext/lib64/vendor.qti.ims.rcsconfig@1.0.so|9667f5cc969dc51076089aaf56ae7bbd83c09c7f
+system_ext/lib64/vendor.qti.ims.rcsconfig@1.1.so|7987bffb2fd15a8f0faff3879de5347cbe753406
+system_ext/lib64/vendor.qti.ims.rcsconfig@2.0.so|e8b2b9fd24f42dffa976fcb7379c4f05f03ac217
+system_ext/lib64/vendor.qti.ims.rcsconfig@2.1.so|9ef2c8ba78673aa4b7c8e4faac07d40922822056
+system_ext/lib64/vendor.qti.ims.rcssipaidlservice-V1-ndk.so|779fd3c987f90f4c2b8212145f8f75487f9a89e4
+system_ext/lib64/vendor.qti.ims.rcsuceaidlservice-V1-ndk.so|94a2479f4843ca6e7de158dc9d2e75217654782d
+system_ext/lib64/vendor.qti.ims.uceaidlservice-V1-ndk.so|7236ed6430dde257f32428ca3f15eefeea890e32
+system_ext/lib64/vendor.qti.latency@2.0.so|5435c0889015b0d9d9a96a632526742e35d5d104
+system_ext/lib64/vendor.qti.latency@2.1.so|bb78482ca2fc969fe6c009aab4faeb33a25f5661
+system_ext/lib64/vendor.qti.latency@2.2.so|75f251cdc56cb4b3f0e755c594c13ad9a59bef62
+system_ext/lib64/vendor.qti.latencyaidlservice-V1-ndk.so|73301732e12b5942de053a2c346d58188b9735db
+system_ext/lib64/vendor.qti.qesdhal@1.0.so|4fb0f814824347ff40f0c62cfc9c87c56997c258
+system_ext/lib64/vendor.qti.qesdhal@1.1.so|967093722924d5a6d37fbe40f55bf4338aaca691
+system_ext/lib64/vendor.qti.qesdhal@1.2.so|450c3571a923295a485e7fcfa8c60f45e8549b7d
+system_ext/lib64/vendor.qti.qspmhal-V1-ndk.so|24b8542943034927d0a39d4385c0a854effccc6b
 
 # --- Vendor: binaries and scripts ---
 vendor/bin/hw/android.hardware.thermal-service.qti|4bad5f4982a6013fff43079676771781a538acdd
@@ -1106,10 +1361,285 @@ vendor/bin/wifilearner|8b3e15c2af3aba1326d5eeea45d7a978b0af38ab
 vendor/bin/xtra-daemon|b9336d909933b38b06743ce60e5370c4c8662380
 vendor/bin/xtwifi-client|721d833f56cbf295b365120fbadcf697e83f7bad
 vendor/bin/xz|e6d8ff4f5a3261eb89b01c459f310456dc3f3eed
+vendor/bin/awk|b46fb1573b56d1df1ae5e63098403ef7bce15ed8
+vendor/bin/boringssl_self_test64|1f461d5041123faa3ce5d9ecb37a9f3ca7736f51
+vendor/bin/color_sampling_test|8e49dd4165899b0cc281de8163308f23a8648747
+vendor/bin/color_sampling_tool|bc54ced48028ba041a36ff301c61e7bbfa83e794
+vendor/bin/cplay|6fac81bf8c6e30173c7952002f214ab84d42c713
+vendor/bin/hw/android.hardware.drm-service.clearkey|75ff5705731b64aac3e1dc17428ec8dd62fac611
+vendor/bin/hw/android.hardware.health-service.qti|703d721e9138e4e52e9ca34e5332a15a56a81993
+vendor/bin/hw/android.hardware.sensors-service.multihal|1175f3f72b19c693bbcc5fb07b38a360dac15295
+vendor/bin/hw/android.hardware.usb-service.qti|f54e3dd9f6501ae9903871bac42e81da717c6f10
+vendor/bin/hw/android.hardware.usb.gadget-service.qti|6453bd8b1d8120e9abf30b12a055fed9b24f06b8
+vendor/bin/hw/android.hardware.wifi-service|70d59a804af321d6a8c2507b31c93b565820c119
+vendor/bin/hw/vendor.qti.hardware.memtrack-service|181ec878b641a49f9a02a2069e2f6b7ba7d93dad
+vendor/bin/hw/vendor.qti.hardware.vibrator.service|49dff04122b8844b560548f3f37fc25db5404b43
+vendor/bin/hw/wpa_supplicant|04ce39ec8d92c0600f8f3e0b9096e6eb53fb34a3
+vendor/bin/init.kernel.post_boot-tuna_1_3_1_1.sh|5349281583310bd00caf4ec19e493222dbed85fe
+vendor/bin/init.qti.display_boot.sh|713be85913fb22b9d222cead51899cd4882722cf
+vendor/bin/ipacm|3a68178557d7928fe7dfabc74b4930a3200ede50
+vendor/bin/nt_export_rkl_count.sh|d976f823291539481a2e488ea856b60739b5a2d0
+vendor/bin/nt_verify_partition|18eb5d7b78efaf63c93861a76ac387edcdfe4895
+vendor/bin/pmsg_reader|8111bf1f055fe6a393383d1497843a3c0d35baf5
+vendor/bin/qmi-framework-tests/qmi_test_mt_client_init_instance|8291798410f0242811ce9fce65004d7304655418
+vendor/bin/vendor.qti.qspa-service|2504cf72009de15f51861b1ae2d9cdf93cf4dd5a
+vendor/bin/vndservice|74be560ec0199b67e0317c7c132a3bb7f5ea94c1
+vendor/bin/wpa_cli|cbc97a1d7f029576f3a03319604d1e8ae5c8b60d
 
 # --- Vendor: apps ---
 vendor/app/CACertService/CACertService.apk;PRESIGNED|78b9394c3ab091c299d6a10687b324dacb499632
 vendor/app/IWlanService/IWlanService.apk;PRESIGNED|921aa6b35e572801893bab042c9fbcce38719bba
+vendor/app/CneApp/CneApp.apk;PRESIGNED|c5e889119f6dd4bc71939d4bd2fe8b67e1bdfee7
+vendor/app/ConnectionSecurityService/ConnectionSecurityService.apk;PRESIGNED|58cb686530a42b3d03249f7fdefac2df9bbc447f
+vendor/app/NothingAiService/NothingAiService.apk;PRESIGNED|8e721871e97dc2d759e4cb7c5deac4a0a02422d1
+vendor/app/NothingEngineerService/NothingEngineerService.apk;PRESIGNED|5423481038f0988f4e83db533fa0fece8f4855a3
+vendor/app/TimeService/TimeService.apk;PRESIGNED|e99aa1925fc096e2a939144adb807ec46e29cc2e
+vendor/app/TrustZoneAccessService/TrustZoneAccessService.apk;PRESIGNED|ecbb7307584c9b84219bf052fe487d4afc2a125a
+vendor/app/TxPwrAdmin/TxPwrAdmin.apk;PRESIGNED|7dd68e1aa2e443513b02d7fe5fc7908db787f9a4
+vendor/app/com.qualcomm.qti.gpudrivers.sun.api35/com.qualcomm.qti.gpudrivers.sun.api35.apk;PRESIGNED|54448dbf5faad946a0e70bf064ea700e835114d1
+vendor/priv-app/pasrservice/pasrservice.apk;PRESIGNED|cd3c4eb683517b82158c5bf5f3907d126afbce0c
+
+# --- Vendor: init scripts ---
+vendor/etc/init/android.hardware.authsecret-service.rc|74d5de12caa037e3cf5fb99508f240459b76953e
+vendor/etc/init/android.hardware.biometrics.face-service.noth.rc|0784889c93eeff70054c280538a3c65eead59836
+vendor/etc/init/android.hardware.bluetooth@aidl-service-qti.rc|aba655e902c490e552af8e3a41177c8d98748ac2
+vendor/etc/init/android.hardware.boot-service.qti.rc|7352e6573318aa2b184a0aa7ca8f06380be55d75
+vendor/etc/init/android.hardware.drm-service.clearkey.rc|c0465ba6570a1d84f65548ec9a9354a76bf3166c
+vendor/etc/init/android.hardware.drm@1.1-service.wfdhdcp.rc|c266f08783a17f6583e3f22c85e55b0c200442ea
+vendor/etc/init/android.hardware.gatekeeper-service-qti.rc|ca6d70f6e04cebf079d254b31750e9da9f663bdf
+vendor/etc/init/android.hardware.gatekeeper-service-spu-qti.rc|ddc026a028dd93a3e7a89f3342fb75a3eab9b100
+vendor/etc/init/android.hardware.gnss-aidl-service-qti.rc|762f806ccb5f7ae841107207510ad6094ecddb89
+vendor/etc/init/android.hardware.health-service.qti.rc|6d1e875ae41647d7b72b0ab28b6529912a200cfc
+vendor/etc/init/android.hardware.identity-service-qti.rc|d60dadc0e2dea6be10133aaa63bccb553a888f8b
+vendor/etc/init/android.hardware.power-service.rc|d3db0cb8407afea07d87ff7538e4234e32a5c836
+vendor/etc/init/android.hardware.secure_element-service.qti.rc|f8b040b3a9d3b38da651078e69761f1a126d42d7
+vendor/etc/init/android.hardware.security.keymint-service-qti.rc|def9c57d24716982cdb75626cca8f73dbcbd0d9e
+vendor/etc/init/android.hardware.security.keymint-service-spu-qti.rc|d0e0228b23a255ddf5de5fced7228f31e3fb9f0d
+vendor/etc/init/android.hardware.sensors-service-multihal.rc|b3f1924a0090f8c2f5bf3cfe373556313c47c41c
+vendor/etc/init/android.hardware.thermal-service.qti.rc|fb1e0f1fc1f6f4d7722a362ccb27f8e55402450e
+vendor/etc/init/android.hardware.usb-service.qti.rc|4aba6a154fe468077e6bebe609012236ffeb7e62
+vendor/etc/init/android.hardware.usb.gadget-service.qti.rc|bb5964d94c155c62f7906d4be8a429bc6d830b93
+vendor/etc/init/android.hardware.weaver-service-spu-qti.rc|b71f13b02cbcce24cbe5567a0ca41d915ce4a049
+vendor/etc/init/android.hardware.wifi-service.rc|becc80c5f02fdb017938896578338b5849c75a6a
+vendor/etc/init/android.hardware.wifi.supplicant-service.rc|48e1a1d993280c05a848fe8a4cd8d35b482fd347
+vendor/etc/init/boringssl_self_test.rc|40394a86aebc069c584855a17374d53f3476b61b
+vendor/etc/init/c2painternetservice.rc|731ace853cfa5163f0a4300871ffab06098f7973
+vendor/etc/init/cnd.rc|9fd1819f43edae6feabe51066c59f21ff6e94fa1
+vendor/etc/init/com.qualcomm.qti.wifidisplayhal@1.0-service.rc|576ce4393b7746b77a230745aa9e9ee3bd31b17d
+vendor/etc/init/dataadpl.rc|cd4907d9bfd438fe5f5c86f5d6cec590ac0bac2a
+vendor/etc/init/dataqti.rc|6abfd1a850d782adbbb6f42c9d8ca870036b2ad1
+vendor/etc/init/dcfd.rc|7009a747a7c490749df832256f91f32745a3d195
+vendor/etc/init/dlsc.rc|ffd7bdcd6e2d3058e9aa5f3cb60cddf9a1f8fd32
+vendor/etc/init/faceunlock_evaluate.rc|12d55f8122caac359a0f0cc7a4f5ee537d779feb
+vendor/etc/init/feature_enabler_client.rc|6aeee1f0dc59f7e2841b8613e52a1ff81e0a9cae
+vendor/etc/init/hexlpservice.rc|04ee078f64ecf0e4c02d59e896d3be0f3e7fb550
+vendor/etc/init/hlosminkdaemon.rc|ba9bb4a4c2d110e922d03817907e289b53cff034
+vendor/etc/init/hostapd.android.rc|d7d29a421ab21762b6e511cedb157f21314c2a01
+vendor/etc/init/hw/init.qcom.usb.rc|33030df62b11420e8096b356b423e88fbb491ef4
+vendor/etc/init/hw/init.qti.kernel.rc|14f7d278f0f7f52dd47f0dd981a947655d9f4654
+vendor/etc/init/hw/init.qti.kernel.target.rc|6368979b9a857c6c3c1c61dc67bd5006bea0dfc6
+vendor/etc/init/hw/init.qti.ufs.rc|95eae15b3e1def85866edfe617f1ea737dbbbafd
+vendor/etc/init/ims-dataservice-daemon.rc|bf7f184c8975bd6af457d5b9ec544174bf09a2ab
+vendor/etc/init/ims_rtp_daemon.rc|9eac78a24604733b51492df7454932ef81def2b1
+vendor/etc/init/imsdaemon.rc|18bbe0185cece34299e92a5f4f309b59ea93d684
+vendor/etc/init/init.debug_policy.rc|c4591ae52ea64c02176611220c9bbbebb09aa4ce
+vendor/etc/init/init.embmssl_server.rc|b4111eadbf3cc24fd1b3daed58835576053bc3dd
+vendor/etc/init/init.nothing_printk.rc|b923ca5c9fee1adb6c15070747ccd7b0a7a5aa56
+vendor/etc/init/init.nt_cit.rc|a63f19a8c2571381f6cfe1f3c1e0c10651e699f8
+vendor/etc/init/init.nt_logtool.rc|ce3fcc2322bd6ae8185f3e7a9d1543df1012bea4
+vendor/etc/init/init.ntf.rc|ee7bc938351e7816a05a2b60804f63369d1bcfa1
+vendor/etc/init/init.qccvendor.rc|aadd859671ffbf0806112f694b6a8d8aa8e8df59
+vendor/etc/init/init.qlm-service.rc|ca1152b1eaadfb438562b0bd488ee923a05f02c5
+vendor/etc/init/init.qmesa.rc|bf8f53803953c47c2b9c483011ca190774c8e914
+vendor/etc/init/init.qti.fm.rc|4f5459058debbea76991e69f8522126f6655fd3b
+vendor/etc/init/init.qti.media.rc|fee08dfb120803ed85e8f7a130762a90cc133bb2
+vendor/etc/init/init.qti.qcv.rc|4c793bb2c95a0ee0b7972b3427972afda3953070
+vendor/etc/init/init.spdaemon.rc|237917b473eb044b1bc82485bdc616c6edca4f9e
+vendor/etc/init/init.st.felica.rc|407ab8dc6718b30798d7070d143a13df693a9c6a
+vendor/etc/init/init.time_daemon.rc|b253ca2a498757e14e1d7a051bf504ae09218f51
+vendor/etc/init/init.vendor.qti.hardware.spu.service.rc|5697145a0c5e71d2a3fe57d488d1b1a85722386b
+vendor/etc/init/init.vendor.sensors.rc|3c8f39fc67b093db9fa7586d2a9b31b70276d2b8
+vendor/etc/init/init.vendor.wlan.rc|cf8dbc3a20454932cc79d0270689fc4926401449
+vendor/etc/init/init_fan_service.rc|1e179aa86a0c7a851fffe968df7bc65112b6c416
+vendor/etc/init/init_thermal-engine-v2.rc|3ebe0e867707876cea6cfcd51d34626d775107be
+vendor/etc/init/ipacm-diag.rc|e3cee56d2e3ca6bf9aafb827827ebea369fc2897
+vendor/etc/init/ipacm.rc|b7d0612ed3b8e33e6fe0257c12116b6e9e671a88
+vendor/etc/init/loc-launcher.rc|b1422d7deab218570019887dcac97d175f401cea
+vendor/etc/init/memtrack_qti.rc|2f33b10022403292e8d355f190756df5a015599b
+vendor/etc/init/nfc-service-st.rc|e862566b339213b8723cd9479b92d05ca2dc4020
+vendor/etc/init/nicmd.rc|fbf0c1c5d064c49099dbc53d22cbc9a565aa97ad
+vendor/etc/init/noth_bsp_daemon.rc|bbcdd11e639bddfc13dd8877e191a0fc2fecc68a
+vendor/etc/init/nt_error_report.rc|1fcc02519ea61827da912faf38aa9b69da5e6943
+vendor/etc/init/nt_minidump_extractor.rc|0d239b974b4563037fe3a59a8df9ec82a0e177a4
+vendor/etc/init/nt_rdump_tool.rc|a21ffebd10d71347353502ee01a38312932e4b24
+vendor/etc/init/nt_task_io.rc|e45951662459c98ab352bb6cbadcae802c92f30b
+vendor/etc/init/nt_zramwriteback.rc|f8476e127337e570651fd6d732c32be389aaab89
+vendor/etc/init/port-bridge.rc|e52d61a0de5e8a3b21bfbfca929e862422645377
+vendor/etc/init/power.stats.rc|a3bf823712175fc4b42823a8b483f0c5a651648c
+vendor/etc/init/poweropt-service.rc|c13f8d61495d8597723959a109eef1c828e4fcd1
+vendor/etc/init/qconfig.rc|101403975de90b136209eff6ef055ccb277de403
+vendor/etc/init/qcrilNrd.rc|6cb3d396b7c6797c9d00f34e2672d1a66a281e98
+vendor/etc/init/qdcmss.rc|53d78d686678c4f923a9ec4ace7d4d3575b13788
+vendor/etc/init/qguard.rc|245d7a6c19f61cb99a84f961e7a230a84f80879a
+vendor/etc/init/qmipriod.debug.rc|94d421875f35fdcb170070f20a221466ad87f97e
+vendor/etc/init/qmipriod.rc|94500dd5dc514fbb506ad8259a69ca57f4db72d6
+vendor/etc/init/qms.rc|b754c6592a89efdaf49331880115515a534117c7
+vendor/etc/init/qseecomd.rc|07e2c9c354d252fcc51612f09f38ccc8e5043fdf
+vendor/etc/init/qspa_vendor.rc|83d1a1d3ac2cbf717ae79303096be2388a1f9df7
+vendor/etc/init/qttestservice.rc|81edd4a31e862365941e33bc838ca3b9d656e6db
+vendor/etc/init/qwesd.rc|e1af363d8301a84db78533e1ef846b061f010de0
+vendor/etc/init/shsusrd.rc|22ff980a8daaf62fd091485541a4c8c10fdeb4a9
+vendor/etc/init/snapdragon_services.rc|c7e2edf91f0a2b4f8f7021dc8e4ead4acbd68635
+vendor/etc/init/ssgtzd.rc|4dd5c2fd8cdda2b8b49891d2e39c139c7eb0dce1
+vendor/etc/init/st_getcplc.rc|63e7bafa63780d10ba65a528a14237093d09cb4f
+vendor/etc/init/vendor.dpmd.rc|005aadea33bb148961bedc7a3e945141438a0f7d
+vendor/etc/init/vendor.noth.hardware.camera-service.rc|5aa9902b2a887cda309fb8a879fb0e3d6ee59458
+vendor/etc/init/vendor.noth.hardware.charge-service.rc|fe77a92be3d79dc6d2e68591316e59c7b13c3147
+vendor/etc/init/vendor.noth.hardware.sensor.sensor_extension-service.rc|4f0d46168cda7346cf2ea670c981d5be8d04e9dc
+vendor/etc/init/vendor.noth.hardware.stability-service.rc|d38bb9b086b743d73b90adb7d4d6c52d3fead1e6
+vendor/etc/init/vendor.nothing.hardware.biometrics.fingerprint-service.rc|09b2c57d717bc266a276bd93eb8bc09c57ca727e
+vendor/etc/init/vendor.qsap.qapeservice.rc|3f3230102529b8f29726c4c93ed0d8b68e845c6e
+vendor/etc/init/vendor.qsap.sensors.rc|65a1095ce3c72d712afef27fd54f587110a7dec0
+vendor/etc/init/vendor.qti.adsprpc-guestos-service.rc|3a330390ac3602715081328839b8c7081d50fc71
+vendor/etc/init/vendor.qti.audio-adsprpc-service.rc|fb9c92c397086c559a04027486c428a0060f691f
+vendor/etc/init/vendor.qti.camera.provider-service_64.rc|86b6eb788481f5eb20c887d019e47748502e02e1
+vendor/etc/init/vendor.qti.cdsprpc-service.rc|842f4411746605c370f6bae57df6f9c1a276d51a
+vendor/etc/init/vendor.qti.diag.rc|7fac6597717eea1008311ccfa01d25f93582ef5c
+vendor/etc/init/vendor.qti.hardware.alarm-service.rc|9cec6923bbbb67e177b3cc0bfaf5eff0897a8143
+vendor/etc/init/vendor.qti.hardware.c2pa-aidl-service-qti.rc|b13c6117343282abfdd7088cdc48fb548e172fc6
+vendor/etc/init/vendor.qti.hardware.capabilityconfigstore-service.rc|cdf8b2ff791a3c4720d3034d8774aa63f91454e3
+vendor/etc/init/vendor.qti.hardware.display.color-service.rc|c9e7bd7964270453b14a5f64d5d08cab4b71a274
+vendor/etc/init/vendor.qti.hardware.dsp-service.rc|8cf97beaec8309796cf3003aed6e52baa42cc8ba
+vendor/etc/init/vendor.qti.hardware.lights.service.rc|142c567d3625f70fbb0172274b1db3035665a616
+vendor/etc/init/vendor.qti.hardware.minkipcbinder@1.0-service.rc|6e78beaed7c1de2503fac945779f49cf15b4ea12
+vendor/etc/init/vendor.qti.hardware.perf2-hal-service.rc|fc1cd8acaa4c8c7760c3da368685bbfd870919b8
+vendor/etc/init/vendor.qti.hardware.qseecom@1.0-service.rc|62999151efe98f6add66e748c8d5558994cef1b8
+vendor/etc/init/vendor.qti.hardware.servicetrackeraidl-service.rc|990132cddeada4adf5b1cf74b8dbfcb6ef94420d
+vendor/etc/init/vendor.qti.hardware.wifi.wifilearner-service.rc|3161e9322b0df06c7caa5e472f6174915b35c0f8
+vendor/etc/init/vendor.qti.media.c2@1.0-service.rc|679867ee28cb03c5522d443f08fadc9ed6c328f6
+vendor/etc/init/vendor.qti.media.c2audio@1.0-service.rc|51841b9c67dd26b7fe82e24109f1e0a663a3e04a
+vendor/etc/init/vendor.qti.memory.pasrmanager-service.rc|46a4b2d1a9b88eaf8800db32e9db4e5a8f136994
+vendor/etc/init/vendor.qti.psiclient@1.0-service.rc|3c8e69345951b17aed25be91d5cac59e2ff49c35
+vendor/etc/init/vendor.qti.qspa-service.rc|783275af9388977457806c69c6a1d26855ece72a
+vendor/etc/init/vendor.qti.qspmhal-service.rc|b9fd698739169d1485f437c437d2b83548670f5a
+vendor/etc/init/vendor.qti.rmt_storage.rc|bc212c6353c2ded44ae4d759605fbbe55aa4fa3f
+vendor/etc/init/vendor.qti.smp2p.rc|30cb611274c7ea8510b6ca0bcbda20961e90cab4
+vendor/etc/init/vendor.qti.syshealthmon-service.rc|23806111eb009eeb06b7f885cb695ca73e6547be
+vendor/etc/init/vendor.qti.tftp.rc|e06161bd3638dc952f360f238ba672d591f6d28b
+vendor/etc/init/vendor.sensors.qti.rc|f3b9c4c83cd5fbc5aedf4a51c6481f7f0b1288ec
+vendor/etc/init/vendor.sensors.sscrpcd.rc|8c4ae946c3399309582f7a52b1ac19c6e719f408
+vendor/etc/init/vmmgr.rc|538c80735fb78cfe7aac244e06a7fef2e853bb24
+vendor/etc/init/vndservicemanager.rc|e63c502dbd6ec82b36245afda7e33e255ec9d4e8
+vendor/etc/init/vppservice.rc|21b77777909f3b65bdaba892308240779d87159c
+vendor/etc/init/wfdvndservice.rc|42e28fb8e0bf00620d7b9939b5bd3164ca671033
+vendor/etc/init/wifi_ftm.rc|ebfce16eca7cd017c13f56e33c0a8c2efeaf0af5
+vendor/etc/init/init.qti.display_boot.rc|d70c76f6f9c612be32d60f218421c5566b6e5401
+vendor/etc/init/nt_kprobe.rc|2a73fa9f826ee7f19483ff12f6cfc662f63998b4
+vendor/etc/init/nt_verify_partition.rc|ea10dab26687dc4d12089a6acebbfa6f7f764f09
+vendor/etc/init/vendor.qti.hardware.vibrator.service.rc|238d4d6812aab099a9ab5cd39c0e12e9fe1555fc
+
+# --- Vendor: VINTF fragments ---
+vendor/etc/vintf/manifest/vendor.qti.qccvndhal_aidl-service.xml|d92ff9bea5a3803104272924440bfe98fa4a4a9f
+vendor/etc/vintf/manifest/ImsRtpService-aidl.xml|b390371e2c4d3f79e2b9706fd35515e48f1555b7
+vendor/etc/vintf/manifest/android.hardware.biometrics.face-service.noth.xml|cea0dfc462b0450c6105e29afac7cce3b45d3ad1
+vendor/etc/vintf/manifest/android.hardware.drm-service.clearkey.xml|ea7d2d5a5a165dd44ac018b6890ec2be8115373b
+vendor/etc/vintf/manifest/android.hardware.drm-service.xml|fb563f54e0c209c0133aae67beccd8ba6d263f01
+vendor/etc/vintf/manifest/android.hardware.gnss-aidl-service-qti.xml|7c8a9f98ea5ed547cf0398cccd5fe3d8b07d5a9b
+vendor/etc/vintf/manifest/android.hardware.health-service.qti.xml|909a0da653948f51dea2a936fc10aa6bebd12bf6
+vendor/etc/vintf/manifest/android.hardware.radio.config.xml|ec5315aa4ae353b60e600a325fd1a1977c76fae8
+vendor/etc/vintf/manifest/android.hardware.radio.data.xml|ceeba79ef3b426ee572c0d00d614567b2cfe1d13
+vendor/etc/vintf/manifest/android.hardware.radio.messaging.xml|fb6761bf9ea9befe76ce8a4f64c63a175464faf8
+vendor/etc/vintf/manifest/android.hardware.radio.modem.xml|1bc5c330769b73b031c8da41028898a6fa2529d2
+vendor/etc/vintf/manifest/android.hardware.radio.network.xml|1741aab1d142f7d6570934f3176fce6078ec484f
+vendor/etc/vintf/manifest/android.hardware.radio.sap.xml|1249c779acc06af2187e99a33b1e81d1f394fe11
+vendor/etc/vintf/manifest/android.hardware.radio.sim.xml|b36cfe910a1dcbef811aa4a4393fafec92421859
+vendor/etc/vintf/manifest/android.hardware.radio.voice.xml|4f3cd7cba4f4300500d87355a4baaabd8ebc7e02
+vendor/etc/vintf/manifest/android.hardware.secure_element.xml|1ab82c8e1d832ddc18e47d0d18d9b2809ca08806
+vendor/etc/vintf/manifest/android.hardware.security.keymint-service-qti.xml|f219d116d2b525cadd038255cfb69b314a9b4107
+vendor/etc/vintf/manifest/android.hardware.sensors-multihal.xml|752c152eee5b25149c03dd9316f467e886d4ffc7
+vendor/etc/vintf/manifest/android.hardware.thermal-service.qti.xml|bc86bd0547e21e26804f8a72dae13047eea136ef
+vendor/etc/vintf/manifest/android.hardware.usb-service.qti.xml|e6d28703fcdf9ee5a966818748c0804c2c90b94e
+vendor/etc/vintf/manifest/android.hardware.usb.gadget-service.qti.xml|aa5a5cfb6e88caee64e53fa130501fda159f866d
+vendor/etc/vintf/manifest/android.hardware.wifi-service.xml|fcbf5db90a91c9685ea6d788de72b2254c63aea6
+vendor/etc/vintf/manifest/android.hardware.wifi.hostapd.xml|69d4090344bfc949cc49a1649dfc55d21131d634
+vendor/etc/vintf/manifest/android.hardware.wifi.supplicant.xml|a041d2d32739f25d7011a61d8faf65540182913e
+vendor/etc/vintf/manifest/atfwd-saidl.xml|ac9d269529006904c93cfa2f529217cfb3f2db2a
+vendor/etc/vintf/manifest/bcs-ranging.xml|7b2a9ee3469f9c64210c079c76f519b2688099cc
+vendor/etc/vintf/manifest/bluetooth-finder.xml|8f260b0f53c28320ea87f49a0beec4415fcfe3d6
+vendor/etc/vintf/manifest/bluetooth_audio.xml|21bbe6ebabf502d470918a53b7ec785995cc258d
+vendor/etc/vintf/manifest/bluetooth_hci.xml|13a5f20e77b01b8f78b916c6efbb4cf6bafa8205
+vendor/etc/vintf/manifest/bluetooth_sar.xml|6ecdea14f258c198ec1234d966c410beb291236b
+vendor/etc/vintf/manifest/boot-service.qti.xml|3b41215ad061cb5ab172ff5e31e9d75894145376
+vendor/etc/vintf/manifest/bt_lmp_event-saidl.xml|45bbd6f22553d4f1a8103f99d02e6a7be06b3994
+vendor/etc/vintf/manifest/bttpi-saidl.xml|a49eea4c62be9c856dfa842db8f08d2a87ff21dd
+vendor/etc/vintf/manifest/c2_manifest_vendor.xml|fb1e3a4b9ef810dfa7a35c0b4c1bcc5090c25b95
+vendor/etc/vintf/manifest/c2_manifest_vendor_audio.xml|abffb90162a6c67b02f98b079d8a29a8e5ad51e4
+vendor/etc/vintf/manifest/cacert-saidl.xml|af590798b4f52238fb81ce2d14ef1a7b0546b6d3
+vendor/etc/vintf/manifest/com.nothing.camera.postproc-impl.xml|6658e7d110105ec41da2ce330a16e1b43b1ef5e0
+vendor/etc/vintf/manifest/dataconnection-saidl.xml|b1803dff463a0c2c56ce2c345751255b061f4c29
+vendor/etc/vintf/manifest/datafactoryservice-saidl.xml|c94458c3b7803bf0816f25805d2324e22c130327
+vendor/etc/vintf/manifest/deviceinfo-saidl.xml|9cbbaf212ed8faa3f175f9021d7d4356c2a8be03
+vendor/etc/vintf/manifest/dpm-saidl.xml|e659bfbc5d951f59693fdc607ec6e92c56a26e03
+vendor/etc/vintf/manifest/fm_hci.xml|155fc6021193cb09714064b8ff3191ea04399521
+vendor/etc/vintf/manifest/imsdcservice-saidl.xml|b631f3686c12298366417856ccb4a9bde07d6396
+vendor/etc/vintf/manifest/manifest_btaudiocoreservices_qti.xml|99c1c1cef69952852d30be97dd58067471825cbc
+vendor/etc/vintf/manifest/manifest_identity_credential.xml|6f110716fcf45bc55f86759e21278f5c985a0664
+vendor/etc/vintf/manifest/memtrack_qti.xml|6e1e978f2163acb6e9d7c2ae631b6cb8209cf97c
+vendor/etc/vintf/manifest/mwqem-saidl.xml|fe3cf1f0e8606a250bfcfe6cb75e68d98d23696a
+vendor/etc/vintf/manifest/power.stats.xml|e11a3d364a6f7b12d89582bc0022dac1a3738e13
+vendor/etc/vintf/manifest/power.xml|97ce823a384ea21ce8a63ac8ba1a548a14e95f79
+vendor/etc/vintf/manifest/qasr_vintf.xml|36b945b6375bb257aa12783ba5b659444b752f98
+vendor/etc/vintf/manifest/qcrilhook-saidl.xml|badc1678bd75451bdfe950d95bb0a770c8bd3733
+vendor/etc/vintf/manifest/qms-saidl.xml|b6419aca381ad4c696cb3555dfd3fc9d3fe54f70
+vendor/etc/vintf/manifest/qspa/qspa-modem.xml|2d3f8178551de64847eb3f33071f69a686b6a490
+vendor/etc/vintf/manifest/qspa/qspa-nav.xml|4fed049b4463b6b61d4327fbcb7709f062d4ea11
+vendor/etc/vintf/manifest/qtiradio-saidl.xml|5942cdf1269fd63035c904de18acd5dc55db71f7
+vendor/etc/vintf/manifest/snapdragon_services.xml|7cc9d53ba93adf641dc96983c6fb4315a7eb5077
+vendor/etc/vintf/manifest/soundtrigger.qti.xml|fdd6fa75590cec8c0c7071dd00f82087cb4470a6
+vendor/etc/vintf/manifest/vendor.noth.hardware.camera-service.xml|8c193fb19169132eb7dec41401515ce2e73c0caf
+vendor/etc/vintf/manifest/vendor.noth.hardware.charge-service.xml|aeb4b30109b16454ae48caa5d2d48fc8a9cae78c
+vendor/etc/vintf/manifest/vendor.noth.hardware.sensor.sensor_extension-service.xml|683cd6186c6ca2a365b98385186a363aa4731c04
+vendor/etc/vintf/manifest/vendor.noth.hardware.stability-service.xml|3ebd0771d518f6ac4a3cf1d2df58fed765745481
+vendor/etc/vintf/manifest/vendor.nothing.hardware.biometrics.fingerprint-service.xml|b612e34bd8b0eb89c2e1985fcc7b531259b9bcea
+vendor/etc/vintf/manifest/vendor.qti.camera.aon-impl.xml|74ec39ce68f6eaac85cfe6dc753b9f5e9c22a749
+vendor/etc/vintf/manifest/vendor.qti.camera.offlinecamera-impl.xml|d280c9f8cbbd4691c549eeaa2692ac549c33a92e
+vendor/etc/vintf/manifest/vendor.qti.camera.provider.xml|e3cfc7216d427a3f376a63c368fa5e29e171f073
+vendor/etc/vintf/manifest/vendor.qti.diag.hal.service.xml|d57bc07d8907a15f9618266bdcd11e4b44b383f7
+vendor/etc/vintf/manifest/vendor.qti.gnss-service.xml|b19bb4f351621af9c9eeb1e74ac5ab5b3787372e
+vendor/etc/vintf/manifest/vendor.qti.hardware.alarm.xml|945ee1c1dc7402ffb00571464df7188f2b20fbe8
+vendor/etc/vintf/manifest/vendor.qti.hardware.c2pa-aidl-service.xml|c7f3ee713d0684fd0faa35de77642a0fc85c32ef
+vendor/etc/vintf/manifest/vendor.qti.hardware.capabilityconfigstore-service.xml|9674508adcecb50eff7875bb2cdf77d30539dd01
+vendor/etc/vintf/manifest/vendor.qti.hardware.data.connectionaidl.xml|0265ad65d02d76afd65888bf990ccaf61d19d7fe
+vendor/etc/vintf/manifest/vendor.qti.hardware.data.iwlandata.xml|d5b6a44303349ed6df6cfe161d45479bd0532c16
+vendor/etc/vintf/manifest/vendor.qti.hardware.dsp-service.xml|c02c767856a1e8ef25441f3e0243487ac3829367
+vendor/etc/vintf/manifest/vendor.qti.hardware.embmssl.xml|598eed63d31234cd90a653e74358bb06437a6304
+vendor/etc/vintf/manifest/vendor.qti.hardware.hexlp-service.xml|10862292ed1e46099c7428689de9af804d0cc889
+vendor/etc/vintf/manifest/vendor.qti.hardware.lights.service.xml|afc26a7c22a96872fda450e3c776a782c97e710d
+vendor/etc/vintf/manifest/vendor.qti.hardware.minkipcbinder-service.xml|8a5bd3223463b5dfcf6baf1cf6fa936565302fff
+vendor/etc/vintf/manifest/vendor.qti.hardware.perf2.xml|bce83985c2e6f1ca205c93fadf86ca4e1da6bd36
+vendor/etc/vintf/manifest/vendor.qti.hardware.power.powermodule.xml|af1e5a1439fca6e6b29032bb6462655e30058d48
+vendor/etc/vintf/manifest/vendor.qti.hardware.qconfig-service.xml|ad6e6268a85668b2e01790a5fd65f03064c79351
+vendor/etc/vintf/manifest/vendor.qti.hardware.qseecom@1.0-service.xml|c6c3f9d2aff48547ca941f56100656d36aa09226
+vendor/etc/vintf/manifest/vendor.qti.hardware.radio.am.xml|f3cc4d802c7bce1c487b2e42dab0f1e837e72915
+vendor/etc/vintf/manifest/vendor.qti.hardware.radio.ims.xml|96fd14bb2ccad9bccb3315afa95f455b3f1b4e5e
+vendor/etc/vintf/manifest/vendor.qti.hardware.radio.lpa.xml|34c521fc53f9de0e9f891b6719f38619b6a84ca1
+vendor/etc/vintf/manifest/vendor.qti.hardware.radio.qtiradioconfig.xml|d262b1909c2e779c55e27c14fb9e00ee8fd65aab
+vendor/etc/vintf/manifest/vendor.qti.hardware.radio.uim.xml|3e7532702ab40353282f88a11616db149128d13f
+vendor/etc/vintf/manifest/vendor.qti.hardware.radio.uim_remote_client.xml|8b52d4eb578245d9c6b0f61c764ac272d523056e
+vendor/etc/vintf/manifest/vendor.qti.hardware.radio.uim_remote_server.xml|1e8531456d4d3e59a99339688a778ce5e57810e2
+vendor/etc/vintf/manifest/vendor.qti.hardware.servicetrackeraidl-service.xml|d4c7a66e4dd574f4e55c3d415b1bd4c741ece7da
+vendor/etc/vintf/manifest/vendor.qti.hardware.tetheroffload.service.xml|704f430d49b1d66546b300cc4b58f3051251de03
+vendor/etc/vintf/manifest/vendor.qti.hardware.vibrator.service.xml|006c002843c35a15a8608b712bcee3a3a72aee2d
+vendor/etc/vintf/manifest/vendor.qti.hardware.vpp-service.xml|228ac6c7dc3d33a24b5d18c81df753b6d5ea0922
+vendor/etc/vintf/manifest/vendor.qti.hardware.wifi.wifilearner-service.xml|9736918037f42947643a63196c74dcf8da70b2c0
+vendor/etc/vintf/manifest/vendor.qti.hardware.wifidisplaysession-service.xml|d9bce16f45874f66ebeebe4a4269685a5fc2cb6d
+vendor/etc/vintf/manifest/vendor.qti.ims.factoryaidlservice.xml|2dfd2590af42e5a75ee345d1c8eca1b600e9378b
+vendor/etc/vintf/manifest/vendor.qti.ims.imscmaidlservice.xml|ec399670fbad97d5338b3ee6030a416fc55e9502
+vendor/etc/vintf/manifest/vendor.qti.ims.uceaidlservice.xml|66af29414a127e18d388786b137afcf5b4f1a161
+vendor/etc/vintf/manifest/vendor.qti.memory.pasrmanager-service.xml|9be807e6b82d063e8089f5c682d601a12ef01277
+vendor/etc/vintf/manifest/vendor.qti.qspa-service.xml|13ed2f0082f4435b7a41bf195ec51f2067064e58
+vendor/etc/vintf/manifest/vendor.qti.qspmhal-service.xml|c35d488de20351b3e5be97811d5c4609c7834c16
+vendor/etc/vintf/manifest/vendor.qti.syshealthmon-service.xml|38f16d027491c7287a4ebb7023da2ff2415b4ea2
 
 # --- Vendor: configuration ---
 vendor/etc/ASR_binary/Whisper/libQnnHtpV79Skel.so|4e4cf9562894cede473fa9bb61e363667d231e87
@@ -1229,169 +1759,7 @@ vendor/etc/camera/Ndotfont/Ndot-55.otf|dbd40da7c632bac6ca6f96c6d03a0b44ec2075ce
 vendor/etc/camera/Robotofont/Roboto-55.ttf|4b6924f9219a8f071394922efaa28d9635f769b0
 vendor/etc/camera/SansCJKfont/NotoSansCJK.ttc|2f68b6afbbfed60db7cc2450c194803a48b468ab
 vendor/etc/camera/arc_ghz_data1.bin|e2ea3d1bcc8b01081ed5b28d41bd4014da383378
-vendor/etc/camera/arc_ghz_data2.bin|16e7328b8f21a3cb3575b0910ed5135411baf6b0|17c981ed9679b117b4ca02820bf9fda3fdbe3963
-
-# --- Vendor: APEX ---
-vendor/apex/com.google.android.widevine-12498615.apex|a35909bef639876b14831459bff5d532858267bb
-
-
-# ---------------------------------------------------------------------------
-# Missing from current dump: verify against full stock firmware
-# ---------------------------------------------------------------------------
-# The reference dump lacks vendor/lib64, vendor/firmware and most of
-# vendor/etc, so these entries could not be checked. Keep them: they come
-# from the earlier attempt's list, from init/ueventd references, or from
-# DT_NEEDED scanning of the dump. Hashes are the earlier attempt's pins.
-
-# --- system_ext: apps ---
-system_ext/app/QCC/QCC.apk:system_ext/priv-app/QCC/QCC.apk;PRESIGNED|3cf8fe7294e3fe74ff5bc073e7c59a3368291869
-
-# --- system_ext: libraries ---
-system_ext/lib64/vendor.qti.hardware.display.config-V16-ndk.so
-system_ext/lib64/vendor.qti.hardware.wifidisplaysession_aidl-V2-ndk.so
-
-# --- Vendor: init scripts ---
-vendor/etc/init/android.hardware.authsecret-service.rc|74d5de12caa037e3cf5fb99508f240459b76953e
-vendor/etc/init/android.hardware.biometrics.face-service.noth.rc|0784889c93eeff70054c280538a3c65eead59836|ec46804138d9e13cee5f1ef1165292ff4404e3e1
-vendor/etc/init/android.hardware.bluetooth@aidl-service-qti.rc|aba655e902c490e552af8e3a41177c8d98748ac2
-vendor/etc/init/android.hardware.boot-service.qti.rc|7352e6573318aa2b184a0aa7ca8f06380be55d75
-vendor/etc/init/android.hardware.drm-service.clearkey.rc|c0465ba6570a1d84f65548ec9a9354a76bf3166c
-vendor/etc/init/android.hardware.drm@1.1-service.wfdhdcp.rc|c266f08783a17f6583e3f22c85e55b0c200442ea
-vendor/etc/init/android.hardware.gatekeeper-service-qti.rc|ca6d70f6e04cebf079d254b31750e9da9f663bdf
-vendor/etc/init/android.hardware.gatekeeper-service-spu-qti.rc|ddc026a028dd93a3e7a89f3342fb75a3eab9b100
-vendor/etc/init/android.hardware.gnss-aidl-service-qti.rc|762f806ccb5f7ae841107207510ad6094ecddb89
-vendor/etc/init/android.hardware.health-service.qti.rc|6d1e875ae41647d7b72b0ab28b6529912a200cfc
-vendor/etc/init/android.hardware.identity-service-qti.rc|d60dadc0e2dea6be10133aaa63bccb553a888f8b
-vendor/etc/init/android.hardware.power-service.rc|d3db0cb8407afea07d87ff7538e4234e32a5c836
-vendor/etc/init/android.hardware.secure_element-service.qti.rc|f8b040b3a9d3b38da651078e69761f1a126d42d7
-vendor/etc/init/android.hardware.security.keymint-service-qti.rc|def9c57d24716982cdb75626cca8f73dbcbd0d9e
-vendor/etc/init/android.hardware.security.keymint-service-spu-qti.rc|d0e0228b23a255ddf5de5fced7228f31e3fb9f0d
-vendor/etc/init/android.hardware.sensors-service-multihal.rc|b3f1924a0090f8c2f5bf3cfe373556313c47c41c
-vendor/etc/init/android.hardware.thermal-service.qti.rc|fb1e0f1fc1f6f4d7722a362ccb27f8e55402450e
-vendor/etc/init/android.hardware.usb-service.qti.rc|4aba6a154fe468077e6bebe609012236ffeb7e62
-vendor/etc/init/android.hardware.usb.gadget-service.qti.rc|bb5964d94c155c62f7906d4be8a429bc6d830b93
-vendor/etc/init/android.hardware.weaver-service-spu-qti.rc|b71f13b02cbcce24cbe5567a0ca41d915ce4a049
-vendor/etc/init/android.hardware.wifi-service.rc|becc80c5f02fdb017938896578338b5849c75a6a
-vendor/etc/init/android.hardware.wifi.supplicant-service.rc|48e1a1d993280c05a848fe8a4cd8d35b482fd347
-vendor/etc/init/audiohalservice_qti.rc|759b85592d78319212fdac57a857804efa670076
-vendor/etc/init/boringssl_self_test.rc|40394a86aebc069c584855a17374d53f3476b61b
-vendor/etc/init/c2painternetservice.rc|731ace853cfa5163f0a4300871ffab06098f7973
-vendor/etc/init/cnd.rc|9fd1819f43edae6feabe51066c59f21ff6e94fa1|9fd1819f43edae6feabe51066c59f21ff6e94fa1
-vendor/etc/init/com.qualcomm.qti.wifidisplayhal@1.0-service.rc|576ce4393b7746b77a230745aa9e9ee3bd31b17d
-vendor/etc/init/dataadpl.rc|cd4907d9bfd438fe5f5c86f5d6cec590ac0bac2a
-vendor/etc/init/dataqti.rc|6abfd1a850d782adbbb6f42c9d8ca870036b2ad1
-vendor/etc/init/dcfd.rc|7009a747a7c490749df832256f91f32745a3d195
-vendor/etc/init/dlsc.rc|ffd7bdcd6e2d3058e9aa5f3cb60cddf9a1f8fd32
-vendor/etc/init/faceunlock_evaluate.rc|12d55f8122caac359a0f0cc7a4f5ee537d779feb
-vendor/etc/init/feature_enabler_client.rc|6aeee1f0dc59f7e2841b8613e52a1ff81e0a9cae
-vendor/etc/init/hexlpservice.rc|04ee078f64ecf0e4c02d59e896d3be0f3e7fb550
-vendor/etc/init/hlosminkdaemon.rc|ba9bb4a4c2d110e922d03817907e289b53cff034
-vendor/etc/init/hostapd.android.rc|d7d29a421ab21762b6e511cedb157f21314c2a01
-vendor/etc/init/hw/init.qcom.usb.rc|33030df62b11420e8096b356b423e88fbb491ef4|aebc2c8527cff68c74e768bb06e38252e2e040af
-vendor/etc/init/hw/init.qti.kernel.rc|14f7d278f0f7f52dd47f0dd981a947655d9f4654
-vendor/etc/init/hw/init.qti.kernel.target.rc|6368979b9a857c6c3c1c61dc67bd5006bea0dfc6
-vendor/etc/init/hw/init.qti.ufs.rc|95eae15b3e1def85866edfe617f1ea737dbbbafd
-vendor/etc/init/ims-dataservice-daemon.rc|bf7f184c8975bd6af457d5b9ec544174bf09a2ab
-vendor/etc/init/ims_rtp_daemon.rc|9eac78a24604733b51492df7454932ef81def2b1
-vendor/etc/init/imsdaemon.rc|18bbe0185cece34299e92a5f4f309b59ea93d684
-vendor/etc/init/init.debug_policy.rc|c4591ae52ea64c02176611220c9bbbebb09aa4ce
-vendor/etc/init/init.embmssl_server.rc|b4111eadbf3cc24fd1b3daed58835576053bc3dd
-vendor/etc/init/init.nothing_printk.rc|b923ca5c9fee1adb6c15070747ccd7b0a7a5aa56
-vendor/etc/init/init.nt_cit.rc|a63f19a8c2571381f6cfe1f3c1e0c10651e699f8
-vendor/etc/init/init.nt_logtool.rc|ce3fcc2322bd6ae8185f3e7a9d1543df1012bea4|894e962ab230f5bd34f2014aebeaaadbfbf33fd9
-vendor/etc/init/init.ntf.rc|ee7bc938351e7816a05a2b60804f63369d1bcfa1
-vendor/etc/init/init.qccvendor.rc|aadd859671ffbf0806112f694b6a8d8aa8e8df59
-vendor/etc/init/init.qlm-service.rc|ca1152b1eaadfb438562b0bd488ee923a05f02c5
-vendor/etc/init/init.qmesa.rc|bf8f53803953c47c2b9c483011ca190774c8e914
-vendor/etc/init/init.qti.fm.rc|4f5459058debbea76991e69f8522126f6655fd3b
-vendor/etc/init/init.qti.media.rc|fee08dfb120803ed85e8f7a130762a90cc133bb2
-vendor/etc/init/init.qti.qcv.rc|4c793bb2c95a0ee0b7972b3427972afda3953070
-vendor/etc/init/init.spdaemon.rc|237917b473eb044b1bc82485bdc616c6edca4f9e
-vendor/etc/init/init.st.felica.rc|407ab8dc6718b30798d7070d143a13df693a9c6a
-vendor/etc/init/init.time_daemon.rc|b253ca2a498757e14e1d7a051bf504ae09218f51
-vendor/etc/init/init.vendor.qti.hardware.spu.service.rc|5697145a0c5e71d2a3fe57d488d1b1a85722386b
-vendor/etc/init/init.vendor.sensors.rc|3c8f39fc67b093db9fa7586d2a9b31b70276d2b8
-vendor/etc/init/init.vendor.wlan.rc|cf8dbc3a20454932cc79d0270689fc4926401449
-vendor/etc/init/init_fan_service.rc|1e179aa86a0c7a851fffe968df7bc65112b6c416
-vendor/etc/init/init_thermal-engine-v2.rc|3ebe0e867707876cea6cfcd51d34626d775107be
-vendor/etc/init/ipacm-diag.rc|e3cee56d2e3ca6bf9aafb827827ebea369fc2897
-vendor/etc/init/ipacm.rc|b7d0612ed3b8e33e6fe0257c12116b6e9e671a88
-vendor/etc/init/loc-launcher.rc|b1422d7deab218570019887dcac97d175f401cea
-vendor/etc/init/memtrack_qti.rc|2f33b10022403292e8d355f190756df5a015599b
-vendor/etc/init/nfc-service-st.rc|e862566b339213b8723cd9479b92d05ca2dc4020
-vendor/etc/init/nicmd.rc|fbf0c1c5d064c49099dbc53d22cbc9a565aa97ad
-vendor/etc/init/noth_bsp_daemon.rc|bbcdd11e639bddfc13dd8877e191a0fc2fecc68a
-vendor/etc/init/nt_error_report.rc|1fcc02519ea61827da912faf38aa9b69da5e6943
-vendor/etc/init/nt_minidump_extractor.rc|0d239b974b4563037fe3a59a8df9ec82a0e177a4
-vendor/etc/init/nt_rdump_tool.rc|a21ffebd10d71347353502ee01a38312932e4b24
-vendor/etc/init/nt_task_io.rc|e45951662459c98ab352bb6cbadcae802c92f30b
-vendor/etc/init/nt_zramwriteback.rc|f8476e127337e570651fd6d732c32be389aaab89
-vendor/etc/init/port-bridge.rc|e52d61a0de5e8a3b21bfbfca929e862422645377
-vendor/etc/init/power.stats.rc|a3bf823712175fc4b42823a8b483f0c5a651648c
-vendor/etc/init/poweropt-service.rc|c13f8d61495d8597723959a109eef1c828e4fcd1
-vendor/etc/init/qconfig.rc|101403975de90b136209eff6ef055ccb277de403
-vendor/etc/init/qcrilNrd.rc|6cb3d396b7c6797c9d00f34e2672d1a66a281e98
-vendor/etc/init/qdcmss.rc|53d78d686678c4f923a9ec4ace7d4d3575b13788
-vendor/etc/init/qguard.rc|245d7a6c19f61cb99a84f961e7a230a84f80879a
-vendor/etc/init/qmipriod.debug.rc|94d421875f35fdcb170070f20a221466ad87f97e
-vendor/etc/init/qmipriod.rc|94500dd5dc514fbb506ad8259a69ca57f4db72d6
-vendor/etc/init/qms.rc|b754c6592a89efdaf49331880115515a534117c7|8a8631d5bd6fbc97859aa76271e9b7f1751d80a8
-vendor/etc/init/qseecomd.rc|07e2c9c354d252fcc51612f09f38ccc8e5043fdf
-vendor/etc/init/qspa_vendor.rc|83d1a1d3ac2cbf717ae79303096be2388a1f9df7
-vendor/etc/init/qttestservice.rc|81edd4a31e862365941e33bc838ca3b9d656e6db
-vendor/etc/init/qwesd.rc|e1af363d8301a84db78533e1ef846b061f010de0
-vendor/etc/init/shsusrd.rc|22ff980a8daaf62fd091485541a4c8c10fdeb4a9
-vendor/etc/init/snapdragon_services.rc|c7e2edf91f0a2b4f8f7021dc8e4ead4acbd68635
-vendor/etc/init/ssgtzd.rc|4dd5c2fd8cdda2b8b49891d2e39c139c7eb0dce1
-vendor/etc/init/st_getcplc.rc|63e7bafa63780d10ba65a528a14237093d09cb4f
-vendor/etc/init/vendor.dpmd.rc|005aadea33bb148961bedc7a3e945141438a0f7d
-vendor/etc/init/vendor.noth.hardware.camera-service.rc|5aa9902b2a887cda309fb8a879fb0e3d6ee59458
-vendor/etc/init/vendor.noth.hardware.charge-service.rc|fe77a92be3d79dc6d2e68591316e59c7b13c3147
-vendor/etc/init/vendor.noth.hardware.sensor.sensor_extension-service.rc|4f0d46168cda7346cf2ea670c981d5be8d04e9dc
-vendor/etc/init/vendor.noth.hardware.stability-service.rc|d38bb9b086b743d73b90adb7d4d6c52d3fead1e6
-vendor/etc/init/vendor.nothing.hardware.biometrics.fingerprint-service.rc|09b2c57d717bc266a276bd93eb8bc09c57ca727e
-vendor/etc/init/vendor.qsap.qapeservice.rc|3f3230102529b8f29726c4c93ed0d8b68e845c6e
-vendor/etc/init/vendor.qsap.sensors.rc|65a1095ce3c72d712afef27fd54f587110a7dec0
-vendor/etc/init/vendor.qti.adsprpc-guestos-service.rc|3a330390ac3602715081328839b8c7081d50fc71
-vendor/etc/init/vendor.qti.audio-adsprpc-service.rc|fb9c92c397086c559a04027486c428a0060f691f
-vendor/etc/init/vendor.qti.camera.provider-service_64.rc|86b6eb788481f5eb20c887d019e47748502e02e1
-vendor/etc/init/vendor.qti.cdsprpc-service.rc|842f4411746605c370f6bae57df6f9c1a276d51a
-vendor/etc/init/vendor.qti.diag.rc|7fac6597717eea1008311ccfa01d25f93582ef5c
-vendor/etc/init/vendor.qti.hardware.alarm-service.rc|9cec6923bbbb67e177b3cc0bfaf5eff0897a8143
-vendor/etc/init/vendor.qti.hardware.c2pa-aidl-service-qti.rc|b13c6117343282abfdd7088cdc48fb548e172fc6
-vendor/etc/init/vendor.qti.hardware.capabilityconfigstore-service.rc|cdf8b2ff791a3c4720d3034d8774aa63f91454e3
-vendor/etc/init/vendor.qti.hardware.display.allocator-service.rc|73d22daf61665ead21e6145e9a871735cdc06b91
-vendor/etc/init/vendor.qti.hardware.display.color-service.rc|c9e7bd7964270453b14a5f64d5d08cab4b71a274
-vendor/etc/init/vendor.qti.hardware.display.demura-service.rc|debaf9e58cc86380b03eecf5525744793952f27d
-vendor/etc/init/vendor.qti.hardware.dsp-service.rc|8cf97beaec8309796cf3003aed6e52baa42cc8ba
-vendor/etc/init/vendor.qti.hardware.lights.service.rc|142c567d3625f70fbb0172274b1db3035665a616
-vendor/etc/init/vendor.qti.hardware.minkipcbinder@1.0-service.rc|6e78beaed7c1de2503fac945779f49cf15b4ea12
-vendor/etc/init/vendor.qti.hardware.perf2-hal-service.rc|fc1cd8acaa4c8c7760c3da368685bbfd870919b8|fc1cd8acaa4c8c7760c3da368685bbfd870919b8
-vendor/etc/init/vendor.qti.hardware.qseecom@1.0-service.rc|62999151efe98f6add66e748c8d5558994cef1b8
-vendor/etc/init/vendor.qti.hardware.servicetrackeraidl-service.rc|990132cddeada4adf5b1cf74b8dbfcb6ef94420d
-vendor/etc/init/vendor.qti.hardware.wifi.wifilearner-service.rc|3161e9322b0df06c7caa5e472f6174915b35c0f8
-vendor/etc/init/vendor.qti.media.c2@1.0-service.rc|679867ee28cb03c5522d443f08fadc9ed6c328f6|679867ee28cb03c5522d443f08fadc9ed6c328f6
-vendor/etc/init/vendor.qti.media.c2audio@1.0-service.rc|51841b9c67dd26b7fe82e24109f1e0a663a3e04a|51841b9c67dd26b7fe82e24109f1e0a663a3e04a
-vendor/etc/init/vendor.qti.memory.pasrmanager-service.rc|46a4b2d1a9b88eaf8800db32e9db4e5a8f136994
-vendor/etc/init/vendor.qti.psiclient@1.0-service.rc|3c8e69345951b17aed25be91d5cac59e2ff49c35
-vendor/etc/init/vendor.qti.qspa-service.rc|783275af9388977457806c69c6a1d26855ece72a
-vendor/etc/init/vendor.qti.qspmhal-service.rc|b9fd698739169d1485f437c437d2b83548670f5a
-vendor/etc/init/vendor.qti.rmt_storage.rc|bc212c6353c2ded44ae4d759605fbbe55aa4fa3f
-vendor/etc/init/vendor.qti.smp2p.rc|30cb611274c7ea8510b6ca0bcbda20961e90cab4
-vendor/etc/init/vendor.qti.syshealthmon-service.rc|23806111eb009eeb06b7f885cb695ca73e6547be
-vendor/etc/init/vendor.qti.tftp.rc|e06161bd3638dc952f360f238ba672d591f6d28b
-vendor/etc/init/vendor.sensors.qti.rc|f3b9c4c83cd5fbc5aedf4a51c6481f7f0b1288ec
-vendor/etc/init/vendor.sensors.sscrpcd.rc|8c4ae946c3399309582f7a52b1ac19c6e719f408
-vendor/etc/init/vmmgr.rc|538c80735fb78cfe7aac244e06a7fef2e853bb24
-vendor/etc/init/vndservicemanager.rc|e63c502dbd6ec82b36245afda7e33e255ec9d4e8
-vendor/etc/init/vppservice.rc|21b77777909f3b65bdaba892308240779d87159c
-vendor/etc/init/wfdvndservice.rc|42e28fb8e0bf00620d7b9939b5bd3164ca671033
-vendor/etc/init/wifi_ftm.rc|ebfce16eca7cd017c13f56e33c0a8c2efeaf0af5
-
-# --- Vendor: VINTF fragments ---
-vendor/etc/vintf/manifest/vendor.qti.qccvndhal_aidl-service.xml|d92ff9bea5a3803104272924440bfe98fa4a4a9f
-
-# --- Vendor: configuration ---
+vendor/etc/camera/arc_ghz_data2.bin|16e7328b8f21a3cb3575b0910ed5135411baf6b0
 vendor/etc/camera/arc_ghz_data3.bin|8f98a268db09b8ad3314e47fdb48146b656ec82b
 vendor/etc/camera/bokeh_caldata_tele_golden.bin|f20efb6a691af7c1165f205556fb19d61bdb4c8a
 vendor/etc/camera/bokeh_caldata_uw_golden.bin|0010dda51f5881e3e6d355628867a8db37630fe8
@@ -2180,6 +2548,239 @@ vendor/etc/wifi/vendor_cmd.xml|fe29a298bfc90fbf75a30fd583525c4004b55654
 vendor/etc/wifi/wpa_supplicant.conf|cf4c8da33043d8d6580ebb453411330aea185af6
 vendor/etc/wifi/wpa_supplicant_overlay.conf|8a08fe916b6e31b73e4eae65f7339f87839d4867
 vendor/etc/xtwifi.conf|ac2189707c0016c31846ccec73e8857d7f566605
+vendor/etc/audio/sku_tuna_qssi/audio_policy_configuration.xml|07282f76cd2e5d7139232a358a60b3310064ae98
+vendor/etc/audio/sku_tuna_qssi/audio_policy_volumes.xml|43da2ad2fefcff6e82c1653555432af273819bf6
+vendor/etc/audio/sku_tuna_qssi/default_volume_tables.xml|ed83009e3b86784a6368b71dded5b6cd6e59b943
+vendor/etc/audio_policy_configuration.xml|9925c263aa876672f4d1113bc5eae4a8c79b74cf
+vendor/etc/audio_policy_volumes.xml|82c8c27acff0972087b955770a1b621ee3951340
+vendor/etc/camera/CameraHWConfiguration.config|4a193648c40b3e73f03034af7bd774e04963bd1d
+vendor/etc/camera/filter/amber/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/amber/content.json|705e039353a8e5f489b5af9ca87daed26e042668
+vendor/etc/camera/filter/amber/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/amber/filter.png|1a85107487aa860ae0456458657e8e78e1a358ee
+vendor/etc/camera/filter/amber/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/amber/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/amber/params.json|33718a6e80f6d074e9e58f9a8aad416573dd6b24
+vendor/etc/camera/filter/analog/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/analog/content.json|705e039353a8e5f489b5af9ca87daed26e042668
+vendor/etc/camera/filter/analog/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/analog/filter.png|9f57f7a45e37624c2ca3c542878c581c119ad14f
+vendor/etc/camera/filter/analog/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/analog/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/analog/params.json|33718a6e80f6d074e9e58f9a8aad416573dd6b24
+vendor/etc/camera/filter/boli/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/boli/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/boli/effect_content.json|e1c58c6c48cea46e815d17fda56ad95f5012b08f
+vendor/etc/camera/filter/boli/params.json|7fe6bde9fe4b05c23e09f943502b183dcb2eeec7
+vendor/etc/camera/filter/chrome/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/chrome/content.json|705e039353a8e5f489b5af9ca87daed26e042668
+vendor/etc/camera/filter/chrome/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/chrome/filter.png|14339ac54c4769c6590ee361cb043902a39f86a4
+vendor/etc/camera/filter/chrome/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/chrome/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/chrome/params.json|33718a6e80f6d074e9e58f9a8aad416573dd6b24
+vendor/etc/camera/filter/disco/disco-lut.png|b9b12bf0b6669655f27bdcc0e40727d7343df0c2
+vendor/etc/camera/filter/disco/disco.png|0693afc4c1615a874c24ae2ef612dbd0be854c28
+vendor/etc/camera/filter/feilin/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/feilin/content.json|705e039353a8e5f489b5af9ca87daed26e042668
+vendor/etc/camera/filter/feilin/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/feilin/filter.png|0bd0f45c4f583614f25d0d821c8a8fc9c933a3e2
+vendor/etc/camera/filter/feilin/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/feilin/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/feilin/params.json|33718a6e80f6d074e9e58f9a8aad416573dd6b24
+vendor/etc/camera/filter/feilinheibai/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/feilinheibai/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/feilinheibai/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/feilinheibai/filter.png|25f3a6213a6ad20b3f22a630ba64dd8cbf6ed4a3
+vendor/etc/camera/filter/feilinheibai/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/feilinheibai/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/feilinheibai/params.json|a67b5352636a9083875c4ff15ad867c3baae5663
+vendor/etc/camera/filter/fupian/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/fupian/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/fupian/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/fupian/filter.png|40d9d48c3a91330801dadc99e1292ceab9510de3
+vendor/etc/camera/filter/fupian/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/fupian/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/fupian/params.json|a67b5352636a9083875c4ff15ad867c3baae5663
+vendor/etc/camera/filter/fupianV2/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/fupianV2/content.json|705e039353a8e5f489b5af9ca87daed26e042668
+vendor/etc/camera/filter/fupianV2/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/fupianV2/filter.png|ff8d8b48d37e01f704089b5da5fcb27150e02645
+vendor/etc/camera/filter/fupianV2/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/fupianV2/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/fupianV2/params.json|33718a6e80f6d074e9e58f9a8aad416573dd6b24
+vendor/etc/camera/filter/heibaidianying/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/heibaidianying/content.json|705e039353a8e5f489b5af9ca87daed26e042668
+vendor/etc/camera/filter/heibaidianying/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/heibaidianying/filter.png|101b81cbe23993db5fb4e1e0190d41bb233b8c48
+vendor/etc/camera/filter/heibaidianying/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/heibaidianying/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/heibaidianying/params.json|33718a6e80f6d074e9e58f9a8aad416573dd6b24
+vendor/etc/camera/filter/lengdiao/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/lengdiao/content.json|705e039353a8e5f489b5af9ca87daed26e042668
+vendor/etc/camera/filter/lengdiao/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/lengdiao/filter.png|9bb87c800886008be09246b5870a957a42b3c9b2
+vendor/etc/camera/filter/lengdiao/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/lengdiao/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/lengdiao/params.json|33718a6e80f6d074e9e58f9a8aad416573dd6b24
+vendor/etc/camera/filter/meishi/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/meishi/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/meishi/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/meishi/filter.png|6aa5b0f25ccf5f880f7e8d8115b02309eb476af5
+vendor/etc/camera/filter/meishi/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/meishi/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/meishi/params.json|a67b5352636a9083875c4ff15ad867c3baae5663
+vendor/etc/camera/filter/nuandiao/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/nuandiao/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/nuandiao/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/nuandiao/filter.png|f24e7a118a2e745711a56a2a38b35f4119a00b2d
+vendor/etc/camera/filter/nuandiao/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/nuandiao/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/nuandiao/params.json|a67b5352636a9083875c4ff15ad867c3baae5663
+vendor/etc/camera/filter/stretch/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/stretch/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/stretch/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/stretch/filter.png|b22cbc9aef16a619952916bdcbed5fbc352265c4
+vendor/etc/camera/filter/stretch/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/stretch/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/stretch/params.json|a67b5352636a9083875c4ff15ad867c3baae5663
+vendor/etc/camera/filter/yinyan/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/yinyan/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/yinyan/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/yinyan/filter.png|cd9d5cf6660fb5bfd50c9268892ff95d0d7c302c
+vendor/etc/camera/filter/yinyan/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/yinyan/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/yinyan/params.json|a67b5352636a9083875c4ff15ad867c3baae5663
+vendor/etc/camera/filter/zhengpian/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/zhengpian/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/zhengpian/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/zhengpian/filter.png|da627a05295a56f5eaaa80faddd431864c08f954
+vendor/etc/camera/filter/zhengpian/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/zhengpian/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/zhengpian/params.json|a67b5352636a9083875c4ff15ad867c3baae5663
+vendor/etc/camera/filter/zhigan/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/zhigan/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/zhigan/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/zhigan/filter.png|64393a397e571f0e7ec2fa7f3ee21f1f3a5a5003
+vendor/etc/camera/filter/zhigan/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/zhigan/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/zhigan/params.json|a67b5352636a9083875c4ff15ad867c3baae5663
+vendor/etc/camera/filter/ziran/config.json|068b235ba0b536156b4a6a179958bb2f4e6f6863
+vendor/etc/camera/filter/ziran/content.json|db2b3abd84c17543788adbea18f174b30bd7ecf3
+vendor/etc/camera/filter/ziran/effect_content.json|fe85a0dc6113c18595f795c09765df4d75af3385
+vendor/etc/camera/filter/ziran/filter.png|3e80d72a855f12fe1030fe747283db6bad5e0f92
+vendor/etc/camera/filter/ziran/filter_effect3.fs|00ff22cb965cc2caf6cf5724134490c7a61bf5ec
+vendor/etc/camera/filter/ziran/filter_effect3.vs|500ccfe1f1bf2730ce595ddf05bcb9fc65e15cc2
+vendor/etc/camera/filter/ziran/params.json|a67b5352636a9083875c4ff15ad867c3baae5663
+vendor/etc/customringtone/diode/0.aif|5db8c50e727777bb5fe35d6266e84a91b2ba18f0
+vendor/etc/customringtone/diode/1.aif|fc9a14cb1809d673e5c5cd7ea52d904abe1d2756
+vendor/etc/customringtone/diode/2.aif|b4eb484ca93b344b6c1c522234eb421971525d6d
+vendor/etc/customringtone/diode/3.aif|29298cad4b7fa10d08c8063e0ac11f55f5339a7e
+vendor/etc/customringtone/diode/4.aif|3ef536841e8f6fe4f515f8ccc964adf08d4ebc46
+vendor/etc/customringtone/diode/5.aif|f6094f72e8cc197e5631e831cd9375c55620e7ef
+vendor/etc/customringtone/diode/6.aif|178059373e9e8594daaa4af8e877eeaa7727948c
+vendor/etc/customringtone/diode/7.aif|b33f77eaecd6e4fd66b88c06857d316bbab19b60
+vendor/etc/customringtone/diode/8.aif|61eb44d8f43ecf3da08f45616105ba8b2548ccf3
+vendor/etc/customringtone/diode/9.aif|1cfb60827431114a0b063ad7e14478703c84c235
+vendor/etc/customringtone/diode/A.aif|4decff13c07b5163023341780872bfb65f2a7a5a
+vendor/etc/customringtone/diode/B.aif|31cfcb93a6235f1f6df24f75a6a480fdf848f3dc
+vendor/etc/customringtone/diode/C.aif|a63e3b02fbd7f484866d34998bf6ffb3625ee8f9
+vendor/etc/customringtone/diode/D.aif|fc7044c60d8b7c8e0589f92f2c1527ba9c5e2fbe
+vendor/etc/customringtone/diode/E.aif|513d9a4dcc5e71e8ca82b031b341512b2da0f79e
+vendor/etc/customringtone/diode/F.aif|4071d12cc85037af95199331e1af1fb8fea76c82
+vendor/etc/customringtone/diode/G.aif|0b5186199361c224349e77da39938ea025a4c4b9
+vendor/etc/customringtone/diode/H.aif|0f55cc01fb9125d19f5d761c2c9e69f11942cc16
+vendor/etc/customringtone/diode/I.aif|7b3906f6499dc81ff20470e4876c7cf51fe4dce4
+vendor/etc/customringtone/diode/J.aif|50ed378605bf8f344bf38b0c2136308aeb378261
+vendor/etc/customringtone/diode/K.aif|e72445d53d663cac6b319a4ad9f557c828ee810a
+vendor/etc/customringtone/diode/L.aif|a125e16bdbf8296d4f506881b1723b70b9208d19
+vendor/etc/customringtone/diode/M.aif|675c5f607f96ac87005aa668010cdc35460cae31
+vendor/etc/customringtone/diode/N.aif|e52f40337cc63a267831d67f58229c7f859588dc
+vendor/etc/customringtone/diode/O.aif|491c5727caad371dacba686d38c93ac9c50d41be
+vendor/etc/customringtone/diode/P.aif|b383143fc78439fd1f9474f1ecb2ed2a4a92cf41
+vendor/etc/customringtone/diode/Q.aif|8cabfe10681de18953e413b5e90ec2d407ca7466
+vendor/etc/customringtone/diode/R.aif|42300732782519f63938607552f3c2752cdf8a3b
+vendor/etc/customringtone/diode/S.aif|9d98762539f78dc18ff516741cac01baf03dd4f2
+vendor/etc/customringtone/diode/T.aif|7674e3e9ba8f5983cb0ba9300f531291e1b87eb9
+vendor/etc/customringtone/diode/U.aif|f7854671253dacda9fb6b98713049c304d5539a9
+vendor/etc/customringtone/diode/V.aif|0ffa9a7b28f9c2087961db7924b9b51c76aa9552
+vendor/etc/customringtone/diode/W.aif|d0a40def17441d3907267c6b98a2aeb91c0bd4ab
+vendor/etc/customringtone/diode/X.aif|3e40bd2afefc185a35eabab3df2fbd5ed31578cb
+vendor/etc/customringtone/diode/Y.aif|98d9a1b34a705f529f7249cef833787dcd1f2774
+vendor/etc/customringtone/diode/Z.aif|cffb4bafe62c3481108c99c958ed778c57410c18
+vendor/etc/default_volume_tables.xml|35722acb2dd36ed2a3850a66849c94b904813aa0
+vendor/etc/fstab.default|437ce7af65575b6b720f4b22c9f53ab8dce7cd8e
+vendor/etc/fstab.emmc|8fd4883282ba1525ffdcf9c5c7de940fd454aed2
+vendor/etc/lvacfs_params/2mic/LVACFS_Calibration360.dat|5c958a87d7f2a55b2bd73ec6b0f0da178c09da4e
+vendor/etc/lvacfs_params/2mic/LVACFS_Configuration.txt|781f05ee6650c98ed164881bbd50c9385a47758b
+vendor/etc/lvacfs_params/2mic/LVIMFS_Parameter_xxxx_ID10_He_USB_Digital_48K.txt|21f5f460d523a6e1dac14a5aefe8a4015f0b7b13
+vendor/etc/lvacfs_params/2mic/LVIMFS_Parameter_xxxx_ID11_He_USB_Digital_16K.txt|715d7b9afb43300277c95190e0ebea4fb4b0a7a1
+vendor/etc/lvacfs_params/2mic/LVIMFS_Parameter_xxxx_ID12_He_BT_16K.txt|31f791d18436c0d7bbb5fef568ce890ea9982aab
+vendor/etc/lvacfs_params/2mic/LVIMFS_Parameter_xxxx_ID5_MIC_Normal.txt|c885b9663fdb5771c8ae4852ad994002d05c1b87
+vendor/etc/lvacfs_params/2mic/LVIMFS_Parameter_xxxx_ID6_MIC_App.txt|5b5741983c2ec95afdafd7b7325e8d8800c8f532
+vendor/etc/lvacfs_params/2mic/LVIMFS_Parameter_xxxx_ID7_MIC_He.txt|add449a8de5011634d377e8aef6a13e3740b0d5b
+vendor/etc/lvacfs_params/2mic/LVIMFS_Parameter_xxxx_ID8_MIC_He_App.txt|efa2eeb2d9407f945d4b321e50e0f2f968c4f6d3
+vendor/etc/lvacfs_params/2mic/LVIMFS_Parameter_xxxx_ID9_He_Unprocess.txt|9cb989ac4ac666569eba3c2d7d76755ea2ab5f10
+vendor/etc/lvacfs_params/4mic/LVACFS_Configuration.txt|276fbb4d780002c38adb053abf591b536d37a6ab
+vendor/etc/media_kera_v1/video_system_specs.json|367f286c47646037919294c307cb646823ebfabc
+vendor/etc/media_sun/video_system_specs.json|5d0a59df70bdb2681c40ea36bdcd7bd7c5169dfe
+vendor/etc/nt_performance/nt_process_startup_policy_config.xml|98d6a588b860a08ec23b1f73e9070548b2fc0205
+vendor/etc/permissions/sku_sun/android.hardware.sensor.accelerometer.xml|1ff7a3d742fca3cd4b30e8e0dd8201c3a1a3a222
+vendor/etc/permissions/sku_sun/android.hardware.sensor.compass.xml|e6516d5a9cb834218ff9553124ec4227ac2f35cb
+vendor/etc/permissions/sku_sun/android.hardware.sensor.gyroscope.xml|6eb2fce0980bdb0096a85bd00100cf339966fb8a
+vendor/etc/permissions/sku_sun/android.hardware.sensor.light.xml|a397c2d0e9930b55e111f3fd0390b8d636c0b76c
+vendor/etc/permissions/sku_sun/android.hardware.sensor.proximity.xml|22be137f21b1938422b8e4596bd12c9dd826c5f9
+vendor/etc/permissions/sku_sun/android.hardware.sensor.stepcounter.xml|e609865d5e073212efc2e9db8dc66c7e55024d6b
+vendor/etc/permissions/sku_sun/android.hardware.sensor.stepdetector.xml|2ec3c74d7cb77d3556f704f4c3a6800b06469efb
+vendor/etc/permissions/sku_tuna/android.hardware.sensor.accelerometer.xml|1ff7a3d742fca3cd4b30e8e0dd8201c3a1a3a222
+vendor/etc/permissions/sku_tuna/android.hardware.sensor.compass.xml|e6516d5a9cb834218ff9553124ec4227ac2f35cb
+vendor/etc/permissions/sku_tuna/android.hardware.sensor.gyroscope.xml|6eb2fce0980bdb0096a85bd00100cf339966fb8a
+vendor/etc/permissions/sku_tuna/android.hardware.sensor.light.xml|a397c2d0e9930b55e111f3fd0390b8d636c0b76c
+vendor/etc/permissions/sku_tuna/android.hardware.sensor.proximity.xml|22be137f21b1938422b8e4596bd12c9dd826c5f9
+vendor/etc/permissions/sku_tuna/android.hardware.sensor.stepcounter.xml|e609865d5e073212efc2e9db8dc66c7e55024d6b
+vendor/etc/permissions/sku_tuna/android.hardware.sensor.stepdetector.xml|2ec3c74d7cb77d3556f704f4c3a6800b06469efb
+vendor/etc/powerhint.xml|6f8e7baf2ab6affa446e3d7f03ef608d411f43b8
+vendor/etc/r_submix_audio_policy_configuration.xml|8140e8e1cfb8a51ce655bfa7b166845b594a9e6f
+vendor/etc/richtapresources/default/Volume_change.he|9ec5868821b3ddf573564109521e2efb6c0bab53
+vendor/etc/richtapresources/default/Volume_down_min.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/default/Volume_up_max.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/strong/NT_OnOff_button.he|336dfd30414f05b7bbd853c8fc7e27780d8e8104
+vendor/etc/richtapresources/strong/NT_camera_photo.he|846af58c4d13219b3f512f662b60b47d37e8dd4e
+vendor/etc/richtapresources/strong/NT_camera_zoom.he|61377e0e96497d687e01b6ebd8448b5d7181ecf2
+vendor/etc/richtapresources/strong/NT_letters_navi.he|7807d30353544f369540a6481ccd1a8ef55117d6
+vendor/etc/richtapresources/strong/NT_unlock_error.he|b49208547b02909d910a09639744315990bbfb65
+vendor/etc/richtapresources/strong/NT_unlock_successful.he|9127234c37fa522b64805d1880a52534e3f4eaaf
+vendor/etc/richtapresources/strong/Volume_change.he|9ec5868821b3ddf573564109521e2efb6c0bab53
+vendor/etc/richtapresources/strong/Volume_down_min.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/strong/Volume_up_max.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/strong/click.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/strong/double_click.he|d8835f2f71d5bdc6114b90a0082ffa00d8bd6a5e
+vendor/etc/richtapresources/strong/heavy_click.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/strong/pop.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/strong/texture_tick.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/strong/thud.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/strong/tick.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/weak/NT_OnOff_button.he|96c8ba993ef93d8c80e5bdd0966d0563a997df8a
+vendor/etc/richtapresources/weak/NT_camera_photo.he|846af58c4d13219b3f512f662b60b47d37e8dd4e
+vendor/etc/richtapresources/weak/NT_camera_zoom.he|61377e0e96497d687e01b6ebd8448b5d7181ecf2
+vendor/etc/richtapresources/weak/NT_letters_navi.he|bf354fbcb5fa1c7294232571d8bdcd414c484678
+vendor/etc/richtapresources/weak/NT_unlock_error.he|b20e26204258c9a548ee67c347627ebfe5e8a019
+vendor/etc/richtapresources/weak/NT_unlock_successful.he|67efbbc4903cb88c6b2f4dbbaf97200ba73e174c
+vendor/etc/richtapresources/weak/Volume_change.he|9ec5868821b3ddf573564109521e2efb6c0bab53
+vendor/etc/richtapresources/weak/Volume_down_min.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/weak/Volume_up_max.he|e53e9a04fa8f086e8ea8cfb526e9047066266224
+vendor/etc/richtapresources/weak/click.he|eec65b0c8ba44593def2e71567341163cc610972
+vendor/etc/richtapresources/weak/double_click.he|ff621f8d9ec5b388a3c30cf1fcd9024b87ce57b5
+vendor/etc/richtapresources/weak/heavy_click.he|eec65b0c8ba44593def2e71567341163cc610972
+vendor/etc/richtapresources/weak/pop.he|eec65b0c8ba44593def2e71567341163cc610972
+vendor/etc/richtapresources/weak/texture_tick.he|eec65b0c8ba44593def2e71567341163cc610972
+vendor/etc/richtapresources/weak/thud.he|eec65b0c8ba44593def2e71567341163cc610972
+vendor/etc/richtapresources/weak/tick.he|eec65b0c8ba44593def2e71567341163cc610972
+vendor/etc/whisper/speech_float.eai|8864961d99959c5c44ad6d818707d1dd101afc91
+vendor/etc/wifi/peach/WCNSS_qcom_cfg.ini|0ced286b00ea08353b2755a8e1fda75d9f99ea21
+vendor/etc/wifi/peach_v2/WCNSS_qcom_cfg.ini|d78145c5bc82a080925fbfd62aea2353f1a94644
+vendor/etc/wifi/qca6750/WCNSS_qcom_cfg.ini|098a907d6f88e10236f0050a1ddf5bb1b6c3649c
+vendor/etc/wifi/wcn7750/WCNSS_qcom_cfg.ini|39341637507865a4dffff877ae50ee24ac6263ca
 
 # --- Vendor: firmware ---
 vendor/firmware/CAMERA_ICP.b00|0e8e43ac78a5cc88eaeb33b5515fa8c658460e39
@@ -2912,7 +3513,6 @@ vendor/lib64/hw/android.hardware.bluetooth.lmp_event-impl-qti.so|3d76f05a17a6152
 vendor/lib64/hw/android.hardware.bluetooth@1.0-impl-qti.so|e4fe7df76b17b7981e517538f530812d1c2a2ec2
 vendor/lib64/hw/android.hardware.bluetooth@aidl-impl-qti.so|b595d418e11cf67859436476d7f7b710820dc973
 vendor/lib64/hw/android.hardware.gnss-aidl-impl-qti.so|653afe6c69a566acfa69e1aab7261ec45ca7a39e
-vendor/lib64/hw/android.hardware.graphics.mapper@4.0-impl-qti-display.so|203ae31a9c830d30c4ea10c87f037a11c0bcc5c2
 vendor/lib64/hw/android.hardware.renderscript@1.0-impl.so|821bd0ccb7e9716aa2c69bf56878f7d108b04b77
 vendor/lib64/hw/audio.bluetooth.default.so|4352a60008eb2fb942f58227de4fa685c248fbbc
 vendor/lib64/hw/audio.bluetooth_qti.default.so|8b5a4eccd30ce7755dea53e3e498c05b499ce2d7
@@ -3529,7 +4129,6 @@ vendor/lib64/libqti-MemHal-client.so|3ab2fdfd4961d8a909581579e35908dafe32a255
 vendor/lib64/libqti-appclassifier.so|65b682f6a33f26aac4198da8b17496b242c437e3
 vendor/lib64/libqti-jankrescue.so|849d755d38b418a9c364160699359965238cfaa1
 vendor/lib64/libqti-lllite.so|34a99cbd5d4d30349071a4b322cb18f0d17c45d7
-vendor/lib64/libqti-perfd-client.so|dbead30fb6715c0c2b5d8f6d720e8ef5b07c010c
 vendor/lib64/libqti-perfd.so|43fb254c5113798f8382a5565c99b5cf6755f3db
 vendor/lib64/libqti-perfextn-intf.so|42332422c3acac4d1982f245438d6440ee28219a
 vendor/lib64/libqti-qesdk-secure.so|382c46f4a42c3516fd7c68b2635f02ce2ab8cdbb
@@ -3841,13 +4440,11 @@ vendor/lib64/soundfx/libldnhncr.so|c164f13f27acd180253eddd2a1ef67a5c4cd342d
 vendor/lib64/soundfx/libloudnessenhanceraidl.so|d4e3042760e6828892c4302cf902def6c5c7eb04
 vendor/lib64/soundfx/libqcompostprocbundle.so|2198d7d60377803e85352af4375207b62dfc4b85
 vendor/lib64/soundfx/libqcomvisualizer.so|594c64237bcbb1268751d46d2bb9db7df0fd26c8
-vendor/lib64/soundfx/libqcomvoiceprocessing.so|72fd676c180699c21723b91fc60bd15bcc116f97
 vendor/lib64/soundfx/libquasar.so|3ae425fe2aaafbc9270050404110ae7de64b1b6b
 vendor/lib64/soundfx/libreverbaidl.so|a8b81a6db71da83100cde333ff276e88e40e0a4a
 vendor/lib64/soundfx/libreverbwrapper.so|93aab3fe54c650f780b8c547018616472fb7ea10
 vendor/lib64/soundfx/libvisualizer.so|ef87ed4a91ac46bfcef915ba22d0095f71da3ffa
 vendor/lib64/soundfx/libvisualizeraidl.so|d118a61d4e0abcdee2b4e40dee5d01afe45daa98
-vendor/lib64/soundfx/libvolumelistener.so|e92595f2f487669b442741dd88f22e00c339c14c
 vendor/lib64/vendor.aac.hardware.richtap.vibrator-V1-ndk_platform.so|0e83a60d0f497f2dd8125cf46ac05f29d83f90d6
 vendor/lib64/vendor.display.color@1.0.so|e1f7c71dd540f1207a13c220db5d2ccfec5e30de
 vendor/lib64/vendor.display.color@1.1.so|fb9309dd5a5a69f4390bd9cbef52a1cd365d9569
@@ -3966,7 +4563,6 @@ vendor/lib64/vendor.qti.hardware.display.mapperextensions@1.1.so|4260d8d7b1d8ca7
 vendor/lib64/vendor.qti.hardware.display.mapperextensions@1.2.so|cb61bc58458efe840df355478e041e334ee50dcc
 vendor/lib64/vendor.qti.hardware.display.mapperextensions@1.3.so|52bfeed7c4c78f64596adbd97b94969592dc1f4e
 vendor/lib64/vendor.qti.hardware.display.postproc-V1-ndk.so|08822848a9c8934eb5ba17df342d2861f974fbfb
-vendor/lib64/vendor.qti.hardware.display.snapalloc-impl.so|d310b17a8746ebd301476eaf6f42858be2d1efa0
 vendor/lib64/vendor.qti.hardware.dpmaidlservice-V1-ndk.so|698e6b38e1869fbbbd80c7e67faaf870009e3fa0
 vendor/lib64/vendor.qti.hardware.dsp-V1-ndk.so|d3b26645b4abda76a39e412051913815b3bcf148
 vendor/lib64/vendor.qti.hardware.embmsslaidl-V2-ndk.so|00ab56b195134fa53e339f9d6ccf2dee6c710803
@@ -4095,6 +4691,27 @@ vendor/lib64/vendor.qti.snapdragonServices-V1-ndk.so|2bbde9605ebb5b85a4064a0881d
 vendor/lib64/vendor.qti.snapdragonServices.qape-V1-ndk.so|d456c64ed880897a2e888f2a21ab7b9479f765b4
 vendor/lib64/vendor.qti.syshealthmon-V1-ndk.so|f50f0abb96da56cfc220c2681b28f22ab912a95a
 vendor/lib64/wifi_legacy.so|0a8d01d31543d0c3ef0f70a9999bb9919cd4fda9
+vendor/lib/rfsa/adsp/libQnnHtpV73Skel.so|57af079d5a2095cf2d081effc36b7cd33a50bc6d
+vendor/lib64/android.hardware.bluetooth.ranging-V1-ndk.so|b1f7adc01d45f328a5add541b3e434bd17bc30de
+vendor/lib64/camera/node/com.nothing.node.filtereditor.so|40f4778bf8d945952af5b8f57032a8c18fffdbeb
+vendor/lib64/com.qti.stats.awbsimulationwrapper.so|03531deb891fe1a2bb14d2414d1f546b626c00b0
+vendor/lib64/hw/android.hardware.bluetooth.ranging@aidl-impl-qti.so|2a97467b7f033a46a218bddbdfa8d5db69d9f655
+vendor/lib64/hw/qc_bcs_lib.so|fa7c459f4c5725e5137507482fc9eb68f80cea5c
+vendor/lib64/libaipasserbysegmentation.arcsoft.so|1c223ca2a8556f484faa37eae96bd7ba765240e3
+vendor/lib64/libaiphotoeraser.arcsoft.so|51c9bb9fe52e559e0de73430f3a785b2eea5624a
+vendor/lib64/libarcsoft_Anti_EyeGlass_Reflection.so|51f18fa6df3fdbb72b332e6d4676cbcd1e22650a
+vendor/lib64/libarcsoft_Anti_Glass_Reflection.so|0dde93cf31422bb67e253da1ec7c262ff0467d90
+vendor/lib64/libcameradecision.so|fa1d2df588848b97a09f7cd9cc23563c9fc39343
+vendor/lib64/libclang_rt.ubsan_standalone-aarch64-android.so|08323bbf8b6531f97301f20ec00ca39ff6751d9c
+vendor/lib64/libcolorful.so|716c785e064643fa27b52185a87a97aa68fc8a16
+vendor/lib64/libextensionpluginmodule.so|0c7ab0c16392c10a0f8e5c127821dfaeacd6a123
+vendor/lib64/libflare_reduction.arcsoft.so|83d66af365361224bcb2781937147be942672e8e
+vendor/lib64/libprotobuf-cpp-full-21.12.so|b06d86f24093fedc1a6c6b9a06a915604c9d752c
+vendor/lib64/libprotobuf-cpp-lite-21.12.so|2e53ba96a8dc2483ebfe16f6f647d287c4389adb
+vendor/lib64/libscenesegmentation.arcsoft.so|67499a54c663f85bfe2a8d9e4b7476ae7eab5ec8
+
+# --- Vendor: APEX ---
+vendor/apex/com.google.android.widevine-12498615.apex|a35909bef639876b14831459bff5d532858267bb
 
 # --- Vendor: product media ---
 vendor/product/media/audio/alarms/01_trad.ogg|f2e902df421c0a678b64a7859bf42cbaa02a2986
@@ -4156,8 +4773,9 @@ vendor/product/media/audio/ui/WirelessChargingStarted.ogg|d22f3cb5420cc01cd36006
 vendor/product/media/audio/ui/camera_click.ogg|86473176ec3f0e03b92e6a544dac8d80b7836ab1
 vendor/product/media/audio/ui/camera_focus.ogg|edcc918443bce7bdb7c755fc2de17a0c4010e5aa
 vendor/product/media/audio/ui/screenshot.ogg|8925218e05df331156e0ad2481e428642e964966
+vendor/product/media/audio/notifications/01_oi!.ogg|78ec2724f1e291265d531f0240b1e47534211c3c
 
-# --- Vendor: GPU, framework and rfs ---
+# --- Vendor: GPU and framework ---
 vendor/framework/androidx.camera.extensions.impl.advanced.jar|da6a61f9d14c99dbd2ffa2284dceef04c1e27ec2
 vendor/gpu/kbc/sequence_manifest.bin|fdf1adbc2ce88777eb7e01c989d0dbe6631202ac
 vendor/gpu/kbc/sequence_manifest_a730.bin|a152a1bc189cdbf0bea626a4391f55984d6386b5
@@ -4167,5 +4785,29 @@ vendor/gpu/kbc/unified_kbcs_64.bin|f2f1cca8cbf1f11d1c15653be106903b5efaed52
 vendor/gpu/kbc/unified_kbcs_64_a730.bin|5dba4ef9a1bd5473fbd34c5aa223fe4dfc8b3497
 vendor/gpu/kbc/unified_ksqs.bin|7bc598ec59399c61a0af3ba64876e95d658bf74f
 vendor/gpu/kbc/unified_ksqs_a730.bin|0ebee0ed50a69feaf700668f09d06d128328c531
+
+# --- Vendor: rfs ---
 vendor/rfs/rfs_symlinks|da39a3ee5e6b4b0d3255bfef95601890afd80709
+
+# --- Vendor: other ---
+vendor/overlay/FrameworksResTarget_Vendor.apk;PRESIGNED|6c051bcbbaf76f1edeeef192a8261a689719e488
+vendor/overlay/Frameworks_Vnd_Metroid.apk;PRESIGNED|c4005fb116f00ec731285266bd01e9b947d3c08b
+vendor/overlay/NothingLauncherOverlay_Metroid.apk;PRESIGNED|8eaf89d92eb5bde5587f8e783d8a0924dacc57d6
+vendor/overlay/NothingOSIntroduction16Overlay_W1260_Base.apk;PRESIGNED|9f85fa08e57a0c2d3ed7423bc4970c3d4f8d4754
+vendor/overlay/NothingOSIntroductionOverlay_Metroid.apk;PRESIGNED|18cc716df6e603ef360f1c4ff958aa06435df138
+vendor/overlay/NothingSettingsOverlay.apk;PRESIGNED|1aaf50a4a3d78e69d0e22163bb5b48cfb57f1512
+vendor/overlay/NothingSettingsOverlay_Metroid_Base.apk;PRESIGNED|41dc9d8223942b17ed79f32ac859a1d8231dceee
+vendor/overlay/NothingSettingsOverlay_Metroid_Sec.apk;PRESIGNED|2e7f8be7338512fbd617405e4b8886b1d1e85b1d
+vendor/overlay/NothingSettingsOverlay_common_Base.apk;PRESIGNED|9e2c148fb608ed28dec571fcba185216ebfca19d
+vendor/overlay/NothingSettingsProviderOverlay_Metroid_Sec.apk;PRESIGNED|8fc8655c64adf42b41baf777b5f594ed9d6587b7
+vendor/overlay/NothingSettingsProviderOverlay_Sun_Base.apk;PRESIGNED|0fd5233563e7f8f6f6f69ca5bbdaa460c8e60229
+vendor/overlay/NothingSetupWizardOverlay_Metroid_Sec.apk;PRESIGNED|d2cd28f6b5272e4771b34685f4cb54062f226e52
+vendor/overlay/NothingUserGuideOverlay_Sun_Base.apk;PRESIGNED|55134051f2065ed9afadd34e8b09478818d4955f
+vendor/overlay/SecureElementResTarget_Vendor.apk;PRESIGNED|9cbc2b8e235b8fe88395f5de59938e5bae897759
+vendor/overlay/ServiceWifiResOverlayMainline_sun.apk;PRESIGNED|ce85a581557d180b2b4ce37010f08340d098f995
+vendor/overlay/ServiceWifiResOverlay_sun.apk;PRESIGNED|e19e4b64bd91a21f2f8636c0d3f4593b3ec2ccd6
+vendor/overlay/WifiResMainlineTarget.apk;PRESIGNED|5a258e4f753ef8e20a4256e1e83932a5f9c80811
+vendor/overlay/WifiResMainlineTarget_spf.apk;PRESIGNED|c429300d8610a4f50548e0ef8ef757cf06be39cc
+vendor/overlay/WifiResTarget.apk;PRESIGNED|fb9276f6adc5bc3253c7eb0d8539ac1088c1ab38
+vendor/overlay/WifiResTarget_spf.apk;PRESIGNED|2aebdb0feb02599794ddf1a7afc1e3f9c8e4e91e
 

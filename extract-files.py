@@ -12,10 +12,8 @@
 #   ./extract-files.py --regenerate_makefiles
 #   ./setup-makefiles.py
 #
-# The dump must be a full stock package: the reference dump used while writing
-# proprietary-files.txt was partial (no vendor/lib64, no firmware), and the
-# entries under "Missing from current dump" have never been checked against a
-# complete firmware image.
+# proprietary-files.txt was checked entry by entry against the full Nothing OS
+# C5.0-260924-2115 dump: every entry exists there and carries its SHA-1.
 
 from extract_utils.fixups_blob import (
     blob_fixup,
