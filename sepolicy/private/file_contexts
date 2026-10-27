@@ -1,0 +1,2 @@
+# Nothing's system maintenance daemon lives in system_ext.
+/system_ext/bin/sltntc u:object_r:sltntc_exec:s0

@@ -1,0 +1,7 @@
+# Nothing's diag communications daemon. Not present in the current stock dump
+# (marked ABSENT_ON_STOCK) but kept so a future dump that ships it does not fall
+# back to vendor_file and get refused by init under enforcing.
+type vendor_diagcommd, domain;
+type vendor_diagcommd_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(vendor_diagcommd)

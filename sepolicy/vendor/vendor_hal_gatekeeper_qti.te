@@ -1,0 +1,2 @@
+# QTI gatekeeper schedules keymint retries using a boot-time timer.
+get_prop(vendor_hal_gatekeeper_qti, vendor_keymint_retry_timer_prop)

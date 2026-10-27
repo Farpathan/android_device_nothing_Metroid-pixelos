@@ -1,0 +1,13 @@
+# Metroid (Nothing Phone 3) device node types.
+
+# Charge: charger control block device
+type vendor_charge_block_device, dev_type;
+
+# Fingerprint: Goodix and Nothing fingerprint char devices
+type vendor_fingerprint_device, dev_type;
+
+# Haptics: AW86927 haptic driver and ICS SFDC nodes
+type vendor_metroid_haptic_device, dev_type;
+
+# Touchfeature: touch panel feature char device
+type touchfeature_device, dev_type;

@@ -1,0 +1,2 @@
+# ST NFC HAL keeps its firmware/config state under /data/vendor/nfc.
+allow nfc vendor_nfc_vendor_data_file:dir search;

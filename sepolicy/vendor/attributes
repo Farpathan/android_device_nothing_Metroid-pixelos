@@ -1,0 +1,5 @@
+# Attributes for Nothing's vendor.noth.hardware.charge AIDL HAL, consumed by the
+# hal_attribute_service() macro in hal_charge.te.
+attribute vendor_hal_noth_charge;
+attribute vendor_hal_noth_charge_client;
+attribute vendor_hal_noth_charge_server;

@@ -1,0 +1,30 @@
+# Metroid (Nothing Phone 3) device file and filesystem types.
+
+# Audio: vendor audio framework sockets under /dev/socket
+type audio_socket, file_type;
+
+# Battery / charging
+type vendor_proc_charge, fs_type, proc_type;
+type vendor_proc_touchpanel, fs_type, proc_type;
+
+# Diag: factory diag and mdlog data directories
+type minidump_data_file, data_file_type, file_type;
+type vendor_mdlog_vendor_data_file, data_file_type, file_type;
+
+# Hardware info: Nothing kernel exposes a hardware-info dump node
+type vendor_sysfs_hardwareinfo, fs_type, sysfs_type;
+
+# Haptics
+type vendor_metroid_proc_haptic, fs_type, proc_type;
+
+# Thermal
+type sys_thermal_wifi_limit, fs_type, sysfs_type;
+type sysfs_power_save, fs_type, sysfs_type;
+type thermal_data_file, data_file_type, file_type;
+
+# WALT (proc/sys/walt, QCOM performance subsystem)
+type proc_walt, fs_type, proc_type;
+
+# Wlan
+type vendor_mac_vendor_data_file, data_file_type, file_type, mlstrustedobject;
+type vendor_sysfs_virtual_temp, fs_type, sysfs_type;

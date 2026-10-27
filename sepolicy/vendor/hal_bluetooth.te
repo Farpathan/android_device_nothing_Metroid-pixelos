@@ -1,0 +1,3 @@
+# Nothing's Bluetooth HAL writes its MAC address config to /data/vendor/mac_addr.
+allow hal_bluetooth_default vendor_mac_vendor_data_file:dir search;
+allow hal_bluetooth_default vendor_mac_vendor_data_file:file { open read };
