@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Nothing Phone (3) / Metroid - device compatibility matrix (DEVICE_MATRIX_FILE).
+
+    This matrix states what the vendor image REQUIRES from the framework. The
+    stock vendor blobs only talk to framework HALs through the stable interfaces
+    covered by the framework's own manifest (stats, nativeservice, ...) and do
+    not need any additional requirement expressed here, so the matrix is empty.
+    Keeping it empty (rather than deleting the file) keeps DEVICE_MATRIX_FILE
+    pointing at a valid matrix, which is what treble/vintf expect.
+
+    Vendor-only HALs that the FRAMEWORK may use are declared in
+    framework_compatibility_matrix.xml instead (that is the correct file for the
+    "framework may use these vendor HALs" direction).
+-->
+<compatibility-matrix version="1.0" type="device" />

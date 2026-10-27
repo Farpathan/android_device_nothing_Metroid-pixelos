@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Nothing Phone (3) / Metroid - device HAL manifest (DEVICE_MANIFEST_FILE).
+
+    Rule: declare every HAL whose stock service calls servicemanager
+    addService(); an undeclared AIDL HAL makes the service abort/crash-loop.
+    Do NOT declare HALs that a blob fragment already ships:
+      * vendor.qti.qccvndhal_aidl   -> vendor/etc/vintf/manifest/ (blob)
+      * vendor.qti.qccsyshal_aidl   -> system_ext/etc/vintf/manifest/ (blob,
+                                       type="framework"; not a device HAL)
+
+    target-level 202404 is the FCM level of the stock vendor image. Every
+    android.hardware.* entry below is checked against that FCM at build time;
+    vendor.* / com.nothing.* entries are covered by
+    framework_compatibility_matrix.xml.
+
+    Versions are the AIDL interface versions shipped in the stock dump
+    (android.hardware.<name>-V<n>-ndk.so), except mapper, a native HAL.
+
+    Deliberately NOT declared (no serving binary or service in the stock dump):
+      android.hardware.soundtrigger3   (lib only, no service)
+      android.hardware.vibrator        (lib + hw/vibrator.default.so only, no service)
+      android.hardware.tetheroffload   (lib only, no service)
+      android.hardware.security.keymint/strongbox (odm overlay sku only)
+      android.hardware.radio.ims       (no android.hardware.radio.ims-V*-ndk.so)
+      vendor.qti.hardware.ListenSoundModel (not served, see old attempt notes)
+-->
+<manifest version="1.0" type="device" target-level="202404">
+
+    <!-- ============ Audio ============ -->
+    <!-- audiohalservice.qti registers the bluetooth module besides primary. -->
+    <hal format="aidl">
+        <name>android.hardware.audio.core</name>
+        <version>2</version>
+        <fqname>IModule/bluetooth</fqname>
+    </hal>
+    <!-- audioserver hard-requires the QTI effects factory. -->
+    <hal format="aidl">
+        <name>android.hardware.audio.effect</name>
+        <version>2</version>
+        <fqname>IFactory/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.bluetooth.audio</name>
+        <version>4</version>
+        <fqname>IBluetoothAudioProviderFactory/default</fqname>
+    </hal>
+
+    <!-- ============ Security / keystore ============ -->
+    <hal format="aidl">
+        <name>android.hardware.gatekeeper</name>
+        <fqname>IGatekeeper/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.security.keymint</name>
+        <version>3</version>
+        <fqname>IKeyMintDevice/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.security.keymint</name>
+        <version>3</version>
+        <fqname>IRemotelyProvisionedComponent/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.security.secureclock</name>
+        <fqname>ISecureClock/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.security.sharedsecret</name>
+        <fqname>ISharedSecret/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.authsecret</name>
+        <fqname>IAuthSecret/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.weaver</name>
+        <version>2</version>
+        <fqname>IWeaver/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.identity</name>
+        <version>5</version>
+        <fqname>IIdentityCredentialStore/default</fqname>
+    </hal>
+
+    <!-- ============ Biometrics ============ -->
+    <hal format="aidl">
+        <name>android.hardware.biometrics.face</name>
+        <version>4</version>
+        <fqname>IFace/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.biometrics.fingerprint</name>
+        <version>3</version>
+        <fqname>IFingerprint/default</fqname>
+    </hal>
+
+    <!-- ============ Display / graphics ============ -->
+    <hal format="aidl">
+        <name>android.hardware.graphics.allocator</name>
+        <version>2</version>
+        <fqname>IAllocator/default</fqname>
+    </hal>
+    <!--
+        Native gralloc mapper, loaded by libui through
+        AServiceManager_openDeclaredPassthroughHal("mapper", "qti", ...), i.e.
+        mapper.qti.so. The instance name must be the library suffix "qti":
+        servicemanager matches isDeclared() on mapper/qti.
+    -->
+    <hal format="native">
+        <name>mapper</name>
+        <version>5.0</version>
+        <interface>
+            <instance>qti</instance>
+        </interface>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.light</name>
+        <version>2</version>
+        <fqname>ILights/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.power</name>
+        <version>5</version>
+        <fqname>IPower/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.power.stats</name>
+        <version>2</version>
+        <fqname>IPowerStats/default</fqname>
+    </hal>
+
+    <!-- ============ Media ============ -->
+    <hal format="aidl">
+        <name>android.hardware.media.c2</name>
+        <version>1</version>
+        <fqname>IComponentStore/default</fqname>
+        <fqname>IComponentStore/default2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.drm</name>
+        <version>1</version>
+        <fqname>IDrmFactory/clearkey</fqname>
+        <fqname>IDrmFactory/wfdhdcp</fqname>
+    </hal>
+
+    <!-- ============ Camera ============ -->
+    <hal format="aidl">
+        <name>android.hardware.camera.provider</name>
+        <version>2</version>
+        <fqname>ICameraProvider/vendor_qti/0</fqname>
+    </hal>
+
+    <!-- ============ Connectivity: wifi / bluetooth / nfc ============ -->
+    <hal format="aidl">
+        <name>android.hardware.wifi</name>
+        <version>2</version>
+        <fqname>IWifi/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.wifi.hostapd</name>
+        <version>2</version>
+        <fqname>IHostapd/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.wifi.supplicant</name>
+        <version>3</version>
+        <fqname>ISupplicant/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.bluetooth</name>
+        <fqname>IBluetoothHci/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.nfc</name>
+        <fqname>INfc/default</fqname>
+    </hal>
+
+    <!-- ============ Location ============ -->
+    <hal format="aidl">
+        <name>android.hardware.gnss</name>
+        <version>4</version>
+        <fqname>IGnss/default</fqname>
+    </hal>
+
+    <!-- ============ Sensors / thermal / health / usb ============ -->
+    <hal format="aidl">
+        <name>android.hardware.sensors</name>
+        <version>2</version>
+        <fqname>ISensors/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.thermal</name>
+        <version>2</version>
+        <fqname>IThermal/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.health</name>
+        <version>3</version>
+        <fqname>IHealth/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.boot</name>
+        <fqname>IBootControl/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.usb</name>
+        <fqname>IUsb/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.usb.gadget</name>
+        <fqname>IUsbGadget/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.memtrack</name>
+        <fqname>IMemtrack/default</fqname>
+    </hal>
+
+    <!-- ============ Telephony ============ -->
+    <hal format="aidl">
+        <name>android.hardware.radio.config</name>
+        <version>3</version>
+        <fqname>IRadioConfig/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.data</name>
+        <version>3</version>
+        <fqname>IRadioData/slot1</fqname>
+        <fqname>IRadioData/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.messaging</name>
+        <version>3</version>
+        <fqname>IRadioMessaging/slot1</fqname>
+        <fqname>IRadioMessaging/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.modem</name>
+        <version>3</version>
+        <fqname>IRadioModem/slot1</fqname>
+        <fqname>IRadioModem/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.network</name>
+        <version>3</version>
+        <fqname>IRadioNetwork/slot1</fqname>
+        <fqname>IRadioNetwork/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.sim</name>
+        <version>3</version>
+        <fqname>IRadioSim/slot1</fqname>
+        <fqname>IRadioSim/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.voice</name>
+        <version>3</version>
+        <fqname>IRadioVoice/slot1</fqname>
+        <fqname>IRadioVoice/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.radio.sap</name>
+        <fqname>ISap/slot1</fqname>
+        <fqname>ISap/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.secure_element</name>
+        <fqname>ISecureElement/SIM1</fqname>
+        <fqname>ISecureElement/SIM2</fqname>
+    </hal>
+
+    <!-- ============ Nothing platform HALs ============ -->
+    <hal format="aidl">
+        <name>com.nothing.camera.postproc</name>
+        <version>1</version>
+        <fqname>IPostProcService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.noth.hardware.camera</name>
+        <version>1</version>
+        <fqname>INtCamService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.noth.hardware.charge</name>
+        <version>1</version>
+        <fqname>ICharge/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.goodix.hardware.biometrics.fingerprint</name>
+        <fqname>IGoodixFingerprintDaemon/default</fqname>
+    </hal>
+
+    <!-- ============ Qualcomm vendor HALs ============ -->
+    <hal format="aidl">
+        <name>vendor.qti.hardware.agm</name>
+        <fqname>IAGM/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.pal</name>
+        <fqname>IPAL/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.paleventnotifier</name>
+        <version>2</version>
+        <fqname>IPALEventNotifier/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.camera.aon</name>
+        <version>2</version>
+        <fqname>IAONService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.camera.offlinecamera</name>
+        <version>2</version>
+        <fqname>IOfflineCameraService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.cacertaidlservice</name>
+        <fqname>IService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.dsp</name>
+        <fqname>IDspService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.perf2</name>
+        <fqname>IPerf/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.qseecom</name>
+        <version>1</version>
+        <fqname>IQSEECom/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.minkipcbinder</name>
+        <version>1</version>
+        <fqname>IMinkServer/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.qspmhal</name>
+        <fqname>IQspmhal/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.sensorscalibrate</name>
+        <fqname>ISensorsCalibrate/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.servicetrackeraidl</name>
+        <fqname>IServicetracker/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.wifi.supplicant</name>
+        <fqname>ISupplicantVendor/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.wifi.wifilearner</name>
+        <fqname>IWifiStats/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.bluetooth_sar</name>
+        <fqname>IBluetoothSar/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.mwqemadapteraidlservice</name>
+        <fqname>IMwqemAdapter/MwqemAdapter</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.memory.pasrmanager</name>
+        <version>1</version>
+        <fqname>IPasrManager/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.snapdragonServices</name>
+        <fqname>ISnapdragonServices/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.gnss</name>
+        <version>7</version>
+        <fqname>ILocAidlGnss/default</fqname>
+    </hal>
+
+    <!-- Data / QMS -->
+    <hal format="aidl">
+        <name>vendor.qti.data.dmapconsent</name>
+        <fqname>IService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.data.factoryservice</name>
+        <fqname>IFactory/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.data.ntn</name>
+        <fqname>IQmsSatelliteService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.data.txpwrservice</name>
+        <version>7</version>
+        <fqname>ITxPwrService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.data.connectionaidl</name>
+        <fqname>IDataConnection/slot1</fqname>
+        <fqname>IDataConnection/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.data.connectionfactory</name>
+        <fqname>IFactory/slot0</fqname>
+        <fqname>IFactory/slot1</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.data.iwlandata</name>
+        <version>2</version>
+        <fqname>IIWlan/slot1</fqname>
+        <fqname>IIWlan/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.dpmaidlservice</name>
+        <fqname>IDpmService/default</fqname>
+    </hal>
+
+    <!-- Radio (qcrilNrd) -->
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.am</name>
+        <fqname>IQcRilAudio/slot1</fqname>
+        <fqname>IQcRilAudio/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.atfwd</name>
+        <fqname>IAtFwd/AtFwdAidl</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.ims</name>
+        <version>16</version>
+        <fqname>IImsRadio/imsradio0</fqname>
+        <fqname>IImsRadio/imsradio1</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.internal.deviceinfo</name>
+        <fqname>IDeviceInfo/deviceinfo</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.lpa</name>
+        <fqname>IUimLpa/UimLpa0</fqname>
+        <fqname>IUimLpa/UimLpa1</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.qcrilhook</name>
+        <fqname>IQtiOemHook/oemhook0</fqname>
+        <fqname>IQtiOemHook/oemhook1</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.qtiradio</name>
+        <version>16</version>
+        <fqname>IQtiRadioStable/slot1</fqname>
+        <fqname>IQtiRadioStable/slot2</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.qtiradioconfig</name>
+        <version>6</version>
+        <fqname>IQtiRadioConfig/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.uim</name>
+        <fqname>IUim/Uim0</fqname>
+        <fqname>IUim/Uim1</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.uim_remote_client</name>
+        <fqname>IUimRemoteServiceClient/uimRemoteClient0</fqname>
+        <fqname>IUimRemoteServiceClient/uimRemoteClient1</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.hardware.radio.uim_remote_server</name>
+        <fqname>IUimRemoteServiceServer/uimRemoteServer0</fqname>
+        <fqname>IUimRemoteServiceServer/uimRemoteServer1</fqname>
+    </hal>
+
+    <!-- IMS -->
+    <hal format="aidl">
+        <name>vendor.qti.ImsRtpService</name>
+        <fqname>IRTPService/ImsRtpService</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.ims.datachannelservice</name>
+        <version>2</version>
+        <fqname>IDataChannelService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.ims.factoryaidlservice</name>
+        <fqname>IImsFactory/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.ims.imscmaidlservice</name>
+        <fqname>IImsCmService/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>vendor.qti.ims.uceaidlservice</name>
+        <fqname>IUceService/default</fqname>
+    </hal>
+</manifest>
