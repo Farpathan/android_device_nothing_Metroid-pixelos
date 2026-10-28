@@ -1,5 +1,9 @@
 on init
     setprop sys.usb.configfs 1
+    # recovery.fstab names partitions through bootdevice; on Android
+    # init.target.rc makes this link, which recovery never loads.
+    wait /dev/block/platform/soc/${ro.boot.bootdevice}
+    symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
 
 # No USB gadget HAL runs in recovery, so dwc3-msm stays detached unless it is
 # put into peripheral mode here.
