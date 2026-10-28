@@ -203,6 +203,9 @@ BOARD_AVB_ALGORITHM := SHA256_RSA4096
 METROID_AVB_KEY_PATH ?= external/avb/test/data/testkey_rsa4096.pem
 BOARD_AVB_KEY_PATH := $(METROID_AVB_KEY_PATH)
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --set_hashtree_disabled_flag
+# ABL verifies pvmfw on every boot and marks the slot unbootable when no
+# vbmeta in the chain describes it. pvmfw itself stays stock.
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --include_descriptors_from_image $(DEVICE_PATH)/prebuilt/pvmfw.img
 BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT := true
 
 BOARD_AVB_BOOT_KEY_PATH := $(METROID_AVB_KEY_PATH)

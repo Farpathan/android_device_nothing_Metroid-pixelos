@@ -11,6 +11,7 @@ used as-is by the ROM build; there is no kernel source build.
 | `kernel-headers.tar.gz` | QTI UAPI headers | For the caf HALs; `kernel-headers/Makefile` unpacks it as the `headers_install` step of `TARGET_KERNEL_SOURCE`. |
 | `dtb/stock.dtb` | stock `vendor_boot` dtb | The stock device tree blob, the only file in `BOARD_PREBUILT_DTBIMAGE_DIR`, so the built `dtb.img` matches stock byte for byte. |
 | `dtbo.img` | stock `dtbo` partition | Overlay DTBO image (`BOARD_PREBUILT_DTBOIMAGE`), 48 MiB, matches `BOARD_DTBOIMG_PARTITION_SIZE`. |
+| `pvmfw.img` | stock `pvmfw` partition | Never flashed. Only its AVB hash descriptor goes into `vbmeta.img`, because ABL refuses a slot whose vbmeta chain does not cover pvmfw. |
 | `vendor_boot-modules/` | stock `vendor_boot.img` | The **full** stock vendor_boot module set: 341 `.ko` plus `modules.load`, `modules.load.recovery`, `modules.blocklist`, `modules.dep`, `modules.softdep`, `modules.alias`. |
 | `vendor_dlkm-modules/` | stock `vendor_dlkm.img` | The stock vendor_dlkm `lib/modules`: 311 `.ko`, `modules.load` (572 lines, 311 unique), `modules.blocklist`, `system_dlkm.modules.blocklist` and the depmod outputs. |
 | `system_dlkm-modules/` | stock `system_dlkm.img` | The stock system_dlkm `lib/modules`: 96 signed GKI `.ko` and the depmod outputs. Stock loads none of them directly; vendor modules pull them in as dependencies. |
