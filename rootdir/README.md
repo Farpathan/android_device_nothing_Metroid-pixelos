@@ -20,6 +20,8 @@ Everything is installed from `rootdir/Android.bp` as Soong modules; add the modu
 
 `fstab.qcom.vendor_ramdisk` is the vendor ramdisk variant Soong makes from `fstab.qcom`; both names must be in `PRODUCT_PACKAGES`.
 
+First-stage init reads the fstab from `/first_stage_ramdisk/fstab.qcom` in the vendor ramdisk, which `device-common.mk` copies there. Stock names its fstab `fstab.default`, which suggests the bootloader passes `androidboot.fstab_suffix=default`; no `fstab.default` ships here, so both stages then fall back to `androidboot.hardware=qcom`.
+
 ## Provenance
 
 - `fstab.qcom`: derived from the tree's `recovery.fstab` (tested on the device): same dynamic partitions, AVB flags, EROFS+ext4 entries, metadata/userdata encryption (f2fs inlinecrypt, wrapped keys, metadata encryption). Only the recovery-specific `/recovery` entry was dropped.

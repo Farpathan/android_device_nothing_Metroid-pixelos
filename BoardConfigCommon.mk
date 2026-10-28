@@ -74,16 +74,10 @@ BOARD_RAMDISK_OFFSET := 0x01000000
 BOARD_TAGS_OFFSET := 0x00000100
 BOARD_DTB_OFFSET := 0x01f00000
 
-# Kernel cmdline (boot.img header). bootopt/erofs.reserved_pages come from the
-# previous attempt's live-device extraction; TODO: re-verify against the stock
-# boot.img header once it is dumped.
-BOARD_KERNEL_CMDLINE := video=vfb:640x400,bpp=32,memsize=3072000 qcom_geni_serial.con_enabled=0 console=ttynull bootopt=64S3,32N2,64N2 erofs.reserved_pages=64 nosoftlockup log_buf_len=1M ignore_loglevel printk.devkmsg=on
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
-
-# Vendor cmdline for vendor_boot, verbatim from the stock
-# vendor_boot.mkbootimg-args (minus the trailing "bootconfig" token, which
-# mkbootimg re-appends because BOARD_BOOTCONFIG is set).
-BOARD_VENDOR_CMDLINE := video=vfb:640x400,bpp=32,memsize=3072000 qcom_geni_serial.con_enabled=0 nosoftlockup console=ttynull qcom_geni_serial.con_enabled=0 log_buf_len=1M ignore_loglevel printk.devkmsg=on
+# Kernel cmdline: with header v4 it goes into vendor_boot. Verbatim from the
+# stock vendor_boot (minus the trailing "bootconfig" token, which mkbootimg
+# re-appends because BOARD_BOOTCONFIG is set); stock boot.img has none.
+BOARD_KERNEL_CMDLINE := video=vfb:640x400,bpp=32,memsize=3072000 qcom_geni_serial.con_enabled=0 nosoftlockup console=ttynull qcom_geni_serial.con_enabled=0 log_buf_len=1M ignore_loglevel printk.devkmsg=on
 
 BOARD_KERNEL_IMAGE_NAME := kernel
 

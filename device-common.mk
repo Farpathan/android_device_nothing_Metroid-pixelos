@@ -125,6 +125,10 @@ PRODUCT_PACKAGES += \
     MetroidApertureOverlay \
     MetroidLineageSdkOverlay
 
+# First-stage fstab, where init looks for it in the vendor ramdisk
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/rootdir/etc/fstab.qcom:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+
 # Stock keeps the system_dlkm blocklist next to the vendor modules
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/prebuilt/vendor_dlkm-modules/system_dlkm.modules.blocklist:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/system_dlkm.modules.blocklist
