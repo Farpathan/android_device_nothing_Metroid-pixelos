@@ -131,6 +131,16 @@ BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(shell cat $(DEVICE_PATH)/prebuilt/
 BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(shell cat $(DEVICE_PATH)/prebuilt/vendor_boot-modules/modules.load.recovery 2>/dev/null)
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES_BLOCKLIST_FILE := $(DEVICE_PATH)/prebuilt/vendor_boot-modules/modules.blocklist
 
+# Kernel modules in vendor_dlkm and system_dlkm: the stock sets, unchanged.
+# Stock modules.load lists some modules twice; only the first entry is kept.
+# The vendor modules ship unstripped, as on stock; system modules are never
+# stripped, which keeps the GKI module signatures intact.
+BOARD_VENDOR_KERNEL_MODULES := $(wildcard $(DEVICE_PATH)/prebuilt/vendor_dlkm-modules/*.ko)
+BOARD_VENDOR_KERNEL_MODULES_LOAD := $(shell awk '!seen[$$0]++' $(DEVICE_PATH)/prebuilt/vendor_dlkm-modules/modules.load 2>/dev/null)
+BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE := $(DEVICE_PATH)/prebuilt/vendor_dlkm-modules/modules.blocklist
+BOARD_DO_NOT_STRIP_VENDOR_MODULES := true
+BOARD_SYSTEM_KERNEL_MODULES := $(wildcard $(DEVICE_PATH)/prebuilt/system_dlkm-modules/*.ko)
+
 # Dynamic partitions (sizes from fastboot, 2026-10-27)
 BOARD_SUPER_PARTITION_SIZE := 9126805504
 BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions

@@ -125,8 +125,9 @@ PRODUCT_PACKAGES += \
     MetroidApertureOverlay \
     MetroidLineageSdkOverlay
 
-# TODO(dlkm): include the makefile that populates vendor_dlkm/system_dlkm with
-# the stock prebuilt kernel-module set from the vendor repo (see BoardConfigCommon).
+# Stock keeps the system_dlkm blocklist next to the vendor modules
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/prebuilt/vendor_dlkm-modules/system_dlkm.modules.blocklist:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/system_dlkm.modules.blocklist
 
 # OEM otacerts
 PRODUCT_EXTRA_RECOVERY_KEYS += \
