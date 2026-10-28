@@ -49,6 +49,15 @@ prebuilt_etc {
     vendor: true,
 }
 
+// Bring-up boot logger; drop it once the device boots reliably.
+prebuilt_etc {
+    name: "init.metroid.bootlog.rc",
+    src: "etc/init.metroid.bootlog.rc",
+    filename_from_src: true,
+    sub_dir: "init",
+    vendor: true,
+}
+
 // Factory mode (MMI) support, imported by init.qcom.rc.
 prebuilt_etc {
     name: "init.qcom.factory.rc",

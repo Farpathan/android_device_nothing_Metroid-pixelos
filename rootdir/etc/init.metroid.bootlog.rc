@@ -1,0 +1,15 @@
+# Bring-up only. init reboots to the bootloader on a fatal error and pstore
+# does not survive that on this device, so keep each boot's kernel and logcat
+# output on /metadata, where recovery can read it. The previous boot's copy is
+# kept as *.prev.txt.
+service metroid_bootlog /system/bin/sh -c "mkdir -p /metadata/bootlog; cd /metadata/bootlog || exit 1; [ -f dmesg.txt ] && mv dmesg.txt dmesg.prev.txt; [ -f logcat.txt ] && mv logcat.txt logcat.prev.txt; while true; do dmesg > dmesg.txt; logcat -d -b all > logcat.txt 2>&1; sync; sleep 1; done"
+    user root
+    group root log
+    seclabel u:r:su:s0
+    disabled
+
+on early-init
+    start metroid_bootlog
+
+on property:sys.boot_completed=1
+    stop metroid_bootlog

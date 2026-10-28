@@ -110,7 +110,8 @@ PRODUCT_PACKAGES += \
     init.nt_product.rc \
     init.qcom.factory.rc \
     ueventd.qcom.rc \
-    charger_fw_fstab.qti
+    charger_fw_fstab.qti \
+    init.metroid.bootlog.rc
 
 # Runtime resource overlays (see overlay/README.md)
 PRODUCT_PACKAGES += \
