@@ -1,0 +1,15 @@
+diff --git a/minui/events.cpp b/minui/events.cpp
+index 30ddbc8..5fcd8ae 100644
+--- a/minui/events.cpp
++++ b/minui/events.cpp
+@@ -39,7 +39,9 @@
+ 
+ constexpr const char* INPUT_DEV_DIR = "/dev/input";
+ 
+-constexpr size_t MAX_DEVICES = 16;
++// Metroid has more than 16 input nodes, and with the default cap the PMIC
++// power key is left out, so recovery has no select key.
++constexpr size_t MAX_DEVICES = 32;
+ constexpr size_t MAX_MISC_FDS = 16;
+ 
+ constexpr size_t BITS_PER_LONG = sizeof(unsigned long) * 8;
