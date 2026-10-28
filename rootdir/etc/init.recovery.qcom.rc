@@ -1,0 +1,12 @@
+on init
+    setprop sys.usb.configfs 1
+
+# No USB gadget HAL runs in recovery, so dwc3-msm stays detached unless it is
+# put into peripheral mode here.
+on property:ro.boot.usbcontroller=*
+    setprop sys.usb.controller ${ro.boot.usbcontroller}
+    wait /sys/bus/platform/devices/${ro.boot.usb.dwc3_msm:-a600000.ssusb}/mode
+    write /sys/bus/platform/devices/${ro.boot.usb.dwc3_msm:-a600000.ssusb}/mode idle
+    wait /sys/class/udc/${ro.boot.usbcontroller} 0
+    write /sys/bus/platform/devices/${ro.boot.usb.dwc3_msm:-a600000.ssusb}/mode peripheral
+    wait /sys/class/udc/${ro.boot.usbcontroller} 1
