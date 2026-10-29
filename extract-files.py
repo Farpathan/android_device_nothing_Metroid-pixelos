@@ -39,6 +39,7 @@ lib_fixups: lib_fixups_user_type = {
         'android.hardware.bluetooth.audio-V4-ndk',
         'android.hardware.graphics.allocator-V1-ndk',
         'android.hardware.graphics.common-V5-ndk',
+        'android.hardware.graphics.composer3-V3-ndk',
         'android.media.audio.common.types-V3-ndk',
     ): lib_fixup_remove,
 }

@@ -77,23 +77,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     vndservicemanager
 
-# Display HALs from the sm8750 caf repos (hardware/qcom-caf/sm8750/display);
-# module names confirmed in the synced tree. The composer-service module ships
-# its own init rc and vintf fragment.
-PRODUCT_PACKAGES += \
-    vendor.qti.hardware.display.composer-service \
-    vendor.qti.hardware.display.allocator-service \
-    vendor.qti.hardware.display.demura-service \
-    vendor.qti.hardware.display.snapalloc-impl \
-    android.hardware.graphics.mapper@4.0-impl-qti-display \
-    mapper.qti
-
 # Older AIDL versions that stock blobs still load next to the current ones
 PRODUCT_PACKAGES += \
     android.hardware.audio.core-V2-ndk.vendor \
     android.hardware.bluetooth.audio-V4-ndk.vendor \
     android.hardware.graphics.allocator-V1-ndk.vendor \
     android.hardware.graphics.common-V5-ndk.vendor \
+    android.hardware.graphics.composer3-V3-ndk.vendor \
     android.media.audio.common.types-V3-ndk.vendor
 
 # Audio HAL support from the sm8750 caf repos (hardware/qcom-caf/sm8750/audio)

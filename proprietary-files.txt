@@ -30,31 +30,18 @@
 #   vendor/etc/vintf/manifest_kera.xml
 #   vendor/etc/vintf/manifest_sun.xml
 #   vendor/etc/vintf/manifest_tuna.xml
-# Not extracted, built from hardware/qcom-caf/sm8750 (display and audio):
+# Not extracted, built from hardware/qcom-caf/sm8750 (audio):
 #   system_ext/lib64/libaudiohalvendorextn.so
 #   vendor/bin/audioadsprpcd
 #   vendor/bin/hw/audiohalservice.qti
-#   vendor/bin/hw/vendor.qti.hardware.display.allocator-service
-#   vendor/bin/hw/vendor.qti.hardware.display.composer-service
-#   vendor/bin/hw/vendor.qti.hardware.display.demura-service
 #   vendor/etc/init/audiohalservice_qti.rc
-#   vendor/etc/init/vendor.qti.hardware.display.allocator-service.rc
-#   vendor/etc/init/vendor.qti.hardware.display.composer-service.rc
-#   vendor/etc/init/vendor.qti.hardware.display.demura-service.rc
 #   vendor/etc/vintf/manifest/audioeffectservice_qti.xml
 #   vendor/etc/vintf/manifest/manifest_audio_qti_services.xml
 #   vendor/etc/vintf/manifest/manifest_audiocorehal_default.xml
-#   vendor/etc/vintf/manifest/mapper.qti.xml
-#   vendor/etc/vintf/manifest/vendor.qti.hardware.display.allocator-service.xml
-#   vendor/etc/vintf/manifest/vendor.qti.hardware.display.composer-service3_v3.xml
-#   vendor/etc/vintf/manifest/vendor.qti.hardware.display.demura-service.xml
-#   vendor/lib64/hw/android.hardware.graphics.mapper@4.0-impl-qti-display.so
-#   vendor/lib64/hw/mapper.qti.so
 #   vendor/lib64/libaudiohalvendorextn.so
 #   vendor/lib64/libqti-perfd-client.so
 #   vendor/lib64/soundfx/libqcomvoiceprocessing.so
 #   vendor/lib64/soundfx/libvolumelistener.so
-#   vendor/lib64/vendor.qti.hardware.display.snapalloc-impl.so
 # Not extracted, built by the ROM as an AOSP tool:
 #   vendor/bin/checkpoint_gc
 #   vendor/bin/dumpsys
@@ -1214,6 +1201,51 @@ vendor/etc/init/wifi_ftm.rc|ebfce16eca7cd017c13f56e33c0a8c2efeaf0af5
 vendor/etc/init/init.qti.display_boot.rc|d70c76f6f9c612be32d60f218421c5566b6e5401
 vendor/etc/init/nt_kprobe.rc|2a73fa9f826ee7f19483ff12f6cfc662f63998b4
 vendor/etc/init/nt_verify_partition.rc|ea10dab26687dc4d12089a6acebbfa6f7f764f09
+
+# --- Vendor: display HAL ---
+# All stock: the closed libsdm extension and color blobs share structs with
+# libsdmcore, and a source-built libsdmcore corrupted its layer stack. Copy
+# rules keep Soong from pairing these with the same-named source modules.
+vendor/bin/hw/vendor.qti.hardware.display.allocator-service;MAKE_COPY_RULE_ONLY|81d63236fe19405801b485e469ebb9484296ee77
+vendor/bin/hw/vendor.qti.hardware.display.composer-service;MAKE_COPY_RULE_ONLY|4a4b39eb893511c1aa9be8c3b314e1f6712500a4
+vendor/bin/hw/vendor.qti.hardware.display.demura-service;MAKE_COPY_RULE_ONLY|e653e5783d37e2baea67f4c9e5c63fd9ccecad4c
+vendor/etc/init/vendor.qti.hardware.display.allocator-service.rc;MAKE_COPY_RULE_ONLY|73d22daf61665ead21e6145e9a871735cdc06b91
+vendor/etc/init/vendor.qti.hardware.display.composer-service.rc;MAKE_COPY_RULE_ONLY|99dd9755841ef4accaac6ca113e617d69e2aeedc
+vendor/etc/init/vendor.qti.hardware.display.demura-service.rc;MAKE_COPY_RULE_ONLY|debaf9e58cc86380b03eecf5525744793952f27d
+vendor/etc/vintf/manifest/mapper.qti.xml|80fa49006e0c00a0d14b73b29b22fc5505d6e983
+vendor/etc/vintf/manifest/vendor.qti.hardware.display.allocator-service.xml|d6adf0203bf2419163fd673f46a7391f69abf272
+vendor/etc/vintf/manifest/vendor.qti.hardware.display.composer-service3_v3.xml|3c88b67d17bcf1d7ee950c8df56338b61e366918
+vendor/etc/vintf/manifest/vendor.qti.hardware.display.demura-service.xml|f5bedbefb440a358ca5d2eedb3bdf9d57802ed27
+vendor/lib64/hw/android.hardware.graphics.mapper@4.0-impl-qti-display.so;MAKE_COPY_RULE_ONLY|203ae31a9c830d30c4ea10c87f037a11c0bcc5c2
+vendor/lib64/hw/mapper.qti.so;MAKE_COPY_RULE_ONLY|37dd8964cc3394a9839dc90398e4718b504b5fa0
+vendor/lib64/vendor.qti.hardware.display.snapalloc-impl.so;MAKE_COPY_RULE_ONLY|d310b17a8746ebd301476eaf6f42858be2d1efa0
+vendor/lib64/libdisplayconfig.qti.so;MAKE_COPY_RULE_ONLY|6176e01ae71c285fafcaeb86197783fc6763172b
+vendor/lib64/libdisplaydebug.so;MAKE_COPY_RULE_ONLY|16ee1d3ecac2ac393ead1f3d87c5252718fc99d5
+vendor/lib64/libdrmutils.so;MAKE_COPY_RULE_ONLY|bdb94a518551181d3261b407c1627d194e81bfd6
+vendor/lib64/libfilefinder.so;MAKE_COPY_RULE_ONLY|fa9081f249078a2cfe52bb421ec6c7a8cd8f36f9
+vendor/lib64/libgpu_tonemapper.so;MAKE_COPY_RULE_ONLY|d13b3ea2ecf16dbb8f85b39d78e43a4ae6ea3fa0
+vendor/lib64/libgralloc.qti.so;MAKE_COPY_RULE_ONLY|d0048cfc84eb38afcd6e1843a23dad4592189440
+vendor/lib64/libgralloccore.so;MAKE_COPY_RULE_ONLY|33c44f7bb86f8a0e91565a19f27b03b1c242638c
+vendor/lib64/libgrallocutils.so;MAKE_COPY_RULE_ONLY|5b4e829aaf48c9c4fbbb52d78daa5ac4906b6e12
+vendor/lib64/libhistogram.so;MAKE_COPY_RULE_ONLY|75227aed54ddb601c8ec1f974a65de72e52e1d96
+vendor/lib64/libmapperutils.so;MAKE_COPY_RULE_ONLY|f905b32e24964df2e57ff63e9205031bacb8233d
+vendor/lib64/libqservice.so;MAKE_COPY_RULE_ONLY|6d4c8f03e9f85466873750a2a86b34fc806ae6b8
+vendor/lib64/libsdedrm.so;MAKE_COPY_RULE_ONLY|ecc02b3512fb3c6950cdb8123fa5237ad4a53eae
+vendor/lib64/libsdmclient.so;MAKE_COPY_RULE_ONLY|8e6627040c187cc211098dd325143e4a6d01f3e8
+vendor/lib64/libsdmcore.so;MAKE_COPY_RULE_ONLY|0d8937872284ff5e78721cc3728fdfb669c634fb
+vendor/lib64/libsdmdal.so;MAKE_COPY_RULE_ONLY|ba3aa0f41ac535ebaed7c5916cf917056a74d66b
+vendor/lib64/libsdmutils.so;MAKE_COPY_RULE_ONLY|87b0f8ed7d091fddf159365bcc57051a454a3007
+vendor/lib64/vendor.qti.hardware.display.aiqe-V2-ndk.so;MAKE_COPY_RULE_ONLY|c0bc5f401da50d69b3a236630589730a5b549f86
+vendor/lib64/vendor.qti.hardware.display.composer3-V1-ndk.so;MAKE_COPY_RULE_ONLY|9e292c8f134474f54dd87c9b15588525ffa5eccc
+vendor/lib64/vendor.qti.hardware.display.config-V12-ndk.so;MAKE_COPY_RULE_ONLY|376a141e4f0eeba8873db5873b6415ba4ab35216
+vendor/lib64/vendor.qti.hardware.display.demura-V1-ndk.so;MAKE_COPY_RULE_ONLY|dbb43f09d4d576cbfc9406b18f643c0ca7c0e105
+vendor/lib64/vendor.qti.hardware.display.mapper@3.0.so;MAKE_COPY_RULE_ONLY|c3bcf43abd899a4f9a3ecd8fe7b954f8ae9c2e08
+vendor/lib64/vendor.qti.hardware.display.mapper@4.0.so;MAKE_COPY_RULE_ONLY|8ba1b5db30dcd6566a1a8b275448b4cab84c5d8e
+vendor/lib64/vendor.qti.hardware.display.mapperextensions@1.0.so;MAKE_COPY_RULE_ONLY|d15ec5067b55d6d07e6bdc518be8971858c8e54b
+vendor/lib64/vendor.qti.hardware.display.mapperextensions@1.1.so;MAKE_COPY_RULE_ONLY|4260d8d7b1d8ca73c15236479cbc4c7f82530f2f
+vendor/lib64/vendor.qti.hardware.display.mapperextensions@1.2.so;MAKE_COPY_RULE_ONLY|cb61bc58458efe840df355478e041e334ee50dcc
+vendor/lib64/vendor.qti.hardware.display.mapperextensions@1.3.so;MAKE_COPY_RULE_ONLY|52bfeed7c4c78f64596adbd97b94969592dc1f4e
+vendor/lib64/vendor.display.config@2.0.so;MAKE_COPY_RULE_ONLY|65df9c9e1d314553fb5f681ae24906ad773e26ac
 
 # --- Vendor: VINTF fragments ---
 vendor/etc/vintf/manifest/vendor.qti.qccvndhal_aidl-service.xml|d92ff9bea5a3803104272924440bfe98fa4a4a9f
