@@ -38,3 +38,15 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/permissions/privapp-permissions-qti-qcc.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-qti-qcc.xml \
     $(DEVICE_PATH)/configs/permissions/privapp-permissions-com.google.android.euicc.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-com.google.android.euicc.xml \
     $(DEVICE_PATH)/configs/permissions/default-permissions-com.google.android.euicc.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/default-permissions-com.google.android.euicc.xml
+
+# --- Stock HAL service init scripts -------------------------------------
+# Stock scripts pointed at the <name>-stock binaries from proprietary-files.txt.
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/init/android.hardware.sensors-service-multihal-stock.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.sensors-service-multihal-stock.rc \
+    $(DEVICE_PATH)/configs/init/android.hardware.thermal-service.qti-stock.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.thermal-service.qti-stock.rc \
+    $(DEVICE_PATH)/configs/init/android.hardware.usb-service.qti-stock.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.usb-service.qti-stock.rc \
+    $(DEVICE_PATH)/configs/init/android.hardware.wifi-service-stock.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.wifi-service-stock.rc \
+    $(DEVICE_PATH)/configs/init/android.hardware.wifi.supplicant-service-stock.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.wifi.supplicant-service-stock.rc \
+    $(DEVICE_PATH)/configs/init/hostapd.android-stock.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hostapd.android-stock.rc \
+    $(DEVICE_PATH)/configs/init/memtrack_qti-stock.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/memtrack_qti-stock.rc \
+    $(DEVICE_PATH)/configs/init/vendor.qti.hardware.vibrator.service-stock.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/vendor.qti.hardware.vibrator.service-stock.rc
