@@ -29,3 +29,7 @@ telephony.lteOnCdmaDevice=1
 
 # WFD
 persist.debug.wfd.enable=1
+
+# The QTI KeyMint rejects EARLY_BOOT_ONLY keys, so the boot-level key used by
+# odsign has to be a per-boot TEE key instead
+ro.keystore.boot_level_key.strategy=TRUSTED_ENVIRONMENT:MAX_USES_PER_BOOT

@@ -95,6 +95,16 @@ PRODUCT_PACKAGES += \
     libvolumelistener \
     qtiaudiohalvendorextn
 
+# audiohalservice.qti dlopens these, so nothing pulls them in on its own.
+# Without the core HAL AudioFlinger null-derefs and audioserver crash-loops.
+PRODUCT_PACKAGES += \
+    libagmipcservice \
+    libaudiocore.extension \
+    libaudiocorehal.default \
+    libaudiocorehal.qti \
+    libaudioeffecthal.qti \
+    libaudioplatform.qti
+
 # Power HAL extension client
 PRODUCT_PACKAGES += \
     libqti-perfd-client
