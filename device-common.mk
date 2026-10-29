@@ -68,9 +68,9 @@ PRODUCT_PACKAGES += \
     android.hardware.health-V1-ndk \
     libxml2.vendor
 
-# The stock health HAL blob links the V3 NDK library
+# The vintf manifest declares IHealth; healthd-ext provides it
 PRODUCT_PACKAGES += \
-    android.hardware.health-V3-ndk
+    android.hardware.health-service.qti
 
 # base_vendor.mk only adds it for shipping API level 29 and older, but the
 # stock vendor blobs still use /dev/vndbinder and the composer blocks without it
