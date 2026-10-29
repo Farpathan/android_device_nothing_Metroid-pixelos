@@ -65,7 +65,7 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/etc/init/android.hardware.biometrics.face-service.noth.rc': blob_fixup()
         .regex_replace('    disabled\n    disabled\n', '    disabled\n')
         .regex_replace(
-            '    group camera system\n',
+            '    group camera system\n(?!    interface aidl)',
             '    group camera system\n'
             '    interface aidl android.hardware.biometrics.face.IFace/default\n',
         ),
@@ -75,7 +75,7 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/etc/init/qms.rc': blob_fixup()
         .regex_replace('    disabled\n', '')
         .regex_replace(
-            '     class main\n',
+            '     class main\n(?:     user root\n)*',
             '     class main\n'
             '     user root\n',
         )
@@ -83,7 +83,8 @@ blob_fixups: blob_fixups_user_type = {
     # nt_logtool writes to /data/vendor/diag_mdlog before anything creates it.
     'vendor/etc/init/init.nt_logtool.rc': blob_fixup()
         .regex_replace(
-            'service diag_gpslog_start ',
+            '(?:on post-fs-data\n    mkdir /data/vendor/diag_mdlog 0770 root system\n'
+            '    restorecon_recursive /data/vendor/diag_mdlog\n\n)*service diag_gpslog_start ',
             'on post-fs-data\n'
             '    mkdir /data/vendor/diag_mdlog 0770 root system\n'
             '    restorecon_recursive /data/vendor/diag_mdlog\n\n'
