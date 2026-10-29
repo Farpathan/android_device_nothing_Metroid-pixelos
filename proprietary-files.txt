@@ -4068,3 +4068,31 @@ vendor/rfs/rfs_symlinks|da39a3ee5e6b4b0d3255bfef95601890afd80709
 
 vendor/lib64/libOpenCL.so|27804ad1c01569d0c309f793885d46a78fe4e45f
 vendor/lib64/libspukeymintdeviceutils.so|9cb27a5f976a5babbf55a0fbab3dc8a7c9303adf
+
+# Stock HAL services whose source modules share their names (see 23545e1).
+# Copied as files so the names cannot clash; the AIDL stubs they need that
+# stock no longer ships are built from source in device-common.mk.
+vendor/bin/hw/android.hardware.sensors-service.multihal;MAKE_COPY_RULE_ONLY|1175f3f72b19c693bbcc5fb07b38a360dac15295
+vendor/bin/hw/android.hardware.thermal-service.qti;MAKE_COPY_RULE_ONLY|4bad5f4982a6013fff43079676771781a538acdd
+vendor/bin/hw/android.hardware.usb-service.qti;MAKE_COPY_RULE_ONLY|f54e3dd9f6501ae9903871bac42e81da717c6f10
+vendor/bin/hw/android.hardware.wifi-service;MAKE_COPY_RULE_ONLY|70d59a804af321d6a8c2507b31c93b565820c119
+vendor/bin/hw/hostapd;MAKE_COPY_RULE_ONLY|66612a78da6c6bd0422433e2d312509484b40643
+vendor/bin/hw/vendor.qti.hardware.memtrack-service;MAKE_COPY_RULE_ONLY|181ec878b641a49f9a02a2069e2f6b7ba7d93dad
+vendor/bin/hw/vendor.qti.hardware.vibrator.service;MAKE_COPY_RULE_ONLY|49dff04122b8844b560548f3f37fc25db5404b43
+vendor/bin/hw/wpa_supplicant;MAKE_COPY_RULE_ONLY|04ce39ec8d92c0600f8f3e0b9096e6eb53fb34a3
+vendor/etc/init/android.hardware.sensors-service-multihal.rc;MAKE_COPY_RULE_ONLY|b3f1924a0090f8c2f5bf3cfe373556313c47c41c
+vendor/etc/init/android.hardware.thermal-service.qti.rc;MAKE_COPY_RULE_ONLY|fb1e0f1fc1f6f4d7722a362ccb27f8e55402450e
+vendor/etc/init/android.hardware.usb-service.qti.rc;MAKE_COPY_RULE_ONLY|4aba6a154fe468077e6bebe609012236ffeb7e62
+vendor/etc/init/android.hardware.wifi-service.rc;MAKE_COPY_RULE_ONLY|becc80c5f02fdb017938896578338b5849c75a6a
+vendor/etc/init/hostapd.android.rc;MAKE_COPY_RULE_ONLY|d7d29a421ab21762b6e511cedb157f21314c2a01
+vendor/etc/init/memtrack_qti.rc;MAKE_COPY_RULE_ONLY|2f33b10022403292e8d355f190756df5a015599b
+vendor/etc/init/vendor.qti.hardware.vibrator.service.rc;MAKE_COPY_RULE_ONLY|238d4d6812aab099a9ab5cd39c0e12e9fe1555fc
+vendor/etc/vintf/manifest/android.hardware.sensors-multihal.xml;MAKE_COPY_RULE_ONLY|752c152eee5b25149c03dd9316f467e886d4ffc7
+vendor/etc/vintf/manifest/android.hardware.thermal-service.qti.xml;MAKE_COPY_RULE_ONLY|bc86bd0547e21e26804f8a72dae13047eea136ef
+vendor/etc/vintf/manifest/android.hardware.usb-service.qti.xml;MAKE_COPY_RULE_ONLY|e6d28703fcdf9ee5a966818748c0804c2c90b94e
+vendor/etc/vintf/manifest/android.hardware.wifi-service.xml;MAKE_COPY_RULE_ONLY|fcbf5db90a91c9685ea6d788de72b2254c63aea6
+vendor/etc/vintf/manifest/android.hardware.wifi.hostapd.xml;MAKE_COPY_RULE_ONLY|69d4090344bfc949cc49a1649dfc55d21131d634
+vendor/etc/vintf/manifest/android.hardware.wifi.supplicant.xml;MAKE_COPY_RULE_ONLY|a041d2d32739f25d7011a61d8faf65540182913e
+vendor/etc/vintf/manifest/memtrack_qti.xml;MAKE_COPY_RULE_ONLY|6e1e978f2163acb6e9d7c2ae631b6cb8209cf97c
+vendor/etc/vintf/manifest/vendor.qti.hardware.vibrator.service.xml;MAKE_COPY_RULE_ONLY|006c002843c35a15a8608b712bcee3a3a72aee2d
+vendor/etc/wifi/wpa_supplicant.conf;MAKE_COPY_RULE_ONLY|cf4c8da33043d8d6580ebb453411330aea185af6
