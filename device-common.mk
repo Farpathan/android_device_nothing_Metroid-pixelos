@@ -105,6 +105,29 @@ PRODUCT_PACKAGES += \
     libaudioeffecthal.qti \
     libaudioplatform.qti
 
+# PAL opens the virtual (AGM) mixer through these tinyalsa plugins and aborts
+# without them; the rest are the IPC services, extensions and effect libraries
+# that stock ships and the audio configs point at.
+PRODUCT_PACKAGES += \
+    lib_bt_bundle \
+    libagm_compress_plugin \
+    libagm_mixer_plugin \
+    libagm_pcm_plugin \
+    libaudiochargerlistener \
+    libbundleaidl \
+    libdownmixaidl \
+    libdynamicsprocessingaidl \
+    libfmpal \
+    libhfp_pal \
+    libloudnessenhanceraidl \
+    libpaleventnotifier \
+    libpalipcservice \
+    libqcompostprocbundle \
+    libqcomvisualizer \
+    libreverbaidl \
+    libsndcardparser \
+    libvisualizeraidl
+
 
 # Rootdir (prebuilt_etc modules in rootdir/Android.bp, see rootdir/README.md)
 PRODUCT_PACKAGES += \
