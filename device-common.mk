@@ -153,6 +153,12 @@ PRODUCT_PACKAGES += \
     metroid_mountpoint_dsp \
     metroid_mountpoint_firmware_mnt
 
+# The stock IMS app (org.codeaurora.ims) needs this library; without it
+# com.qti.phone crash-loops and Rescue Party reboots the phone.
+PRODUCT_PACKAGES += \
+    ims-ext-common \
+    ims_ext_common.xml
+
 # Runtime resource overlays (see overlay/README.md)
 PRODUCT_PACKAGES += \
     CarrierConfigOverlayMetroid \
