@@ -1,0 +1,16 @@
+diff --git a/hal/core/utils/include/qti-audio-core/Utils.h b/hal/core/utils/include/qti-audio-core/Utils.h
+index d0ee641..f6110ce 100644
+--- a/hal/core/utils/include/qti-audio-core/Utils.h
++++ b/hal/core/utils/include/qti-audio-core/Utils.h
+@@ -346,6 +346,11 @@ constexpr size_t getChannelCount(
+             return __builtin_popcount(layout.get<Tag::layoutMask>() & mask);
+         case Tag::voiceMask:
+             return __builtin_popcount(layout.get<Tag::voiceMask>() & mask);
++        case Tag::acnMask:
++            // acnMask specifies channel count.
++            return layout.get<Tag::acnMask>() &
++                   ::aidl::android::media::audio::common::AudioChannelLayout::
++                           ACN_CHANNEL_COUNT_BIT_MASK;
+     }
+     return 0;
+ }
