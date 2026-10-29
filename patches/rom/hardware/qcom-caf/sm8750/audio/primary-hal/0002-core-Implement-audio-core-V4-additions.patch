@@ -1,7 +1,18 @@
+1
+                for (const auto& cp : mConnectedDevicePorts) {
 diff --git a/hal/core/Module.cpp b/hal/core/Module.cpp
-index 9412b8b..30857f3 100644
+index 9412b8b..2e7fc84 100644
 --- a/hal/core/Module.cpp
 +++ b/hal/core/Module.cpp
+@@ -688,7 +688,7 @@ ndk::ScopedAStatus Module::connectExternalDevice(const AudioPort& in_templateIdA
+                 // Check if profiles are non empty because they were populated
+                 // by a previous connection. Otherwise, it means that they are
+                 // not empty because the mix port has static profiles.
+-                for (const auto cp : mConnectedDevicePorts) {
++                for (const auto& cp : mConnectedDevicePorts) {
+                     if (cp.second.count(portsIt->id) > 0) {
+                         connectedPortsIt->second.insert(portsIt->id);
+                         break;
 @@ -1516,6 +1516,12 @@ ndk::ScopedAStatus Module::removeDeviceEffect(
      return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
  }
