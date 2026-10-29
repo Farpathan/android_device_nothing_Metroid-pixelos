@@ -119,6 +119,17 @@ PRODUCT_PACKAGES += \
     charger_fw_fstab.qti \
     init.metroid.bootlog.rc
 
+# Firmware mount points and wlan firmware links (Android.bp). Without the
+# mount points the modem/dsp partitions never mount, the ADSP never boots and
+# the audio HAL aborts, which takes system_server down with it.
+PRODUCT_PACKAGES += \
+    firmware_WCNSS_qcom_cfg.ini_symlink \
+    firmware_wlan_mac.bin_symlink \
+    firmware_wlanmdsp.otaupdate_symlink \
+    metroid_mountpoint_bt_firmware \
+    metroid_mountpoint_dsp \
+    metroid_mountpoint_firmware_mnt
+
 # Runtime resource overlays (see overlay/README.md)
 PRODUCT_PACKAGES += \
     CarrierConfigOverlayMetroid \

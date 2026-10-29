@@ -59,6 +59,10 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+#Import rc file
+import /vendor/etc/ueventd.qcom.userdebug.rc
+
+
 # Firmware directory Path
 # Below macro will be read by uevent and path will
 # be added to search path for firmware loading
@@ -439,6 +443,15 @@ subsystem mem_buf_vm
 /dev/block/platform/soc/4744000.sdhci/by-name/frp       0600   system     system
 /dev/block/platform/soc/4804000.ufshc/by-name/frp       0600   system     system
 /dev/block/platform/soc/1bf8000.pcie/by-name/frp        0600   system     system
+/dev/block/platform/soc/f44000.sdhci/by-name/frp        0600   system     system
+
+#Add for binfo
+/dev/block/platform/soc/1d84000.ufshc/by-name/binfo     0660   system     system
+/dev/block/platform/soc/7c4000.sdhci/by-name/binfo      0660   system     system
+
+#Add for nt_reserve1
+/dev/block/platform/soc/1d84000.ufshc/by-name/nt_reserve1     0660   system     system
+/dev/block/platform/soc/7c4000.sdhci/by-name/nt_reserve1      0660   system     system
 
 # This is temporary while using SD card for initial bring-up
 /dev/block/platform/soc/8804000.sdhci/by-name/frp       0600   system     system
@@ -480,13 +493,13 @@ subsystem mem_buf_vm
 /sys/class/dual_role_usb/*	power_role	0660	system	system
 /sys/class/dual_role_usb/*	mode		0660	system	system
 
-/sys/class/typec/port0		data_role	0660	system	system
-/sys/class/typec/port0		power_role	0660	system	system
+/sys/class/typec/port0		data_role	0660	system	usb
+/sys/class/typec/port0		power_role	0660	system	usb
 /sys/class/typec/port0		port_type	0660	system	usb
 /sys/class/typec/port0-partner	accessory_mode	0440	system	usb
 
 # USB Dynamic Disable
-/sys/bus/platform/devices/a600000.dwc3	dynamic_disable	0220	root	usb
+/sys/bus/platform/devices/a600000.ssusb	dynamic_disable	0220	root	usb
 
 # USB autosuspend/wakeup settings
 /sys/bus/usb/devices/*      power/autosuspend          0660  system  usb
@@ -498,7 +511,7 @@ subsystem mem_buf_vm
 /sys/bus/usb/devices/usb*   authorized                 0660  system  usb
 
 #USB mode setting
-/sys/bus/platform/devices/a600000.dwc3    mode        0660  system  usb
+/sys/bus/platform/devices/a600000.ssusb    mode        0660  system  usb
 
 #Memory Offline
 /sys/devices/system/memory/memory* state    0660 system system
@@ -537,6 +550,7 @@ subsystem mem_buf_vm
 /sys/class/graphics/fb0     modes                    0664    system  graphics
 /sys/class/graphics/fb0     mode                     0664    system  graphics
 /sys/class/graphics/fb0     msm_cmd_autorefresh_en   0664    system  graphics
+*/
 
 /sys/devices/platform/soc/ae00000.qcom,mdss_mdp power/control 0664 system graphics
 
