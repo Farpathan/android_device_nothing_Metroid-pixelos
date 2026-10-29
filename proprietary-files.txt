@@ -1281,7 +1281,8 @@ vendor/etc/vintf/manifest/deviceinfo-saidl.xml|9cbbaf212ed8faa3f175f9021d7d4356c
 vendor/etc/vintf/manifest/dpm-saidl.xml|e659bfbc5d951f59693fdc607ec6e92c56a26e03
 vendor/etc/vintf/manifest/fm_hci.xml|155fc6021193cb09714064b8ff3191ea04399521
 vendor/etc/vintf/manifest/imsdcservice-saidl.xml|b631f3686c12298366417856ccb4a9bde07d6396
-vendor/etc/vintf/manifest/manifest_btaudiocoreservices_qti.xml|99c1c1cef69952852d30be97dd58067471825cbc
+# Declares IModule/bluetooth from the dropped stock btaudio_sw module (see configs.mk); audioserver waits on it forever
+#vendor/etc/vintf/manifest/manifest_btaudiocoreservices_qti.xml|99c1c1cef69952852d30be97dd58067471825cbc
 vendor/etc/vintf/manifest/manifest_identity_credential.xml|6f110716fcf45bc55f86759e21278f5c985a0664
 vendor/etc/vintf/manifest/mwqem-saidl.xml|fe3cf1f0e8606a250bfcfe6cb75e68d98d23696a
 vendor/etc/vintf/manifest/power.stats.xml|e11a3d364a6f7b12d89582bc0022dac1a3738e13
