@@ -42,6 +42,8 @@ lib_fixups: lib_fixups_user_type = {
         'android.hardware.graphics.composer3-V3-ndk',
         'android.media.audio.common.types-V3-ndk',
     ): lib_fixup_remove,
+    # Installed by copy rules next to the platform libtinyxml2 (see blob_fixups).
+    ('libtinyxml2-stock',): lib_fixup_remove,
 }
 
 namespace_imports = [
@@ -118,11 +120,33 @@ blob_fixups: blob_fixups_user_type = {
             'vendor.noth.hardware.charge-V1-ndk_platform.so',
             'vendor.noth.hardware.charge-V1-ndk.so',
         ),
-    # No other patchelf fixups: scanning DT_NEEDED of every ELF in the
-    # reference dump found no library that is needed but not shipped (the
-    # vendor blobs carry their own libbase, libutils, libcutils, libhardware
-    # and libntf, and the _platform-named interface libs they link are
-    # themselves shipped blobs).
+    # The platform tinyxml2 has a larger XMLDocument than the one these blobs
+    # were built against; libsdmclient keeps one on its stack, and the bigger
+    # constructor overwrote the saved return address. Point them at the stock
+    # library, shipped as libtinyxml2-stock.so.
+    (
+        'system_ext/lib64/liblayerext.qti.so',
+        'vendor/bin/hw/vendor.qti.hardware.display.composer-service',
+        'vendor/bin/poweropt-service',
+        'vendor/lib64/camera/components/com.arcsoft.node.motiondetect.so',
+        'vendor/lib64/hw/camera.qcom.so',
+        'vendor/lib64/libaodoptfeature.so',
+        'vendor/lib64/libapengine.so',
+        'vendor/lib64/libcamerapoweroptfeature.so',
+        'vendor/lib64/libcamxcoreutils.so',
+        'vendor/lib64/libcamxods.so',
+        'vendor/lib64/libgamepoweroptfeature.so',
+        'vendor/lib64/liblearningmodule.so',
+        'vendor/lib64/liboffscreenpoweroptfeature.so',
+        'vendor/lib64/libpowercallback.so',
+        'vendor/lib64/libpowercore.so',
+        'vendor/lib64/libpsmoptfeature.so',
+        'vendor/lib64/libsdmclient.so',
+        'vendor/lib64/libstandbyfeature.so',
+        'vendor/lib64/libvideooptfeature.so',
+        'vendor/lib64/soundfx/libquasar.so',
+    ): blob_fixup()
+        .replace_needed('libtinyxml2.so', 'libtinyxml2-stock.so'),
 }
 
 module = ExtractUtilsModule(
