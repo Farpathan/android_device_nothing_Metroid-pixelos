@@ -244,6 +244,8 @@ TARGET_USES_LOGD := true
 PRODUCT_ENFORCE_VINTF_MANIFEST := true
 PRODUCT_FULL_TREBLE := true
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/vintf/manifest.xml
+# Stock fragments for the HAL services shipped as copy rules
+DEVICE_MANIFEST_FILE += $(wildcard $(DEVICE_PATH)/vintf/stock/*.xml)
 DEVICE_MATRIX_FILE := $(DEVICE_PATH)/vintf/compatibility_matrix.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/vintf/framework_compatibility_matrix.xml
 

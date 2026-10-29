@@ -4071,7 +4071,8 @@ vendor/lib64/libspukeymintdeviceutils.so|9cb27a5f976a5babbf55a0fbab3dc8a7c9303ad
 
 # Stock HAL services whose source modules share their names (see 23545e1).
 # Copied as files so the names cannot clash; the AIDL stubs they need that
-# stock no longer ships are built from source in device-common.mk.
+# stock no longer ships are built from source in device-common.mk, and their
+# VINTF fragments are in vintf/stock/.
 vendor/bin/hw/android.hardware.sensors-service.multihal;MAKE_COPY_RULE_ONLY|1175f3f72b19c693bbcc5fb07b38a360dac15295
 vendor/bin/hw/android.hardware.thermal-service.qti;MAKE_COPY_RULE_ONLY|4bad5f4982a6013fff43079676771781a538acdd
 vendor/bin/hw/android.hardware.usb-service.qti;MAKE_COPY_RULE_ONLY|f54e3dd9f6501ae9903871bac42e81da717c6f10
@@ -4087,12 +4088,4 @@ vendor/etc/init/android.hardware.wifi-service.rc;MAKE_COPY_RULE_ONLY|becc80c5f02
 vendor/etc/init/hostapd.android.rc;MAKE_COPY_RULE_ONLY|d7d29a421ab21762b6e511cedb157f21314c2a01
 vendor/etc/init/memtrack_qti.rc;MAKE_COPY_RULE_ONLY|2f33b10022403292e8d355f190756df5a015599b
 vendor/etc/init/vendor.qti.hardware.vibrator.service.rc;MAKE_COPY_RULE_ONLY|238d4d6812aab099a9ab5cd39c0e12e9fe1555fc
-vendor/etc/vintf/manifest/android.hardware.sensors-multihal.xml;MAKE_COPY_RULE_ONLY|752c152eee5b25149c03dd9316f467e886d4ffc7
-vendor/etc/vintf/manifest/android.hardware.thermal-service.qti.xml;MAKE_COPY_RULE_ONLY|bc86bd0547e21e26804f8a72dae13047eea136ef
-vendor/etc/vintf/manifest/android.hardware.usb-service.qti.xml;MAKE_COPY_RULE_ONLY|e6d28703fcdf9ee5a966818748c0804c2c90b94e
-vendor/etc/vintf/manifest/android.hardware.wifi-service.xml;MAKE_COPY_RULE_ONLY|fcbf5db90a91c9685ea6d788de72b2254c63aea6
-vendor/etc/vintf/manifest/android.hardware.wifi.hostapd.xml;MAKE_COPY_RULE_ONLY|69d4090344bfc949cc49a1649dfc55d21131d634
-vendor/etc/vintf/manifest/android.hardware.wifi.supplicant.xml;MAKE_COPY_RULE_ONLY|a041d2d32739f25d7011a61d8faf65540182913e
-vendor/etc/vintf/manifest/memtrack_qti.xml;MAKE_COPY_RULE_ONLY|6e1e978f2163acb6e9d7c2ae631b6cb8209cf97c
-vendor/etc/vintf/manifest/vendor.qti.hardware.vibrator.service.xml;MAKE_COPY_RULE_ONLY|006c002843c35a15a8608b712bcee3a3a72aee2d
 vendor/etc/wifi/wpa_supplicant.conf;MAKE_COPY_RULE_ONLY|cf4c8da33043d8d6580ebb453411330aea185af6
