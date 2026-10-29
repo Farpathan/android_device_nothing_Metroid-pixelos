@@ -405,3 +405,12 @@ vendor.perf.framepacing.enable=1
 vendor.power.pasr.enabled=false
 vendor.spu.rkp_enabled=true
 vendor.wv.oemcrypto.debug.enable_prov40=true
+
+# Java heap, as stock sets it. Without these ART falls back to a 16 MB growth
+# limit and system_server runs out of memory loading the settings provider.
+dalvik.vm.heapgrowthlimit=256m
+dalvik.vm.heapmaxfree=32m
+dalvik.vm.heapminfree=8m
+dalvik.vm.heapsize=512m
+dalvik.vm.heapstartsize=16m
+dalvik.vm.heaptargetutilization=0.5
