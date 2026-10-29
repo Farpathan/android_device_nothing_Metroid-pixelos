@@ -105,9 +105,6 @@ PRODUCT_PACKAGES += \
     libaudioeffecthal.qti \
     libaudioplatform.qti
 
-# Power HAL extension client
-PRODUCT_PACKAGES += \
-    libqti-perfd-client
 
 # Rootdir (prebuilt_etc modules in rootdir/Android.bp, see rootdir/README.md)
 PRODUCT_PACKAGES += \

@@ -62,8 +62,7 @@
 
 import /vendor/etc/init/hw/init.qti.kernel.rc
 import /vendor/etc/init/hw/init.nt_product.rc
-# Stock also imports stnfc_nt.rc (NFC) here, but this firmware does not ship
-# that file.
+# Stock imports stnfc_nt.rc (NFC) here, but this firmware does not ship it.
 import /vendor/etc/init/hw/init.nothing.rc
 
 on early-init
@@ -149,6 +148,50 @@ on boot
     chmod 550 /proc/nt_disk/get_data_usage
     chown system system /proc/nt_disk/get_data_usage
 
+    chmod 550 /proc/nt_taskinfo/
+    chown system system /proc/nt_taskinfo/
+    chmod 660 /proc/nt_taskinfo/show_all_pid_tasks
+    chown system system /proc/nt_taskinfo/show_all_pid_tasks
+    chmod 660 /proc/nt_taskinfo/show_all_tasks_id
+    chown system system /proc/nt_taskinfo/show_all_tasks_id
+
+    chmod 770 /proc/reserve_pool
+    chown cameraserver cameraserver /proc/reserve_pool
+    chmod 770 /proc/reserve_pool/reserve_pool
+    chown cameraserver cameraserver /proc/reserve_pool/reserve_pool
+    chmod 770 /proc/reserve_pool/inpool_pid
+    chown cameraserver cameraserver /proc/reserve_pool/inpool_pid
+    chmod 770 /proc/reserve_pool/inpool_pid_0
+    chown cameraserver cameraserver /proc/reserve_pool/inpool_pid_0
+    chmod 770 /proc/reserve_pool/inpool_pid_1
+    chown cameraserver cameraserver /proc/reserve_pool/inpool_pid_1
+    chmod 770 /proc/reserve_pool/inpool_pid_2
+    chown cameraserver cameraserver /proc/reserve_pool/inpool_pid_2
+    chmod 770 /proc/reserve_pool/inpool_pid_3
+    chown cameraserver cameraserver /proc/reserve_pool/inpool_pid_3
+    chmod 770 /proc/reserve_pool/reserve_pool_pages
+    chown cameraserver cameraserver /proc/reserve_pool/reserve_pool_pages
+    chmod 770 /proc/reserve_pool/reserve_pool_stat
+    chown cameraserver cameraserver /proc/reserve_pool/reserve_pool_stat
+    chmod 770 /proc/reserve_pool/reserve_pool_cpu_set
+    chown cameraserver cameraserver /proc/reserve_pool/reserve_pool_cpu_set
+
+    chmod 550 /proc/nt_named_thread_affinity/
+    chown system system /proc/nt_named_thread_affinity/
+    chmod 660 /proc/nt_named_thread_affinity/pid
+    chown system system /proc/nt_named_thread_affinity/pid
+    chmod 660 /proc/nt_named_thread_affinity/named_thread_affinity
+    chown system system /proc/nt_named_thread_affinity/named_thread_affinity
+    chmod 660 /proc/nt_named_thread_affinity/reset
+    chown system system /proc/nt_named_thread_affinity/reset
+    chmod 660 /proc/nt_named_thread_affinity/debug
+    chown system system /proc/nt_named_thread_affinity/debug
+
+on property:persist.sys.walt.panic_on_bug=0
+    write /proc/sys/walt/panic_on_walt_bug 1162141208
+on property:persist.sys.walt.panic_on_bug=1
+    write /proc/sys/walt/panic_on_walt_bug 1162141211
+
 on property:vendor.display.lcd_density=560
    setprop dalvik.vm.heapgrowthlimit 256m
 
@@ -178,7 +221,6 @@ service vendor.pd_mapper /vendor/bin/pd-mapper
 #Peripheral manager
 service vendor.per_mgr /vendor/bin/pm-service
     class core
-    disabled
     user system
     group system
     ioprio rt 4
@@ -198,8 +240,6 @@ service vendor.mdm_launcher /vendor/bin/sh /vendor/bin/init.mdm.sh
     class core
     oneshot
 
-    user root
-    group root
 on property:init.svc.vendor.per_mgr=running
     start vendor.per_proxy
 
@@ -220,6 +260,16 @@ on early-boot && property:persist.vendor.pcie.boot_option=*
     write /sys/bus/platform/devices/1c00000.qcom,pcie/debug/boot_option ${persist.vendor.pcie.boot_option}
     write /sys/bus/platform/devices/1c08000.qcom,pcie/debug/boot_option ${persist.vendor.pcie.boot_option}
 
+on property:sys.system_server.start_count=1
+    write /sys/devices/virtual/NT/NT_reserve_kernel_log/boot_stage_systemserver 1
+    #ifdef NT_EDIT added for TFT-5005 export reserve kernel log counts to props
+    start nt_export_rkl_count
+    #endif NT_EDIT added for TFT-5005 export reserve kernel log counts to props
+    #ifdef NT_EDIT added for ARBOK-113 force key warm reset feature
+    chmod 0660 /sys/devices/platform/soc/c42d000.qcom,spmi/driver/c42d000.qcom,spmi/spmi-0/0-00/c42d000.qcom,spmi:qcom,pmk8350@0:pon_hlos@1300/force_key_warm_reset
+    chown system system /sys/devices/platform/soc/c42d000.qcom,spmi/driver/c42d000.qcom,spmi/spmi-0/0-00/c42d000.qcom,spmi:qcom,pmk8350@0:pon_hlos@1300/force_key_warm_reset
+    #endif NT_EDIT added for ARBOK-113 force key warm reset feature
+
 #ifdef NT_EDIT added for ARBOK-113 force key warm reset feature
 on property:persist.vendor.stability.force_key_warm_reset=1
     write /sys/devices/platform/soc/c42d000.qcom,spmi/spmi-0/0-00/c42d000.qcom,spmi:qcom,pmk8550@0:pon_hlos@1300/force_key_warm_reset 1
@@ -229,4 +279,13 @@ on property:persist.vendor.stability.force_key_warm_reset=0
 #endif NT_EDIT added for ARBOK-113 force key warm reset feature
 
 on property:sys.system_server.start_count=1
-    # OPUS_NTLOG_KEEP write /sys/devices/virtual/NT/NT_reserve_kernel_log/boot_stage_systemserver 1
+    write /sys/devices/virtual/NT/NT_reserve_kernel_log/boot_stage_systemserver 1
+
+#ifdef NT_EDIT added for TFT-5005 export reserve kernel log counts to props
+service nt_export_rkl_count /vendor/bin/nt_export_rkl_count.sh
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+#endif NT_EDIT added for TFT-5005 export reserve kernel log counts to props

@@ -39,7 +39,6 @@
 #   vendor/etc/vintf/manifest/manifest_audio_qti_services.xml
 #   vendor/etc/vintf/manifest/manifest_audiocorehal_default.xml
 #   vendor/lib64/libaudiohalvendorextn.so
-#   vendor/lib64/libqti-perfd-client.so
 #   vendor/lib64/soundfx/libqcomvoiceprocessing.so
 #   vendor/lib64/soundfx/libvolumelistener.so
 # Not extracted, built by the ROM as an AOSP tool:
@@ -3645,6 +3644,8 @@ vendor/lib64/libthermalclient.so|5ebb84a5586efab3e1770e13f533b4e67a56d4d5
 vendor/lib64/libthreadutils.so|0d10ce66aa437c9a4b3a9eb4ea5614d562c5c788
 vendor/lib64/libtime_genoff.so|3f571c060938e00380f83a717c90689f2a5ac6d5
 vendor/lib64/libtinyxml2_1.so|9526eecba7eb7d07a1a1c8815f0b0d2444647a65
+# The stock perf2 HAL needs perf_get_prop_extn, which the caf build lacks.
+vendor/lib64/libqti-perfd-client.so;MAKE_COPY_RULE_ONLY|dbead30fb6715c0c2b5d8f6d720e8ef5b07c010c
 vendor/lib64/libtinyxml2.so:vendor/lib64/libtinyxml2-stock.so;FIX_SONAME;MAKE_COPY_RULE_ONLY|6729d47ad9bbbab2a48af5c075aa8e5605f25494
 vendor/lib64/libtinyxml2.so:system_ext/lib64/libtinyxml2-stock.so;FIX_SONAME;MAKE_COPY_RULE_ONLY|6729d47ad9bbbab2a48af5c075aa8e5605f25494
 vendor/lib64/libtlpd.so|3fd77aa3b11b43a047cca74349fbcffcfbc08e92

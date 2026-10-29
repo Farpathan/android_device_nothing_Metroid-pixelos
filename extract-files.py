@@ -42,8 +42,9 @@ lib_fixups: lib_fixups_user_type = {
         'android.hardware.graphics.composer3-V3-ndk',
         'android.media.audio.common.types-V3-ndk',
     ): lib_fixup_remove,
-    # Installed by copy rules next to the platform libtinyxml2 (see blob_fixups).
-    ('libtinyxml2-stock',): lib_fixup_remove,
+    # Installed by copy rules: the stock tinyxml2 next to the platform one (see
+    # blob_fixups), and the stock perfd client in place of the caf build.
+    ('libqti-perfd-client', 'libtinyxml2-stock'): lib_fixup_remove,
 }
 
 namespace_imports = [
