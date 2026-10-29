@@ -19,6 +19,14 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/audio/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml \
     $(DEVICE_PATH)/configs/audio/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml
 
+# --- Audio HAL interfaces --------------------------------------------------
+# Stock list minus btaudio_sw. The source-built audiohalservice.qti searches
+# only the sku directory, not /vendor/etc/audio where stock keeps the file. The
+# stock Bluetooth module extends libaudioserviceexampleimpl as built against
+# audio core V2, but ours is built against V4, so loading it crashes the HAL.
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/audio/vendor_audio_interfaces.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_tuna/vendor_audio_interfaces.xml
+
 # --- Permissions ------------------------------------------------------------
 # Privileged/default permission grants that no blob file provides. The stock
 # aggregate files (privapp-permissions-qti-vendor.xml,

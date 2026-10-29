@@ -1438,8 +1438,6 @@ vendor/etc/audio/sku_tuna/quasar_config.xml|dea11403716a53fc1f65aef95b6fbbfb11ac
 vendor/etc/audio/sku_tuna/r_submix_audio_policy_configuration.xml|8140e8e1cfb8a51ce655bfa7b166845b594a9e6f
 vendor/etc/audio/sku_tuna/resourcemanager_tuna_qrd.xml|257affdd303059b55ea5dd13c73581fc86fec685
 vendor/etc/audio/vendor_audio_interfaces.xml|7e4701b3f050efe8de2947a652086bcc68c01aed
-# The source-built audiohalservice.qti only searches the sku directory, not /vendor/etc/audio
-vendor/etc/audio/vendor_audio_interfaces.xml:vendor/etc/audio/sku_tuna/vendor_audio_interfaces.xml|7e4701b3f050efe8de2947a652086bcc68c01aed
 vendor/etc/backend_conf.xml|4920ce26c34c7c39a1ee7789cee144e1a596cdf3
 vendor/etc/bluetooth_qti_audio_policy_configuration.xml|2f35e7bfb9b3356647b75c7d4d6219716a8758f3
 vendor/etc/bluetooth_qti_hearing_aid_audio_policy_configuration.xml|6b9a1a53e4201c7c197d04ab8d318eda8f2fd79a
