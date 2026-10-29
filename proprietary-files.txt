@@ -64,7 +64,7 @@
 #   vendor/bin/sh
 #   vendor/bin/toolbox
 #   vendor/bin/toybox_vendor
-#   vendor/bin/vndservicemanager
+#   vendor/bin/vndservicemanager (PRODUCT_PACKAGES in device-common.mk)
 # Dropped on purpose (extract-utils has no package rule for them); stock RROs
 # for Nothing apps PixelOS does not ship, or values the device overlays
 # already carry:
@@ -1219,6 +1219,8 @@ vendor/etc/vintf/manifest/android.hardware.biometrics.face-service.noth.xml|cea0
 vendor/etc/vintf/manifest/android.hardware.drm-service.xml|fb563f54e0c209c0133aae67beccd8ba6d263f01
 vendor/etc/vintf/manifest/android.hardware.gnss-aidl-service-qti.xml|7c8a9f98ea5ed547cf0398cccd5fe3d8b07d5a9b
 vendor/etc/vintf/manifest/android.hardware.health-service.qti.xml|909a0da653948f51dea2a936fc10aa6bebd12bf6
+vendor/bin/hw/android.hardware.health-service.qti|703d721e9138e4e52e9ca34e5332a15a56a81993
+vendor/etc/init/android.hardware.health-service.qti.rc|6d1e875ae41647d7b72b0ab28b6529912a200cfc
 vendor/etc/vintf/manifest/android.hardware.radio.config.xml|ec5315aa4ae353b60e600a325fd1a1977c76fae8
 vendor/etc/vintf/manifest/android.hardware.radio.data.xml|ceeba79ef3b426ee572c0d00d614567b2cfe1d13
 vendor/etc/vintf/manifest/android.hardware.radio.messaging.xml|fb6761bf9ea9befe76ce8a4f64c63a175464faf8

@@ -68,6 +68,15 @@ PRODUCT_PACKAGES += \
     android.hardware.health-V1-ndk \
     libxml2.vendor
 
+# The stock health HAL blob links the V3 NDK library
+PRODUCT_PACKAGES += \
+    android.hardware.health-V3-ndk
+
+# base_vendor.mk only adds it for shipping API level 29 and older, but the
+# stock vendor blobs still use /dev/vndbinder and the composer blocks without it
+PRODUCT_PACKAGES += \
+    vndservicemanager
+
 # Display HALs from the sm8750 caf repos (hardware/qcom-caf/sm8750/display);
 # module names confirmed in the synced tree. The composer-service module ships
 # its own init rc and vintf fragment.
