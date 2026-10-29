@@ -12,11 +12,11 @@ ro.crypto.metadata_init_delete_all_keys.enabled=true
 vendor.wv.oemcrypto.debug.enable_external_display_check=false
 vendor.wv.oemcrypto.debug.enable_hlos_data_path=true
 
-# Gatekeeper & KeyMint
-vendor.gatekeeper.disable_spu=true
+# Gatekeeper & KeyMint. qseecomd sets vendor.sys.listeners.registered itself
+# once its listeners are up, and KeyMint waits for it; presetting it here let
+# KeyMint start before /dev/smcinvoke existed.
 vendor.gatekeeper.is_security_level_spu=0
 vendor.keymint.retry_timer=5
-vendor.sys.listeners.registered=true
 
 # USB Config
 vendor.usb.use_ffs_mtp=1
