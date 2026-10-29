@@ -1,0 +1,70 @@
+diff --git a/hal/core/Module.cpp b/hal/core/Module.cpp
+index 9412b8b..30857f3 100644
+--- a/hal/core/Module.cpp
++++ b/hal/core/Module.cpp
+@@ -1516,6 +1516,12 @@ ndk::ScopedAStatus Module::removeDeviceEffect(
+     return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+ }
+ 
++ndk::ScopedAStatus Module::getFlushFromFrameSupport(
++        const ::aidl::android::media::audio::common::AudioPortConfig& in_config __unused,
++        ::aidl::android::media::audio::common::FlushFromFrameSupport* _aidl_return __unused) {
++    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
++}
++
+ ndk::ScopedAStatus Module::getMmapPolicyInfos(AudioMMapPolicyType mmapPolicyType,
+                                               std::vector<AudioMMapPolicyInfo>* _aidl_return) {
+     LOG(DEBUG) << __func__ << ": mmap policy type " << toString(mmapPolicyType);
+diff --git a/hal/core/Stream.cpp b/hal/core/Stream.cpp
+index 44a74ca..b060f83 100644
+--- a/hal/core/Stream.cpp
++++ b/hal/core/Stream.cpp
+@@ -330,6 +330,9 @@ StreamInWorkerLogic::Status StreamInWorkerLogic::cycle() {
+                 populateReplyWrongState(&reply, command);
+             }
+             break;
++        case Tag::flushFromFrame:
++            LOG(ERROR) << __func__ << ": flushFromFrame is not supported";
++            break;
+     }
+     reply.state = mState;
+     LOG(severity) << __func__ << ": writing reply " << reply.toString();
+@@ -653,6 +656,9 @@ StreamOutWorkerLogic::Status StreamOutWorkerLogic::cycle() {
+                 populateReplyWrongState(&reply, command);
+             }
+             break;
++        case Tag::flushFromFrame:
++            LOG(ERROR) << __func__ << ": flushFromFrame is not supported";
++            break;
+     }
+     reply.state = mState;
+ 
+diff --git a/hal/core/include/qti-audio-core/Module.h b/hal/core/include/qti-audio-core/Module.h
+index f9d2ca6..2ea053d 100644
+--- a/hal/core/include/qti-audio-core/Module.h
++++ b/hal/core/include/qti-audio-core/Module.h
+@@ -140,6 +140,9 @@ class Module : public ::aidl::android::hardware::audio::core::BnModule,
+     ndk::ScopedAStatus supportsVariableLatency(bool* _aidl_return) override;
+     ndk::ScopedAStatus getAAudioMixerBurstCount(int32_t* _aidl_return) override;
+     ndk::ScopedAStatus getAAudioHardwareBurstMinUsec(int32_t* _aidl_return) override;
++    ndk::ScopedAStatus getFlushFromFrameSupport(
++            const ::aidl::android::media::audio::common::AudioPortConfig& in_config,
++            ::aidl::android::media::audio::common::FlushFromFrameSupport* _aidl_return) override;
+     // #################### end of overriding APIs from IModule ####################
+ 
+     // This value is used for all AudioPatches.
+diff --git a/hal/core/include/qti-audio-core/Stream.h b/hal/core/include/qti-audio-core/Stream.h
+index 40bb69f..22ab83c 100644
+--- a/hal/core/include/qti-audio-core/Stream.h
++++ b/hal/core/include/qti-audio-core/Stream.h
+@@ -505,6 +505,10 @@ class StreamCommonDelegator : public ::aidl::android::hardware::audio::core::BnS
+         return delegate != nullptr ? delegate->removeEffect(in_effect)
+                                    : ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_STATE);
+     }
++    ndk::ScopedAStatus createMmapBuffer(
++            ::aidl::android::hardware::audio::core::MmapBufferDescriptor*) override {
++        return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
++    }
+     // It is possible that on the client side the proxy for IStreamCommon will
+     // outlive the IStream* instance, and the server side IStream* instance will
+     // get destroyed while this IStreamCommon instance is still alive.
