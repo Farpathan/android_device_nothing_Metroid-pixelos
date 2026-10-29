@@ -4089,3 +4089,32 @@ vendor/etc/init/hostapd.android.rc;MAKE_COPY_RULE_ONLY|d7d29a421ab21762b6e511ced
 vendor/etc/init/memtrack_qti.rc;MAKE_COPY_RULE_ONLY|2f33b10022403292e8d355f190756df5a015599b
 vendor/etc/init/vendor.qti.hardware.vibrator.service.rc;MAKE_COPY_RULE_ONLY|238d4d6812aab099a9ab5cd39c0e12e9fe1555fc
 vendor/etc/wifi/wpa_supplicant.conf;MAKE_COPY_RULE_ONLY|cf4c8da33043d8d6580ebb453411330aea185af6
+
+# Stock audio graph stack (AGM, PAL, GSL, ACDB). The CAF builds of these are
+# rejected by the stock ADSP (graph config fails with a bad-parameter error,
+# so no stream starts). The vendor linker searches /odm before /vendor, so the
+# stock copies installed there replace the CAF ones without clashing with them.
+vendor/lib64/libagmclient.so:odm/lib64/libagmclient.so;MAKE_COPY_RULE_ONLY|f52ca94feeda8b601bf2981fd22d6492bd4ef9da
+vendor/lib64/libagm_compress_plugin.so:odm/lib64/libagm_compress_plugin.so;MAKE_COPY_RULE_ONLY|cf7200ffda9642c23f033dac16744d898b987504
+vendor/lib64/libagmipcservice.so:odm/lib64/libagmipcservice.so;MAKE_COPY_RULE_ONLY|1d21494bd6f6322a68d1b22885cca637fa34c0b3
+vendor/lib64/libagm_mixer_plugin.so:odm/lib64/libagm_mixer_plugin.so;MAKE_COPY_RULE_ONLY|ab18592e140e1fbfaa761ab62692a1b63b2788da
+vendor/lib64/libagm_pcm_plugin.so:odm/lib64/libagm_pcm_plugin.so;MAKE_COPY_RULE_ONLY|e349b19cdb71c043921e82d89817df4e96a9920a
+vendor/lib64/libagm.so:odm/lib64/libagm.so;MAKE_COPY_RULE_ONLY|6231397176c25533212662a17a75d5822b57485e
+vendor/lib64/libar-acdb.so:odm/lib64/libar-acdb.so;MAKE_COPY_RULE_ONLY|366213c9c84c10d97085a8c3802fbcf3dff4186b
+vendor/lib64/libar-gpr.so:odm/lib64/libar-gpr.so;MAKE_COPY_RULE_ONLY|95df1d9c0b257a91178a92c68a435de7a5ca1d53
+vendor/lib64/libar-gsl.so:odm/lib64/libar-gsl.so;MAKE_COPY_RULE_ONLY|ba7e8d23e10f1d90acff72aecaec896f7bcf2cb9
+vendor/lib64/libar-pal.so:odm/lib64/libar-pal.so;MAKE_COPY_RULE_ONLY|a714349911066f5a808a4830122e97c25f937fb6
+vendor/lib64/libats.so:odm/lib64/libats.so;MAKE_COPY_RULE_ONLY|6259dec15ef6b6bd1ef215db7619049ca41e4845
+vendor/lib64/libaudiochargerlistener.so:odm/lib64/libaudiochargerlistener.so;MAKE_COPY_RULE_ONLY|5d687ca0bc5239672860bda3de0a650d0505c3c2
+vendor/lib64/libfmpal.so:odm/lib64/libfmpal.so;MAKE_COPY_RULE_ONLY|1f89c679101ed3328085c400b56b5bde731ee1a3
+vendor/lib64/libhfp_pal.so:odm/lib64/libhfp_pal.so;MAKE_COPY_RULE_ONLY|1efc1fe6adee33836f4c83bbbc332bfd111023cd
+vendor/lib64/liblx-ar_util.so:odm/lib64/liblx-ar_util.so;MAKE_COPY_RULE_ONLY|6868d8e4b0f10077b0bcaa20a05097736094a79d
+vendor/lib64/liblx-osal.so:odm/lib64/liblx-osal.so;MAKE_COPY_RULE_ONLY|7b48387127586f6366a535a264117016c381500a
+vendor/lib64/libpalclient.so:odm/lib64/libpalclient.so;MAKE_COPY_RULE_ONLY|2e88c866d76eeca60a7641b7487265680b64890e
+vendor/lib64/libpaleventnotifier.so:odm/lib64/libpaleventnotifier.so;MAKE_COPY_RULE_ONLY|1eb347a028d65f0310b5448882120fa007be07a6
+vendor/lib64/libpalipcservice.so:odm/lib64/libpalipcservice.so;MAKE_COPY_RULE_ONLY|bfc57a54aed21beda77351c06a6b8971fa97e69b
+vendor/lib64/libPeripheralStateUtils.so:odm/lib64/libPeripheralStateUtils.so;MAKE_COPY_RULE_ONLY|36f97985aa3a5ae4de17b00de301c491a7aedcde
+vendor/lib64/libsndcardparser.so:odm/lib64/libsndcardparser.so;MAKE_COPY_RULE_ONLY|cf39ca2464032d53fb63b2449b3a2512dc50f9d1
+vendor/lib64/libvui_intf.so:odm/lib64/libvui_intf.so;MAKE_COPY_RULE_ONLY|aa6d2c4a8ae8b3c5bfdb79c986531fdbadaed52d
+vendor/lib64/vendor.qti.hardware.agm-V1-ndk.so:odm/lib64/vendor.qti.hardware.agm-V1-ndk.so;MAKE_COPY_RULE_ONLY|294bb83d7b50583fcf7b16947fece10a326ba700
+vendor/lib64/vendor.qti.hardware.pal-V1-ndk.so:odm/lib64/vendor.qti.hardware.pal-V1-ndk.so;MAKE_COPY_RULE_ONLY|b3660f0f75be7c29f468220ad3c0bf87ed72c2e4
