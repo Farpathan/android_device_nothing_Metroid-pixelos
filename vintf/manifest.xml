@@ -14,8 +14,10 @@
         device manifest of its own, not a fragment, and is not shipped in the
         blob list. Our DEVICE_MANIFEST_FILE replaces it.
       * vendor.qti.hardware.spu: same, product manifest only (manifest_sun.xml).
-      * authsecret and vendor.qti.hardware.sensorscalibrate: no fragment exists
-        in the stock image, but the service binary and its init script ship.
+
+    authsecret and vendor.qti.hardware.sensorscalibrate ship a binary and an
+    init script but no fragment, and stock never starts them. Declaring them
+    makes servicemanager wait on services nothing runs, which stalls boot.
 
     Everything else the device serves is covered by a shipped fragment and must
     not be repeated here. The check used to confirm that is described in
@@ -34,16 +36,6 @@
     <hal format="aidl">
         <name>android.hardware.nfc</name>
         <fqname>INfc/default</fqname>
-    </hal>
-
-    <hal format="aidl">
-        <name>android.hardware.authsecret</name>
-        <fqname>IAuthSecret/default</fqname>
-    </hal>
-
-    <hal format="aidl">
-        <name>vendor.qti.hardware.sensorscalibrate</name>
-        <fqname>ISensorsCalibrate/default</fqname>
     </hal>
 
     <hal format="aidl">
