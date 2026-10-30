@@ -159,14 +159,6 @@ PRODUCT_PACKAGES += \
     ims-ext-common \
     ims_ext_common.xml
 
-# AIDL stubs for the stock Wi-Fi, sensors and USB services in proprietary-files.txt
-PRODUCT_PACKAGES += \
-    android.hardware.sensors-V2-ndk \
-    android.hardware.usb-V1-ndk \
-    android.hardware.wifi-V2-ndk \
-    libwifi-system-iface \
-    vendor.qti.hardware.wifi.supplicant-V1-ndk
-
 # Runtime resource overlays (see overlay/README.md)
 PRODUCT_PACKAGES += \
     CarrierConfigOverlayMetroid \

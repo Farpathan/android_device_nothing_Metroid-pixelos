@@ -4071,9 +4071,8 @@ vendor/lib64/libspukeymintdeviceutils.so|9cb27a5f976a5babbf55a0fbab3dc8a7c9303ad
 # Stock HAL services whose source modules share their names (see 23545e1).
 # Installed as <name>-stock: a copy rule onto a source module's install path
 # makes the build compile that module too. Their init scripts are in
-# configs/init/ and point at the -stock names; the AIDL stubs they need that
-# stock no longer ships are built from source in device-common.mk, and their
-# VINTF fragments are in vintf/stock/.
+# configs/init/ and point at the -stock names, their AIDL stubs are at the end
+# of this file, and their VINTF fragments are in vintf/stock/.
 vendor/bin/hw/android.hardware.sensors-service.multihal:vendor/bin/hw/android.hardware.sensors-service.multihal-stock;MAKE_COPY_RULE_ONLY|1175f3f72b19c693bbcc5fb07b38a360dac15295
 vendor/bin/hw/android.hardware.thermal-service.qti:vendor/bin/hw/android.hardware.thermal-service.qti-stock;MAKE_COPY_RULE_ONLY|4bad5f4982a6013fff43079676771781a538acdd
 vendor/bin/hw/android.hardware.usb-service.qti:vendor/bin/hw/android.hardware.usb-service.qti-stock;MAKE_COPY_RULE_ONLY|f54e3dd9f6501ae9903871bac42e81da717c6f10
@@ -4112,3 +4111,13 @@ vendor/lib64/libsndcardparser.so:odm/lib64/libsndcardparser.so;MAKE_COPY_RULE_ON
 vendor/lib64/libvui_intf.so:odm/lib64/libvui_intf.so;MAKE_COPY_RULE_ONLY|aa6d2c4a8ae8b3c5bfdb79c986531fdbadaed52d
 vendor/lib64/vendor.qti.hardware.agm-V1-ndk.so:odm/lib64/vendor.qti.hardware.agm-V1-ndk.so;MAKE_COPY_RULE_ONLY|294bb83d7b50583fcf7b16947fece10a326ba700
 vendor/lib64/vendor.qti.hardware.pal-V1-ndk.so:odm/lib64/vendor.qti.hardware.pal-V1-ndk.so;MAKE_COPY_RULE_ONLY|b3660f0f75be7c29f468220ad3c0bf87ed72c2e4
+
+# AIDL stubs the stock HAL services above link; the vendor image does not
+# install these versions, so they ship from stock into /odm/lib64.
+vendor/lib64/android.hardware.memtrack-V1-ndk.so:odm/lib64/android.hardware.memtrack-V1-ndk.so;MAKE_COPY_RULE_ONLY|79dc40d353362d97473f48cce87308260b461219
+vendor/lib64/android.hardware.sensors-V2-ndk.so:odm/lib64/android.hardware.sensors-V2-ndk.so;MAKE_COPY_RULE_ONLY|036727e6710fddc2a4ec627390229c5ab2815bb5
+vendor/lib64/android.hardware.thermal-V2-ndk.so:odm/lib64/android.hardware.thermal-V2-ndk.so;MAKE_COPY_RULE_ONLY|ac57173d548c78dc980cc32d6ce3849f9eefdb10
+vendor/lib64/android.hardware.usb-V1-ndk.so:odm/lib64/android.hardware.usb-V1-ndk.so;MAKE_COPY_RULE_ONLY|b4314d45645c5376a4ffe223c8262801ae5bc258
+vendor/lib64/android.hardware.wifi-V2-ndk.so:odm/lib64/android.hardware.wifi-V2-ndk.so;MAKE_COPY_RULE_ONLY|88282dfa436f70fcdbe8aa27b668ee12ffa806df
+vendor/lib64/libwifi-system-iface.so:odm/lib64/libwifi-system-iface.so;MAKE_COPY_RULE_ONLY|9eedaff7c9ee2ab629833fac97a203ca86838faf
+vendor/lib64/vendor.qti.hardware.wifi.supplicant-V1-ndk.so:odm/lib64/vendor.qti.hardware.wifi.supplicant-V1-ndk.so;MAKE_COPY_RULE_ONLY|de35dd0ed6aa0ba53ccffe94888a2943419eedee
